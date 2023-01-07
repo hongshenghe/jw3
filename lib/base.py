@@ -11,6 +11,7 @@
 
 # 内部调用公共模块
 import openpyxl
+import os
 
 
 def fetchExcelSheets(fileName: str) -> list:
@@ -25,3 +26,8 @@ def fetchExcelSheets(fileName: str) -> list:
     wb = openpyxl.load_workbook(fileName)
     sheet_list = wb.get_sheet_names()
     return sheet_list
+
+def ensurePath(path:str) ->None:
+    if not os.path.exists(path):
+        os.makedirs(path,0755)
+    return 
