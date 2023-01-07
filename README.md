@@ -31,7 +31,7 @@ python3 -m venv venv
 2. 安装依赖包
 
 windows
-```bash
+```cmd
 D:\projects\python\jw3>venv\Scripts\activate
 (venv) D:\projects\python\jw3>pip install -r requirements.txt
 Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
