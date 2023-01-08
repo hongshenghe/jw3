@@ -72,3 +72,11 @@ def SetValue(zero, target_data_frame, col_name, value):
         return df, False
     df[col_name] = value
     return df, True
+
+def SetNone(zero, target_data_frame, col_name, value):
+    """设置列值为指定值"""
+
+    df = target_data_frame 
+    df[col_name] = ""
+    return df, True
+

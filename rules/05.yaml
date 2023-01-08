@@ -4,26 +4,10 @@ meta:
   createdAt: 2023-01-08 10:40:00
   updatedAt: 2023-01-08 10:40:00
   author: hongsheng he
-  readme:
-    sheet_name: 说明（请勿修改此页内容）
-    content:
-      - 模板名称|交维机柜导入模板
-      - 模板版本|V1
-      - 模板描述|该模板交维导入机柜
-      - 导入说明|"导入要求：
-        1、红色为必填项，黑色为非必填项
-        2、所属机房请填写系统中已存在的机房名称
-        3、所属项目请填写系统中已存在的项目名称
-        4、机柜规格（A），来自于采购，需要找采购确认，用于结算使用，不含电，写“0”
-        5、PDU总容量（A），单侧PDU对应列头柜输出支路，两侧不一致时，填写较小值
-        6、电力输入形式，
-        譬如：双路UPS；双路高压直流；一路市电、一路UPS；一路市电、一路高压直流；-48V，双路三相电源UPS；一路市电、一路三相电源UPS。
-        7、产品线字典值：
-        云存储（OOS）产品线、云终端产品线、CDN产品线、数据库产品线、云网融合产品线、应用研发与运营中心、弹性计算产品线、PaaS平台产品线、大数据平台研发与运营中心、弹性存储产品线、合营产品线、网信安、办公网、广东IDC、内蒙IDC、贵州IDC、云网运营部、Zstack产品线、ZStack混合云、自研混合云、HCSO混合云、其他IDC、超融合产品线、待治理、IT运营中心、产品与生态部、市场营销部、研发一部、战略客户中心
-        8、类型字典值
-        ZStack、HCSO、IT上云、专属云、自研池、合营池、软件类、一城一池
-        9、产品线：支持录入多个,用逗号隔开
+
 rules:
+
+
   - sheet_name: 机柜
     columns:
       - name: 所属机房
@@ -50,14 +34,130 @@ rules:
       - name: 建设项目
         method: GetProjectDict
         value: 项目名称
-        memo: 项目信息-建设项目   
+        memo: 项目信息-建设项目
 
       - name: 建设项目编码
         method: GetProjectDict
         value: 项目编号
-        memo: 项目信息-项目编号   
+        memo: 项目信息-项目编号
 
       - name: 产品线
         method: SetValue
         value: 待确认
         memo: 固定值
+
+      - name: 建设项目编码
+        method: GetProjectDict
+        value: 机柜机位数
+        memo: 项目信息-机柜机位数
+
+      - name: 功率(KW)
+        method: GetProjectDict
+        value: 机柜功率
+        memo: 项目信息-机柜功率
+
+      - name: 服务等级
+        method: SetNone
+
+      - name: 备注
+        method: SetNone
+
+      - name: PDU数量
+        method: SetNone
+
+      - name: 原厂联系人
+        method: SetNone
+
+      - name: 是否付费
+        method: SetValue
+        value: "否"
+
+      - name: 是否租用省公司机柜
+        method: SetNone
+
+      - name: 不再租用省公司机柜原因
+        method: SetNone
+
+      - name: 机柜规格(A)
+        method: GetProjectDict
+        value: 机柜规格(A)
+        memo: 项目信息-机柜规格(A)
+
+      - name: PDU总容量(A)
+        method: GetProjectDict
+        value: PDU总容量
+        memo: 项目信息-PDU总容量
+
+      - name: 长(毫米)
+        method: SetValue
+        value: 1200
+
+      - name: 宽(毫米)
+        method: SetValue
+        value: 600
+
+      - name: 高(毫米)
+        method: SetValue
+        value: 1200
+
+      - name: 类型
+        method: SetValue
+        value: 自营
+
+  - sheet_name: 说明（请勿修改此页内容）
+    order: first
+    sheet_type: fixed
+    width: 50
+    content:
+      - 模板名称|交维机柜导入模板
+      - 模板版本|V1
+      - 模板描述|该模板交维导入机柜
+      - 导入说明|"导入要求：
+        1、红色为必填项，黑色为非必填项
+        2、所属机房请填写系统中已存在的机房名称
+        3、所属项目请填写系统中已存在的项目名称
+        4、机柜规格（A），来自于采购，需要找采购确认，用于结算使用，不含电，写“0”
+        5、PDU总容量（A），单侧PDU对应列头柜输出支路，两侧不一致时，填写较小值
+        6、电力输入形式，
+        譬如：双路UPS；双路高压直流；一路市电、一路UPS；一路市电、一路高压直流；-48V，双路三相电源UPS；一路市电、一路三相电源UPS。
+        7、产品线字典值：
+        云存储（OOS）产品线、云终端产品线、CDN产品线、数据库产品线、云网融合产品线、应用研发与运营中心、弹性计算产品线、PaaS平台产品线、大数据平台研发与运营中心、弹性存储产品线、合营产品线、网信安、办公网、广东IDC、内蒙IDC、贵州IDC、云网运营部、Zstack产品线、ZStack混合云、自研混合云、HCSO混合云、其他IDC、超融合产品线、待治理、IT运营中心、产品与生态部、市场营销部、研发一部、战略客户中心
+        8、类型字典值
+        ZStack、HCSO、IT上云、专属云、自研池、合营池、软件类、一城一池
+        9、产品线：支持录入多个,用逗号隔开
+
+  - sheet_name: 字典值
+    sheet_type: fixed
+    order: last
+    width: 70
+    content:
+      - 产品线|类型
+      - 云存储（OOS）产品线|ZStack
+      - 云终端产品线|HCSO
+      - CDN产品线|IT上云
+      - 数据库产品线|专属云
+      - 云网融合产品线|自研池
+      - 应用研发与运营中心|合营池
+      - 弹性计算产品线|软件类
+      - PaaS平台产品线|一城一池
+      - 大数据平台研发与运营中心
+      - 弹性存储产品线
+      - 合营产品线
+      - 网信安
+      - 办公网
+      - 广东IDC
+      - 内蒙IDC
+      - 贵州IDC
+      - 云网运营部
+      - Zstack产品线
+      - ZStack混合云
+      - 自研混合云
+      - HCSO混合云
+      - 其他IDC
+      - 超融合产品线
+      - 待治理
+      - IT运营中心
+      - 产品与生态部
+      - 市场营销部
+      - 研发一部
+      - 战略客户中心
