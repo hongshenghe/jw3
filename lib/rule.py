@@ -19,7 +19,7 @@ import yaml
 from lib.base import ensurePath, generate_batchid
 from lib.logger import logging
 from lib.zero import JWZero
-from lib.utils import GenerateProjectSiteInfo
+from lib.utils._05 import GenerateProjectSiteInfo, GetProjectDict
 
 
 class JWRule(object):
