@@ -1,8 +1,8 @@
 version: 1.0
 meta:
   name: 机柜导入
-  createdAt: 2022-07-15 14:48:00
-  updatedAt: 2022-07-15 14:48:00
+  createdAt: 2023-01-08 10:40:00
+  updatedAt: 2023-01-08 10:40:00
   author: hongsheng he
   readme:
     sheet_name: 说明（请勿修改此页内容）
@@ -27,10 +27,16 @@ rules:
   - sheet_name: 机柜
     columns:
       - name: 所属机房
-        method: getProjectInfoSite
-        value: first
+        method: GenerateProjectSiteInfo
+        value: 机房
         memo: 聚合网络设备、服务器表中机架和机房信息进行计算 |
           所属机房 = {项目信息.云调所属机房}+{网络设备|服务器}机房列
           例如：项目信息.云调所属机房 = 郑州市高新区枢纽楼数据中心{site_name}机房
           网络设备.机房 = 122
           返回为 郑州市高新区枢纽楼数据中心122机房
+
+      - name: 列号
+        method: GenerateProjectSiteInfo
+        value: 列号
+        memo: 聚合网络设备、服务器表中机架和机房信息进行计算 |
+          列号,网络设备和服务器列表机架信息列号去重唯一值
