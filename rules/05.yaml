@@ -51,3 +51,13 @@ rules:
         method: GetProjectDict
         value: 项目名称
         memo: 项目信息-建设项目   
+
+      - name: 建设项目编码
+        method: GetProjectDict
+        value: 项目编号
+        memo: 项目信息-项目编号   
+
+      - name: 产品线
+        method: SetValue
+        value: 待确认
+        memo: 固定值

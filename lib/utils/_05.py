@@ -61,3 +61,14 @@ def GetProjectDict(zero, target_data_frame, col_name, value):
     df[col_name] = df.apply(
         lambda row: getProjectDictItem(zero, value), axis=1)
     return df, True
+
+
+def SetValue(zero, target_data_frame, col_name, value):
+    """设置列值为指定值"""
+
+    df = target_data_frame
+    if not value:
+        df[col_name] = "待确认: 没有指定设定值"
+        return df, False
+    df[col_name] = value
+    return df, True
