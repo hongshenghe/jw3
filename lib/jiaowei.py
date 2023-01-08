@@ -14,6 +14,7 @@ import sys
 
 from lib.logger import logging
 from lib.dict import JWDict
+from lib.base import ensurePath
 
 
 class JiaoWei:
@@ -27,7 +28,11 @@ class JiaoWei:
         logging.info("zero_file:%s" % zero_file)
 
         self.work_dir = work_dir
+        self.ensureDirectory()
         self.zero_file = os.path.join(work_dir, "upload", zero_file)
+
+    def ensureDirectory(self):
+        ensurePath(os.path.join(self.work_dir, "down"))
 
     def LoadZero(self) -> Exception:
         if not os.path.exists(self.zero_file):
