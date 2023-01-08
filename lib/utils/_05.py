@@ -26,7 +26,7 @@ def fetchSiteCol(row, pos):
     return "待确认: 无法获取机架信息，机架格式应为:04列01，当前值:%s" % rack
 
 
-def GenerateProjectSiteInfo(zero, target_data_frame, col_name, value):
+def GenerateProjectSiteInfo(zero, target_data_frame, col_name, value, source_sheet):
     df = target_data_frame
 
     network = zero.GetData("网络设备")[['机架', '机房']]
@@ -56,14 +56,14 @@ def getProjectDictItem(zero, key: str) -> str:
     return zero.GetProject(key)
 
 
-def GetProjectDict(zero, target_data_frame, col_name, value):
+def GetProjectDict(zero, target_data_frame, col_name, value, source_sheet):
     df = target_data_frame
     df[col_name] = df.apply(
         lambda row: getProjectDictItem(zero, value), axis=1)
     return df, True
 
 
-def SetValue(zero, target_data_frame, col_name, value):
+def SetValue(zero, target_data_frame, col_name, value, source_sheet):
     """设置列值为指定值"""
 
     df = target_data_frame
@@ -73,10 +73,10 @@ def SetValue(zero, target_data_frame, col_name, value):
     df[col_name] = value
     return df, True
 
-def SetNone(zero, target_data_frame, col_name, value):
+
+def SetNone(zero, target_data_frame, col_name, value, source_sheet):
     """设置列值为指定值"""
 
-    df = target_data_frame 
+    df = target_data_frame
     df[col_name] = ""
     return df, True
-
