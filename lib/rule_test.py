@@ -36,7 +36,8 @@ class TestRule(unittest.TestCase):
 
     def clean_cache(self) -> None:
         cache_dir = os.path.join(work_dir, "down")
-        shutil.rmtree(cache_dir)
+        if os.path.exists(cache_dir):
+            shutil.rmtree(cache_dir)
 
     def test_load_rules(self):
         self.assertGreater(len(self.jwRules), 0)
@@ -46,5 +47,11 @@ class TestRule(unittest.TestCase):
 
         rule = JWRule(batch_id, work_dir, "05", self.jwZero)
         err = rule.Generate()
-  
+
         self.assertIsNone(err)
+
+    def test_generate_all(self):
+        self.jwRules = LoadRules(work_dir, self.jwZero)
+        for rule in self.jwRules:
+            err = rule.Generate()
+            self.assertIsNone(err)
