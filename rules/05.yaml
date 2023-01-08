@@ -46,3 +46,8 @@ rules:
         value: 机柜号
         memo: 聚合网络设备、服务器表中机架和机房信息进行计算 |
           列号,网络设备和服务器列表机架信息列号去重唯一值
+
+      - name: 建设项目
+        method: GetProjectDict
+        value: 项目名称
+        memo: 项目信息-建设项目   
