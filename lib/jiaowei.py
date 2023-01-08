@@ -22,13 +22,12 @@ class JiaoWei:
     jwDict = None
 
     def __init__(self, work_dir: str, zero_file: str) -> None:
-        
+
         logging.info("work_dir:%s" % work_dir)
         logging.info("zero_file:%s" % zero_file)
-        
+
         self.work_dir = work_dir
-        self.zero_file = os.path.join(work_dir, "docs", zero_file)
-        
+        self.zero_file = os.path.join(work_dir, "upload", zero_file)
 
     def LoadZero(self) -> Exception:
         if not os.path.exists(self.zero_file):

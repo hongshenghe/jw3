@@ -12,6 +12,7 @@
 # 内部调用公共模块
 import openpyxl
 import os
+import uuid
 
 
 def fetchExcelSheets(fileName: str) -> list:
@@ -27,7 +28,12 @@ def fetchExcelSheets(fileName: str) -> list:
     sheet_list = wb.get_sheet_names()
     return sheet_list
 
-def ensurePath(path:str) ->None:
+
+def ensurePath(path: str) -> None:
     if not os.path.exists(path):
-        os.makedirs(path,0755)
-    return 
+        os.makedirs(path)
+    return
+
+
+def generate_batchid() -> str:
+    return str(uuid.uuid1())

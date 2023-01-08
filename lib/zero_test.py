@@ -20,12 +20,12 @@ from lib.zero import JWZero
 work_dir = Path(__file__).resolve().parent.parent
 
 
-class TestLoadSheetName(unittest.TestCase):
+class TestZero(unittest.TestCase):
     jwZero = None
 
     def setUp(self) -> None:
         self.jwZero = JWZero(work_dir,
-                             os.path.join("docs", "00-天翼云集成实施基本信息表模板(网络和服务器设备表含公式)20230101(1).xlsx"))
+                             os.path.join("upload", "00-天翼云集成实施基本信息表模板(网络和服务器设备表含公式)20230101(1).xlsx"))
 
         return super().setUp()
 
