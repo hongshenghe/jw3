@@ -5,11 +5,10 @@
 @Author  :   Hongsheng He
 @Version :   1.0
 @Contact :   24836227@qq.com
-@License :   (C)Copyright 2007-2020, hongsheng
-@Desc    :   None
+@License :   (C)Copyright 2007-2023, hongsheng
+@Desc    :   规则管理
 '''
 
-# 规则
 
 import os
 
@@ -190,7 +189,7 @@ class JWRule(object):
     def load(self) -> Exception:
         # 加载配置文件
         fn = os.path.join(self.work_dir, "rules", self.file_name)
-        print("fn:",fn)
+        print("fn:", fn)
         if not os.path.exists(fn):
             err = Exception("配置文件不存在:%s" % fn)
             self.error = err

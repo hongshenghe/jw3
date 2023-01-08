@@ -5,23 +5,10 @@
 @Author  :   Hongsheng He
 @Version :   1.0
 @Contact :   24836227@qq.com
-@License :   (C)Copyright 2007-2020, hongsheng
-@Desc    :   None
+@License :   (C)Copyright 2007-2023, hongsheng
+@Desc    :   创建日志记录器
 '''
 
-# -*- encoding: utf-8 -*-
-'''
-@File    :   logger.py
-@Time    :   2022/07/17 11:10:18
-@Author  :   Hongsheng He
-@Version :   1.0
-@Contact :   24836227@qq.com
-@License :   (C)Copyright 2007-2020, hongsheng
-@Desc    :   None
-'''
-
-
-# 创建日志记录器
 
 from logging.handlers import RotatingFileHandler
 import logging
