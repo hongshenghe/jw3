@@ -56,6 +56,8 @@ class JWZero(object):
         self._work_dir = work_dir
         self._zero_file_name = zero_file
         self._load_sheet_names()
+        self.LoadProject()
+        self.LoadData()
 
     def LoadProject(self) -> Exception:
         sheet_name = "项目信息"
@@ -94,11 +96,11 @@ class JWZero(object):
 
     def LoadData(self) -> Exception:
         for sheet_name in self.sheet_list:
-            # print("sheet name:%s" % sheet_name)
             if sheet_name == "项目信息":
                 continue
             err = self._loadDataFrame(sheet_name)
-            return err
+            if err:
+                return err
 
     def ShowZeroData(self):
         for k, v in self.data.items():
@@ -118,3 +120,9 @@ class JWZero(object):
 
         self.data[data_name] = df
         return None
+
+    def GetData(self, dict_name: str):
+        if dict_name not in self.data:
+            return None
+
+        return self.data[dict_name]
