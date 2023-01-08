@@ -14,15 +14,16 @@
 import os
 
 import openpyxl
-from openpyxl import load_workbook
-from openpyxl.styles import Border, Side, Alignment, PatternFill
 import pandas as pd
 import yaml
+from openpyxl import load_workbook
+from openpyxl.styles import Alignment, Border, PatternFill, Side
 
 from lib.base import ensurePath, generate_batchid
 from lib.logger import logging
 from lib.utils._05 import (GenerateProjectSiteInfo, GetProjectDict, SetNone,
                            SetValue)
+from lib.utils._09 import Copy
 from lib.zero import JWZero
 
 
@@ -99,9 +100,11 @@ class JWRule(object):
             for r in sheet['columns']:
                 col_name = r['name']
                 value = None if "value" not in r else r['value']
+                source_sheet = None if "source_sheet" not in r else r['source_sheet']
 
                 logging.info("处理%s，第%s列,%s" % (sheet_name, col_id, col_name))
-                df, flag = eval(r['method'])(self.zero, df, col_name, value)
+                df, flag = eval(r['method'])(
+                    self.zero, df, col_name, value, source_sheet)
 
                 col_id += 1
             data[sheet_name] = df
@@ -187,11 +190,13 @@ class JWRule(object):
     def load(self) -> Exception:
         # 加载配置文件
         fn = os.path.join(self.work_dir, "rules", self.file_name)
+        print("fn:",fn)
         if not os.path.exists(fn):
             err = Exception("配置文件不存在:%s" % fn)
             self.error = err
             return err
 
+        # logging.info("fn:",fn)
         content = ''
         with open(fn, 'r', encoding="utf-8") as f:
             content = yaml.full_load(f)
