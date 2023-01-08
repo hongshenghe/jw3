@@ -31,7 +31,7 @@ def fetchExcelSheets(fileName: str) -> list:
 
 def ensurePath(path: str) -> None:
     if not os.path.exists(path):
-        os.makedirs(path)
+        os.makedirs(path, exist_ok=True)
     return
 
 
