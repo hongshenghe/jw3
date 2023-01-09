@@ -44,11 +44,6 @@ rules:
         value: 待确认
         memo: 固定值
 
-      - name: 建设项目编码
-        method: GetProjectDict
-        value: 机柜机位数
-        memo: 项目信息-机柜机位数
-
       - name: 功率(KW)
         method: GetProjectDict
         value: 机柜功率
