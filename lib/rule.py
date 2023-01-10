@@ -21,14 +21,16 @@ from openpyxl.styles import Alignment, Border, PatternFill, Side
 from lib.base import ensurePath, generate_batchid
 from lib.logger import logging
 from lib.utils._05 import (GenerateProjectSiteInfo, GetProjectDict, SetNone,
-                           SetValue)
-from lib.utils._09 import Copy
+                           SetValue, GetProjectSite,GetRackProductLine)
+from lib.utils._09 import Copy, GetDict
 from lib.zero import JWZero
+from lib.dict import JWDict
 
 
 class JWRule(object):
 
     zero = None
+    jwDict = None
 
     # 文件编号
     file_id = ""
@@ -49,7 +51,7 @@ class JWRule(object):
 
     error = None
 
-    def __init__(self, batch_id: str, work_dir: str, file_id: str, zero: JWZero) -> None:
+    def __init__(self, batch_id: str, work_dir: str, file_id: str, zero: JWZero, jwDict: JWDict) -> None:
 
         self.file_name = "%s.yaml" % file_id
         full_name = os.path.join(work_dir, "rules",  self.file_name)
@@ -64,6 +66,7 @@ class JWRule(object):
         self.work_dir = work_dir
         self.batch_id = batch_id
         self.zero = zero
+        self.jwDict = jwDict
 
     def Generate(self) -> Exception:
         # 生成路径
@@ -90,9 +93,8 @@ class JWRule(object):
             if sheet_type == "fixed":
                 continue
 
-            logging.info("处理 %s 开始" % (sheet_name))
-            logging.info("sheet类型 %s" % (sheet_type))
-            logging.info("order %s" % (order))
+            logging.info("处理 %s-%s 开始" % (self.file_id, sheet_name))
+            logging.info("  sheet类型: %s" % (sheet_type))
 
             df = pd.DataFrame()
             col_id = 1
@@ -100,14 +102,16 @@ class JWRule(object):
                 col_name = r['name']
                 value = None if "value" not in r else r['value']
                 source_sheet = None if "source_sheet" not in r else r['source_sheet']
+                source_column = None if "source_column" not in r else r['source_column']
 
-                logging.info("处理%s，第%s列,%s" % (sheet_name, col_id, col_name))
+                logging.info("处理 %s-%s，第%s列,%s" %
+                             (self.file_id, sheet_name, col_id, col_name))
                 df, flag = eval(r['method'])(
-                    self.zero, df, col_name, value, source_sheet)
+                    self.zero, self.jwDict, df, col_name, value, source_sheet, source_column)
 
                 col_id += 1
             data[sheet_name] = df
-            logging.info("处理 %s 结束" % (sheet_name))
+            logging.info("处理 %s-%s 结束" % (self.file_id, sheet_name))
 
         self._save_excel(output, data)
 
@@ -119,18 +123,14 @@ class JWRule(object):
             # width = 50 if "width" not in sheet else sheet['width']
             content = None if "content" not in sheet else sheet['content']
 
-            logging.info("处理 %s 开始" % (sheet_name))
-            logging.info("sheet类型 %s" % (sheet_type))
-            logging.info("order %s" % (order))
+            logging.info("处理 %s-%s 开始" % (self.file_id, sheet_name))
+            logging.info("  sheet类型: %s" % (sheet_type))
+            logging.info("  位置: %s" % (order))
 
             if sheet_type == "fixed":
                 self._save_fixed_sheet(
                     output, sheet_name, order, content)
-
-        # if 'readme' in self.meta:
-        #     self._save_readme(output)
-
-        # print("output:%s" % output)
+            logging.info("处理 %s-%s 结束" % (self.file_id, sheet_name))
 
         return None
 
@@ -189,7 +189,7 @@ class JWRule(object):
     def load(self) -> Exception:
         # 加载配置文件
         fn = os.path.join(self.work_dir, "rules", self.file_name)
-        print("fn:", fn)
+        # print("fn:", fn)
         if not os.path.exists(fn):
             err = Exception("配置文件不存在:%s" % fn)
             self.error = err
@@ -215,7 +215,7 @@ class JWRule(object):
 
 
 # 加载所有规则
-def LoadRules(work_dir: str, zero: JWZero) -> list:
+def LoadRules(work_dir: str, zero: JWZero, jwDict: JWDict) -> list:
     logging.info("加载所有规则文件")
     rules = []
 
@@ -235,6 +235,6 @@ def LoadRules(work_dir: str, zero: JWZero) -> list:
 
     for file_id in rule_file_id_list:
         logging.info("加载:%s.yaml" % file_id)
-        rules.append(JWRule(batch_id, work_dir, file_id, zero))
+        rules.append(JWRule(batch_id, work_dir, file_id, zero, jwDict))
 
     return rules

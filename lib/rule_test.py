@@ -17,17 +17,21 @@ from pathlib import Path
 from lib.base import ensurePath, generate_batchid
 from lib.rule import JWRule, LoadRules
 from lib.zero import JWZero
+from lib.dict import JWDict
 
 work_dir = Path(__file__).resolve().parent.parent
 
 
 class TestRule(unittest.TestCase):
     jwZero = None
+    jwDict = None
     jwRules = None
 
     def setUp(self) -> None:
         self.jwZero = JWZero(work_dir,
                              os.path.join("upload", "00-天翼云集成实施基本信息表模板(网络和服务器设备表含公式)20230101(1).xlsx"))
+        self.jwDict = JWDict(work_dir,
+                             os.path.join("upload", "dict.xlsx"))
 
         # self.jwRules = LoadRules(work_dir, self.jwZero)
         self.clean_cache()
@@ -51,7 +55,7 @@ class TestRule(unittest.TestCase):
         self.assertIsNone(err)
 
     def test_generate_all(self):
-        self.jwRules = LoadRules(work_dir, self.jwZero)
+        self.jwRules = LoadRules(work_dir, self.jwZero, self.jwDict)
         for rule in self.jwRules:
             err = rule.Generate()
             self.assertIsNone(err)
