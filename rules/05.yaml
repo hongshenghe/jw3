@@ -40,14 +40,26 @@ rules:
         memo: 项目信息-项目编号
 
       - name: 产品线
-        method: SetValue
-        value: 待确认
-        memo: 固定值
+        method: GetRackProductLine
+        memo: 统计机柜中设备所属的产品线，产品线数量最多的值
+
+      - name: 机位数
+        method: GetProjectDict
+        value: 机柜机位数
+        memo: 项目信息-机柜机位数
 
       - name: 功率(KW)
         method: GetProjectDict
         value: 机柜功率
         memo: 项目信息-机柜功率
+
+      - name: 品牌
+        method: SetValue
+        value: 租用
+
+      - name: 电力输入形式
+        method: GetProjectDict
+        value: 电力输入形式
 
       - name: 服务等级
         method: SetNone
@@ -58,7 +70,7 @@ rules:
       - name: PDU数量
         method: SetNone
 
-      - name: 原厂联系人
+      - name: 原厂联系人电话
         method: SetNone
 
       - name: 是否付费
@@ -73,7 +85,7 @@ rules:
 
       - name: 机柜规格(A)
         method: GetProjectDict
-        value: 机柜规格(A)
+        value: 机柜规格（A）
         memo: 项目信息-机柜规格(A)
 
       - name: PDU总容量(A)
@@ -95,7 +107,7 @@ rules:
 
       - name: 类型
         method: SetValue
-        value: 自营
+        value: 自研池
 
   - sheet_name: 说明（请勿修改此页内容）
     order: first
