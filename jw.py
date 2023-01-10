@@ -20,7 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent
 
 
 def main():
-    jw = JiaoWei(BASE_DIR, "00-天翼云集成实施基本信息表模板(网络和服务器设备表含公式)20230101(1).xlsx")
+    jw = JiaoWei(
+        BASE_DIR, "00-天翼云集成实施基本信息表模板(网络和服务器设备表含公式)20230101(1).xlsx", 'dict.xlsx')
     jw.Run()
 
 
