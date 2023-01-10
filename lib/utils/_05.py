@@ -25,10 +25,22 @@ def fetchSiteCol(row, pos):
     m = re.match("(\S+)列(\S+)$", rack)
     if m:
         return m.groups()[pos]
+    m = re.match("(\S+)-(\S+)$", rack)
+    if m:
+        return m.groups()[pos]
     return "待确认: 无法获取机架信息，机架格式应为:04列01，当前值:%s" % rack
 
 
-def _generateProjectSiteInfo(zero: JWZero, key_col: str):
+def _generateProjectSiteInfo(zero: JWZero, key_col: str) -> pd.DataFrame:
+    """生成机房相关信息
+
+    Args:
+        zero (JWZero): 零号表实例
+        key_col (str): 返回的列名称
+
+    Returns:
+        _type_: pd.DataFrame
+    """
     siteName = zero.GetProject("云调所属机房")
     network = zero.GetData("网络设备")[['机架', '机房']].drop_duplicates()
     server = zero.GetData("服务器")[['机架', '机房']].drop_duplicates()
