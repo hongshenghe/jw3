@@ -37,3 +37,19 @@ def ensurePath(path: str) -> None:
 
 def generate_batchid() -> str:
     return str(uuid.uuid1())
+
+
+def fetch_file_path(work_home: str, dir_name: str, file_name: str) -> str:
+    return os.path.join(work_home, dir_name, file_name)
+
+
+def fetch_dict_file_name(work_home: str, dict_file_name: str) -> str:
+    return fetch_file_path(work_home, "upload", dict_file_name)
+
+
+def fetch_zero_file_name(work_home: str, zero_file_name: str) -> str:
+    return fetch_file_path(work_home, "upload", zero_file_name)
+
+
+def fetch_down_dir(work_home: str) -> str:
+    return fetch_file_path(work_home, "down")
