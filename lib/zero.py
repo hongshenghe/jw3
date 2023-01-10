@@ -120,7 +120,7 @@ class JWZero(object):
         self.data[data_name] = df
         return None
 
-    def GetData(self, dict_name: str):
+    def GetData(self, dict_name: str) -> pd.DataFrame:
         if dict_name not in self.data:
             return None
 
