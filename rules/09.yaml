@@ -29,8 +29,8 @@ rules:
       - name: 设备资源类型
         method: GetDict
         source_sheet: 网络设备
-        source_column: 系统名称
-        value: 网络设备类型
+        source_column: 角色
+        value: 网络设备资源类型
         memo: 网络设备->系统名称 与 网络设备类型键值进行匹配，返回字典内容
 
       - name: 设备角色
