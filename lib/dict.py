@@ -15,14 +15,18 @@ import pandas as pd
 import openpyxl
 import os
 
+from lib.base import fetch_dict_file_name
+from lib.logger import logging
+
 
 class JWDict(object):
     # 字典处理类
 
-    _zero_file_name = ""
+    # 工作目录
     _work_dir = ""
-    project = None
-    sheet_list = []
+
+    # 字典文件
+    _dict_file = ""
 
     # 字典配置规则
     DICT_RULE_CONFIGS = {
@@ -35,79 +39,138 @@ class JWDict(object):
     }
 
     # 字典存储容器
-    # 格式:
+    # 结构:
     # data = {
-    #     "项目信息": {
-    #         "项目名称": "中国电信天翼云2022年河南省业务上云资源池建设工程",
-    #         "项目编号": "22HQ000726001",
-    #         "投资类型": "云公司投资",
-    #         "资源池": "郑州3",
-    #         "省份": "河南",
-    #         "市": "郑州",
-    #         "工期": "1期",
-    #         "设备到货时间":	"2022-11-10",
-    #         "编码缩写":	"HAZZ",
-    #         "SNMP/NTP-1":	"10.13.1.136",
-    #         "SNMP/NTP-2":	"10.13.1.137",
-    #         "云调所属机房":	"郑州市高新区枢纽楼数据中心{setname}机房",
-    #         "机柜机位数":	"48",
-    #         "电力输入形式":	"双路UPS",
-    #         "机柜规格（A）":	"20 ",
-    #         "PDU总容量":	"32",
-    #         "机柜功率":	"4.8KW",
-    #     },
-    #     "设备清单": "dataframe",
-    #     "网络设备": "dataframe",
-    #     "服务器": "dataframe",
-    #     "原厂售后电话": "dataframe",
-    #     "品牌字典表": "dataframe",
-    #     "功耗表": "dataframe",
-    #     "资产原值表": "dataframe",
+    #     "字典名称1": {
+    #         "key1": "value",
+    #         "key2": "value",
+    #         "key3": "value",
+    #         },
+    #     "字典名称2": {
+    #         "key1": "value",
+    #         "key2": "value",
+    #         "key3": "value",
+    #         },
     # }
     data = {}
 
-    def __init__(self, work_dir: str, zero_file: str) -> None:
+    def __init__(self, work_dir: str, dict_file: str) -> None:
         """字典初始化
 
         Args: 
             work_dir (str): 工作目录
-            zero_file (str): 零号数据文件名称
+            dict_file (str): 字典表数据文件名称
         """
         self._work_dir = work_dir
-        self._zero_file_name = zero_file
+        self._dict_file = dict_file
 
-    def LoadProject(self) -> Exception:
-        sheet_name = "项目信息"
-        if sheet_name not in self.data:
-            self.data[sheet_name] = {}
+        # 初始化字典表
+        self.data = self._init_dict()
 
-        # 加载sheet
-        df = pd.read_excel(os.path.join(
-            self._work_dir, self._zero_file_name), sheet_name=sheet_name, engine='openpyxl')
+    def _init_dict(self) -> dict:
+        """初始化字典表
+
+        Returns:
+            dict: 字典实例
+
+        # 字典结构:
+        #     {
+        #       "品牌":
+        #          {
+        #           "HW": "华为",
+        #           "ZX": "中兴",
+        #           "CJB": "超聚变",
+        #          },
+        #     }
+        """
+
+        df = pd.read_excel(self._dict_file,
+                           sheet_name="字典表", engine='openpyxl')
+        dict_data = {}
         for i, row in df.iterrows():
-            item = row[1]
-            content = row[2]
-            self.data[sheet_name][item] = content
 
-        return None
+            # 分类
+            catalog = row[0]
 
-    def GetInfo(self, dict_name: str, key: str) -> str:
+            # 条目
+            entity = row[1]
+
+            # 内容
+            value = row[2]
+
+            if catalog not in dict_data:
+                dict_data[catalog] = {}
+
+            if entity not in catalog:
+                dict_data[catalog][entity] = {}
+
+            dict_data[catalog][entity] = value
+
+        # project_info = self._load_project_info()
+        # dict_data["项目"] = self._load_project_info()
+        return dict_data
+
+    def Get(self, dict_name: str, key: str) -> str:
+        """获取键值
+
+        Args:
+            dict_name (str): 字典名称
+            key (str): 键
+
+        Returns:
+            str: 键值
+        """
         if dict_name not in self.data:
-            return ""
+            return "待确认: 字典文件不存在该字典名称:%s" % dict_name
         if key not in self.data[dict_name]:
-            return ""
+            return "待确认: 字典文件%s字典不存在该键值:%s" % (dict_name, key)
 
         return self.data[dict_name][key]
 
-    def _check_sheet_name(self, sheet_name) -> bool:
+    def GetDict(self, dict_name: str) -> dict:
+        """获取字典
+
+        Args:
+            dict_name (str): 字典名称
+
+        Returns:
+            dict: 字典对象
+        """
+        logging.warning("获取字典:%s" % dict_name)
+
+        fetchedDict = {}
+        if dict_name not in self.data:
+            return fetchedDict
+        fetchedDict = self.data[dict_name]
+
+        logging.warning("获取字典内容:%s" % fetchedDict)
+        # for k, v in fetchedDict.items():
+        #     logging.warning("k:%s v:%s" % (k, v))
+            
+        return fetchedDict
+
+    def _check_sheet_name(self, sheet_name: str) -> bool:
+        """检查sheet_name是否存在
+
+        Args:
+            sheet_name (str): sheet名称
+
+        Returns:
+            bool: 是否存在
+        """
         self.sheet_list = self._fetch_sheet_list(
-            os.path.join(self._work_dir, self._zero_file_name))
+            os.path.join(self._work_dir, self._dict_file))
 
         return sheet_name in self.sheet_list
 
     def LoadSheets(self) -> Exception:
+        """加载sheet
+
+        Returns:
+            Exception: _description_
+        """
         self.sheet_list = self._fetch_sheet_list(
-            os.path.join(self._work_dir, self._zero_file_name))
+            os.path.join(self._work_dir, self._dict_file))
         return None
 
     def _fetch_sheet_list(self, fileName: str) -> list:
