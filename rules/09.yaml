@@ -105,25 +105,42 @@ rules:
         method: SetNone
 
       - name: 硬件配置信息
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 配置
+        memo: 与资产信息匹配-配队列，获取“配置”列信息
 
       - name: SNMP只读串
-        method: SetNone
+        method: SetValue
+        value: yundiao*&COC2016
+        memo: 固定值
 
       - name: SNMP可写串
         method: SetNone
 
       - name: SNMP版本
-        method: SetNone
+        method: GetSNMPVersion
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 品牌
+        memo: 与资产信息匹配-配队列，获取品牌
 
-      - name: 网管网IP
-        method: SetNone
-
+      - name: 网管网IP 
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 网管网（包括iLO、ipmi）
+        memo: 网络设备—C列-copy 网管网（包括iLO、ipmi）
+  
       - name: 网管网网关
-        method: SetNone
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 网关
 
       - name: 网管网VLAN
-        method: SetNone
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 网管网vlan
 
       - name: 原厂联系人
         method: SetNone
@@ -141,7 +158,8 @@ rules:
         method: SetNone
 
       - name: 服务等级
-        method: SetNone
+        method: SetValue
+        value: 7*24
 
       - name: 盘点状态
         method: SetNone
@@ -153,19 +171,31 @@ rules:
         method: SetNone
 
       - name: SSH账号
-        method: SetNone
+        method: SetValue
+        value: COC_operator
 
       - name: SSH密码
-        method: SetNone
+        method: SetValue
+        value: Qx9ETU!!36
 
       - name: 设备标牌功率
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 实际功率(W)
+        memo: 设备清单-实际功率(W)
 
       - name: 资产原值
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 资产原值（除税价）
+        memo: 设备清单-“资产原值（除税价）”
 
       - name: 到货时间
-        method: SetNone
+        method: GetProjectDict
+        value: 设备到货时间
+        memo: 项目信息-设备到货时间
 
       - name: 出保时间
         method: SetNone
@@ -174,7 +204,9 @@ rules:
         method: SetNone
 
       - name: 逻辑编码
-        method: SetNone
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 设备标签
 
       - name: 设备版本
         method: SetNone
