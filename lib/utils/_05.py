@@ -62,30 +62,6 @@ def _generateProjectSiteInfo(zero: JWZero, key_col: str) -> pd.DataFrame:
 
 def GenerateProjectSiteInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
     df = target_data_frame
-
-    # network = zero.GetData("网络设备")[['机架', '机房']]
-    # server = zero.GetData("服务器")[['机架', '机房']]
-    # siteName = zero.GetProject("云调所属机房")
-
-    # 返回结果
-    # dataframe ,['机房','列号','机柜号']
-
-    # network = zero.GetData("网络设备")[['机架', '机房']].drop_duplicates()
-    # server = zero.GetData("服务器")[['机架', '机房']].drop_duplicates()
-
-    # df2 = pd.concat([network, server], axis=0).sort_values(
-    #     by=['机架', '机房'], ascending=True)
-
-    # df2["原始机房号"] = df2['机房']
-
-    # df2["机房"] = df2.apply(lambda row: fetchSiteName(
-    #     siteName, row['机房']), axis=1)
-    # df2["列号"] = df2.apply(lambda row: fetchSiteCol(row, 0), axis=1)
-    # df2["机柜号"] = df2.apply(lambda row: fetchSiteCol(row, 1), axis=1)
-
-    # temp = df2[['机房', '列号', '机柜号']].drop_duplicates()
-
-    # df[col_name] = temp[value]
     df[col_name] = _generateProjectSiteInfo(zero, value)
     return df, True
 
@@ -292,4 +268,31 @@ def GetAssertInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str
         lambda row: _getAsssetInfo(asserts, row[source_column], value), axis=1)
 
     df[col_name] = asertSheet[col_name]
+    return df, True
+
+
+def _getSNMPVersion(brand: str, snmp_dict: dict) -> str:
+    for k, v in snmp_dict.items():
+        if k == brand:
+            return v
+    if '其他品牌' in snmp_dict:
+        return snmp_dict['其他品牌']
+    return '待确认: 请检查SNMP版本字典，无默认"其他品牌"的内容'
+
+
+def GetSNMPVersion(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+
+    df = target_data_frame
+
+    # 获取品牌
+    df, flag = GetAssertInfo(zero, jwDict, df, col_name,
+                             value, source_sheet, source_column)
+
+    # 获取SNMP版本字典
+    snmp_dict = jwDict.GetDict("SNMP版本")
+
+    # 获取SNMP版本
+    df[col_name] = df.apply(
+        lambda row: _getSNMPVersion(row[col_name], snmp_dict), axis=1)
+
     return df, True
