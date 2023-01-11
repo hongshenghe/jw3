@@ -44,3 +44,9 @@ Requirement already satisfied: numpy>=1.21.0 in d:\projects\python\jw3\venv\lib\
 Requirement already satisfied: et-xmlfile in d:\projects\python\jw3\venv\lib\site-packages (from openpyxl==3.0.10->-r requirements.txt (line 2)) (1.1.0)
 Requirement already satisfied: six>=1.5 in d:\projects\python\jw3\venv\lib\site-packages (from python-dateutil>=2.8.1->pandas==1.5.2->-r requirements.txt (line 1)) (1.16.0)
 ```
+
+3. 执行测试用例
+
+```bash
+(venv) ➜  jw3 git:(master) ✗ python -m unittest lib/rule_test.py
+```
