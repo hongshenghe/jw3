@@ -4,6 +4,8 @@ venv/
 # 临时文件
 __pycache__
 down
+.DS_Store
+
 
 # 日志文件
 jw.log
