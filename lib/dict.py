@@ -146,7 +146,7 @@ class JWDict(object):
         logging.warning("获取字典内容:%s" % fetchedDict)
         # for k, v in fetchedDict.items():
         #     logging.warning("k:%s v:%s" % (k, v))
-            
+
         return fetchedDict
 
     def _check_sheet_name(self, sheet_name: str) -> bool:

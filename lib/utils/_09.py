@@ -61,5 +61,3 @@ def GetDict(zero, jwDict,  target_data_frame, col_name, value, source_sheet, sou
     df[col_name] = df.apply(
         lambda row: fetchDictValue(fetchedDict, row[col_name], value), axis=1)
     return df, True
-
-

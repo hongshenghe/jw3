@@ -12,16 +12,18 @@
 import re
 
 import pandas as pd
-from lib.zero import JWZero
+
 from lib.dict import JWDict
+from lib.logger import logging
+from lib.zero import JWZero
 
 
 def fetchSiteName(siteName, roomid):
     return siteName.replace("{site_name}", str(roomid))
 
 
-def fetchSiteCol(row, pos):
-    rack = row['机架']  # 04列01
+def fetchSiteCol(rack, pos):
+    # rack = row['机架']  # 04列01
     m = re.match("(\S+)列(\S+)$", rack)
     if m:
         return m.groups()[pos]
@@ -50,8 +52,8 @@ def _generateProjectSiteInfo(zero: JWZero, key_col: str) -> pd.DataFrame:
     df2["原始机房号"] = df2['机房']
     df2["机房"] = df2.apply(lambda row: fetchSiteName(
         siteName, row['机房']), axis=1)
-    df2["列号"] = df2.apply(lambda row: fetchSiteCol(row, 0), axis=1)
-    df2["机柜号"] = df2.apply(lambda row: fetchSiteCol(row, 1), axis=1)
+    df2["列号"] = df2.apply(lambda row: fetchSiteCol(row['机架'], 0), axis=1)
+    df2["机柜号"] = df2.apply(lambda row: fetchSiteCol(row['机架'], 1), axis=1)
 
     temp = df2[['机房', '列号', '机柜号', '原始机房号']].drop_duplicates()
 
@@ -146,6 +148,16 @@ def GetProjectSite(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: st
 
 
 def _getAsssetInfo(asserts: pd.DataFrame, match_col: str, parameter: str) -> str:
+    """获取资产信息表格的列属性
+
+    Args:
+        asserts (pd.DataFrame): 资产dataframe对象
+        match_col (str): 子表配队列
+        parameter (str): 资产信息表格的列名称
+
+    Returns:
+        str: _description_
+    """
     df = asserts[asserts['配对列'] == match_col][parameter]
     if len(df) == 0:
         return "待确认: 请核对是否存在 %s 配对列,设备信息是否存在%s列" % (match_col, parameter)
@@ -177,11 +189,11 @@ def GetRackProductLine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name
     """获取机柜所属产品线
 
     Args:
-        zero (_type_): 零号表对象
+        zero (_type_): 零号表对象实例
         target_data_frame (_type_): 生成数据集合 
 
     Returns:
-        _type_: dataframe
+        _type_: DataFrame
     """
     df = target_data_frame
 
@@ -203,4 +215,81 @@ def GetRackProductLine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name
     # df[col_name] = '-'
     df[col_name] = df.apply(
         lambda row: _getRackProductLine(dfSummary, "%s列%s" % (row['列号'], row['机柜号']), row[col_name]), axis=1)
+    return df, True
+
+
+def getNetworkAssetPos(site_name: str, room_id: str, rack_info: str, start_pos: str, height: str) -> str:
+
+    # logging.info("siteName:%s" % site_name)
+    # logging.info("room_id:%s" % room_id)
+    # logging.info("rack_info:%s" % rack_info)
+    # logging.info("start_pos:%s" % start_pos)
+    # logging.info("heigh:%s" % height)
+
+    # 机房
+    full_site_name = fetchSiteName(site_name, room_id)
+
+    # 列号
+    rack_col = fetchSiteCol(rack_info, 0)
+    # logging.info("列号:%s" % rack_col)
+
+    # 机柜号
+    rack_no = fetchSiteCol(rack_info, 1)
+    # logging.info("机柜号:%s" % rack_no)
+
+    # 起始位置
+    rack_start_pos = int(re.search("(\d+)", str(start_pos)).groups()
+                         [0]) if re.search("(\d+)", str(start_pos)) else 0
+    # 设备高度
+    asset_height = int(height) if not pd.isna(height) else 0
+
+    # 设备位置
+    asset_pos = rack_start_pos if asset_height == 1 else "%s~%s" % (
+        rack_start_pos, rack_start_pos+asset_height-1)
+
+    physical_address = "%s/%s列%s(%s)" % (full_site_name,
+                                         rack_col, rack_no, asset_pos)
+    return physical_address
+
+
+#  self.zero, self.jwDict, df, col_name, value, source_sheet, source_column
+def GetPosition(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+    """获取物理位置
+
+    Args:
+        zero (JWZero): 零号表对象实例
+
+    Returns:
+        pd.DataFrame: DataFrame
+
+    样例：
+        郑州市高新区枢纽楼数据中心122机房/04列01(6~17)
+        郑州市高新区枢纽楼数据中心122机房/04列01(40)
+    """
+    df = target_data_frame
+
+    siteName = zero.GetProject("云调所属机房")
+    df2 = zero.GetData(source_sheet)[
+        [source_column,  '机架', 'U位置', '设备高度']]
+    df2[col_name] = df2.apply(lambda row: getNetworkAssetPos(
+        siteName, row['机房'], row['机架'], row['U位置'], row['设备高度']), axis=1)
+
+    df[col_name] = df2[col_name]
+    return df, True
+
+
+def GetAssertInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+
+    df = target_data_frame
+
+    asserts = zero.GetData("设备清单")
+
+    # 网络设备或者服务器
+    asertSheet = zero.GetData(source_sheet)
+
+    # 生成目标列
+    asertSheet[col_name] = asertSheet.apply(
+        lambda row: _getAsssetInfo(asserts, row[source_column], value), axis=1)
+
+    df[col_name] = asertSheet[col_name]
     return df, True

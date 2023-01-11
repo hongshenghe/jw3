@@ -47,35 +47,59 @@ rules:
         source_column: 机房
 
       - name: 物理位置
-        method: SetNone
+        method: GetPosition
+        source_sheet: 网络设备
+        source_column: 机房
         memo: 所属机房+U位置+机架 |
           郑州市高新区枢纽楼数据中心122机房/04列01(6~17)
           郑州市高新区枢纽楼数据中心122机房/04列01(40)
 
       - name: 建设项目
-        method: SetNone
-        memo: 中国电信天翼云2022年河南省业务上云资源池建设工程
+        method: GetProjectDict
+        value: 项目名称
+        memo: 项目信息-建设项目
 
       - name: 建设项目编码
-        method: SetNone
+        method: GetProjectDict
+        value: 项目编号
+        memo: 项目信息-项目编号
 
       - name: 产品线
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 产品线
+        memo: 与资产信息匹配-配队列，获取产品线
 
       - name: 投资类型
-        method: SetNone
+        method: GetProjectDict
+        value: 投资类型
+        memo: 项目信息-投资类型
 
       - name: 细分产品线
-        method: SetNone
+        method: SetValue
+        # TODO: 根据产品线获取细分产品线， 等谢总细分产品线字典
+        value: 待确认：根据产品线获取细分产品线， 等谢总细分产品线字典
+        memo: 根据产品线获取细分产品线
 
       - name: 网络类型
-        method: SetNone
+        method: SetValue
+        value: 内网
+        memo: 固定值
 
       - name: 品牌
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 品牌
+        memo: 与资产信息匹配-配队列，获取品牌
 
       - name: 型号
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 云调库中对应型号
+        memo: 与资产信息匹配-配队列，获取型号
 
       - name: 网络设备层级
         method: SetNone

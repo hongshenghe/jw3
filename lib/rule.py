@@ -21,7 +21,7 @@ from openpyxl.styles import Alignment, Border, PatternFill, Side
 from lib.base import ensurePath, generate_batchid
 from lib.logger import logging
 from lib.utils._05 import (GenerateProjectSiteInfo, GetProjectDict, SetNone,
-                           SetValue, GetProjectSite,GetRackProductLine)
+                           SetValue, GetProjectSite, GetRackProductLine, GetPosition,GetAssertInfo)
 from lib.utils._09 import Copy, GetDict
 from lib.zero import JWZero
 from lib.dict import JWDict
