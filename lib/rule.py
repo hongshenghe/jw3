@@ -22,7 +22,7 @@ from lib.base import ensurePath, generate_batchid
 from lib.logger import logging
 from lib.utils._05 import (GenerateProjectSiteInfo, GetProjectDict, SetNone,
                            SetValue, GetProjectSite, GetRackProductLine, GetPosition, GetAssertInfo, GetSNMPVersion)
-from lib.utils._09 import Copy, GetDict
+from lib.utils._09 import Copy, GetDict, GetSubProductLine
 from lib.zero import JWZero
 from lib.dict import JWDict
 
@@ -166,14 +166,24 @@ class JWRule(object):
                 col_num += 1
 
             row_num += 1
-        ws.column_dimensions["A"].width = 50
+
+        print("sheet_name: %s" % ws.title)
+        ws.column_dimensions["A"].column_width = 50
+        if "说明" in ws.title:
+            ws.column_dimensions["A"].column_width = 10.27
+            ws.column_dimensions["B"].column_width = 77.45
+        if "字典值" in ws.title:
+            ws.column_dimensions["A"].column_width = 26.73
+            ws.column_dimensions["B"].column_width = 17.36
+
         ws.column_dimensions["B"].width = 50
+
         # ws.column_dimensions["A"].column_width = None
         # ws.column_dimensions["B"].column_width = None
-        ws.column_dimensions["A"].auto_size = True
-        ws.column_dimensions["B"].auto_size = True
-        ws.column_dimensions["A"].bestFit = True
-        ws.column_dimensions["B"].bestFit = True
+        # ws.column_dimensions["A"].auto_size = True
+        # ws.column_dimensions["B"].auto_size = True
+        # ws.column_dimensions["A"].bestFit = True
+        # ws.column_dimensions["B"].bestFit = True
         wb.save(output_file)
 
     def _save_excel(self, file_name: str, data: dict) -> None:

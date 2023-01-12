@@ -7,6 +7,15 @@ meta:
   author: hongsheng he
 
 rules:
+  # 列名列表
+  #   设备编码	设备名称	设备序列号	设备资源类型	设备角色	所属机房	物理位置
+  # 	建设项目	建设项目编码	产品线	投资类型	设备业务类型 细分产品线	网络类型	品牌	型号
+  #   网络设备层级	硬件配置信息	SNMP只读串	SNMP可写串	SNMP版本	网管网IP
+  #   网管网网关	网管网VLAN	原厂联系人	原厂联系方式	代理商联系人	代理商联系方式
+  #   400/800电话	服务等级	盘点状态	设备描述	备注	SSH账号	SSH密码	设备标牌功率
+  #   资产原值	到货时间	出保时间	终验时间	逻辑编码	设备版本	设备补丁	Loopback
+  #   自动化管理账户	自动化管理密码	管理员账号	管理员密码	只读账号	只读密码
+
   - sheet_name: 网络设备
     columns:
       - name: 设备编码
@@ -14,6 +23,262 @@ rules:
         source_sheet: 网络设备
         source_column: 设备标签
         memo: 网络设备—C列-copy
+
+      - name: 设备名称
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 系统名称
+        memo: 网络设备—B列-copy
+
+      - name: 设备序列号
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 设备序列号
+        memo: 网络设备—G列-copy
+
+      - name: 设备资源类型
+        method: GetDict
+        source_sheet: 网络设备
+        source_column: 角色
+        value: 网络设备资源类型
+        memo: 网络设备->系统名称 与 网络设备类型键值进行匹配，返回字典内容
+
+      - name: 设备角色
+        method: GetDict
+        source_sheet: 网络设备
+        source_column: 角色
+        value: 网络设备角色
+        memo: 网络设备->角色 与 网络设备角色键值进行匹配，返回字典内容
+
+      - name: 所属机房
+        method: GetProjectSite
+        value: 云调所属机房
+        source_sheet: 网络设备
+        source_column: 机房
+
+      - name: 物理位置
+        method: GetPosition
+        source_sheet: 网络设备
+        source_column: 机房
+        memo: 所属机房+U位置+机架 |
+          郑州市高新区枢纽楼数据中心122机房/04列01(6~17)
+          郑州市高新区枢纽楼数据中心122机房/04列01(40)
+
+      - name: 建设项目
+        method: GetProjectDict
+        value: 项目名称
+        memo: 项目信息-建设项目
+
+      - name: 建设项目编码
+        method: GetProjectDict
+        value: 项目编号
+        memo: 项目信息-项目编号
+
+      - name: 产品线
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 产品线
+        memo: 与资产信息匹配-配队列，获取产品线
+
+      - name: 投资类型
+        method: GetProjectDict
+        value: 投资类型
+        memo: 项目信息-投资类型
+
+      - name: 设备业务类型
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 设备业务类型
+        memo: 与资产信息匹配-配队列，获取设备业务类型
+
+      - name: 细分产品线
+        method: GetSubProductLine
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        memo: 网络设备->系统名称 与 网络设备类型键值进行匹配，返回字典内容
+
+      - name: 网络类型
+        method: SetValue
+        value: 内网
+        memo: 固定值
+
+      - name: 品牌
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 品牌
+        memo: 与资产信息匹配-配队列，获取品牌
+
+      - name: 型号
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 云调库中对应型号
+        memo: 与资产信息匹配-配队列，获取型号
+
+      - name: 网络设备层级
+        method: GetDict
+        source_sheet: 网络设备
+        source_column: 角色
+        value: 网络设备层级
+        memo: 网络设备->角色 与 网络设备层级字典键值进行匹配,|
+          返回字典内容，不能匹配所有键值，则返回其他项
+
+      - name: 硬件配置信息
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 配置
+        memo: 与资产信息匹配-配队列，获取“配置”列信息
+
+      - name: SNMP只读串
+        method: SetValue
+        value: yundiao*&COC2016
+        memo: 固定值
+
+      - name: SNMP可写串
+        method: SetNone
+
+      - name: SNMP版本
+        method: GetSNMPVersion
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 品牌
+        memo: 与资产信息匹配-配队列，获取品牌
+
+      - name: 网管网IP
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 网管网（包括iLO、ipmi）
+        memo: 网络设备—C列-copy 网管网（包括iLO、ipmi）
+
+      - name: 网管网网关
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 网关
+
+      - name: 网管网VLAN
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 网管网vlan
+
+      - name: 原厂联系人
+        method: SetNone
+
+      - name: 原厂联系方式
+        method: SetNone
+
+      - name: 代理商联系人
+        method: SetNone
+
+      - name: 代理商联系方式
+        method: SetNone
+
+      - name: 400/800电话
+        method: SetNone
+
+      - name: 服务等级
+        method: SetValue
+        value: 7*24
+
+      - name: 盘点状态
+        method: SetNone
+
+      - name: 设备描述
+        method: SetNone
+
+      - name: 备注
+        method: SetNone
+
+      - name: SSH账号
+        method: SetValue
+        value: yundiao_read
+
+      - name: SSH密码
+        method: SetValue
+        value: yundiao*&COC2016
+
+      - name: 设备标牌功率
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 实际功率(W)
+        memo: 设备清单-实际功率(W)
+
+      - name: 资产原值
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 资产原值（除税价）
+        memo: 设备清单-“资产原值（除税价）”
+
+      - name: 到货时间
+        method: GetProjectDict
+        value: 设备到货时间
+        memo: 项目信息-设备到货时间
+
+      - name: 出保时间
+        method: SetNone
+
+      - name: 终验时间
+        method: SetNone
+
+      - name: 逻辑编码
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 设备标签
+
+      - name: 设备版本
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 设备版本号
+        memo: 设备清单-"设备版本号"
+
+      - name: 设备补丁
+        method: SetNone
+
+      - name: Loopback
+        method: GetDict
+        source_sheet: 网络设备
+        source_column: 角色
+        value: 回环地址
+        memo: 网络设备->角色 与 网络设备层级字典键值进行匹配,|
+          返回字典内容，不能匹配所有键值，则返回其他项
+
+      - name: 自动化管理账户
+        method: SetValue
+        value: AutoDevOps
+
+      - name: 自动化管理密码
+        method: SetValue
+        value: OPS_5Df*1cp!K0_250e.
+
+      - name: 管理员账号
+        method: SetValue
+        value: COC_operator
+
+      - name: 管理员密码
+        method: SetValue
+        value: Qx9ETU!!36
+
+      - name: 本地管理员账号
+        method: SetValue
+        value: hhy_local
+
+      - name: 本地管理员账号密码
+        method: SetValue
+        value: mYjsy,89wqt
+
+      - name: 只读账号
+        method: SetValue
+        value: yundiao_read
+
+      - name: 只读密码
+        method: SetValue
+        value: yundiao*&COC2016
 
   - sheet_name: 说明（请勿修改此页内容）
     order: first

@@ -14,9 +14,11 @@ import re
 import pandas as pd
 
 from lib.dict import JWDict
+from lib.zero import JWZero
+from lib.utils.base import _fetchDictValue, _getAsssetInfo
 
 
-def Copy(zero, jwDict: JWDict,  target_data_frame, col_name, value, source_sheet, source_column):
+def Copy(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
     df = target_data_frame
     if not source_sheet or not source_sheet:
         df[col_name] = "待确认: 源sheet或源列未指定"
@@ -26,29 +28,7 @@ def Copy(zero, jwDict: JWDict,  target_data_frame, col_name, value, source_sheet
     return df, True
 
 
-def fetchDictValue(fetchedDict: dict, match_value: str, dict_name: str) -> str:
-    """匹配字典内容
-
-    Args:
-        jwDict (JWDict): 字典对象
-        match_value (str): 需要匹配的值，例如系统名称
-        dict_name (str): 字典名称
-
-    Returns:
-        str: 字典的键值
-    """
-
-    for k, v in fetchedDict.items():
-        if re.search(k, match_value):
-            return v
-
-    if "其他" in fetchedDict:
-        return fetchedDict['其他']
-
-    return "待确认: %s字典无法匹配到:%s" % (dict_name, match_value)
-
-
-def GetDict(zero, jwDict,  target_data_frame, col_name, value, source_sheet, source_column):
+def GetDict(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
     df = target_data_frame
     if not source_sheet or not source_column or not col_name or not value:
         df[col_name] = "待确认: GetDict需要指定source_sheet、source_column、value、col_name"
@@ -61,5 +41,35 @@ def GetDict(zero, jwDict,  target_data_frame, col_name, value, source_sheet, sou
     fetchedDict = jwDict.GetDict(value)
 
     df[col_name] = df.apply(
-        lambda row: fetchDictValue(fetchedDict, row[col_name], value), axis=1)
+        lambda row: _fetchDictValue(fetchedDict, row[col_name], value), axis=1)
+    return df, True
+
+
+def GetSubProductLine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+    """获取细分产品线
+
+    Args:
+        zero (_type_): 零号表实例 
+    Returns:
+        _type_: pd.DataFrame
+    """
+
+    df = target_data_frame
+
+    asserts = zero.GetData("设备清单")
+
+    # 获取细分产品线字典
+    sub_product_dict = jwDict.GetDict("细分产品线")
+
+    # 生成原始数据
+    source_data = zero.GetData(source_sheet)
+
+    # 生成产品线
+    df[col_name] = source_data.apply(
+        lambda row: _getAsssetInfo(asserts, row[source_column], "产品线"), axis=1)
+
+    # 生成细分产品线
+    df[col_name] = df.apply(
+        lambda row: _fetchDictValue(sub_product_dict, row[col_name], "细分产品线"), axis=1)
+
     return df, True

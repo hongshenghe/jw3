@@ -78,10 +78,9 @@ rules:
         memo: 项目信息-投资类型
 
       - name: 细分产品线
-        method: GetDict
+        method: GetSubProductLine
         source_sheet: 网络设备
-        source_column: 角色
-        value: 网络设备资源类型
+        source_column: 对应设备清单-配对列
         memo: 网络设备->系统名称 与 网络设备类型键值进行匹配，返回字典内容
 
       - name: 网络类型
@@ -226,7 +225,12 @@ rules:
         method: SetNone
 
       - name: Loopback
-        method: SetNone
+        method: GetDict
+        source_sheet: 网络设备
+        source_column: 角色
+        value: 回环地址
+        memo: 网络设备->角色 与 网络设备层级字典键值进行匹配,|
+          返回字典内容，不能匹配所有键值，则返回其他项
 
       - name: 自动化管理账户
         method: SetValue
