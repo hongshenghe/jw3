@@ -1,6 +1,7 @@
 version: 1.0
 meta:
   name: 交维网络设备导入表
+  fileID: 09
   createdAt: 2023-01-08 10:40:00
   updatedAt: 2023-01-08 10:40:00
   author: hongsheng he
@@ -103,7 +104,12 @@ rules:
         memo: 与资产信息匹配-配队列，获取型号
 
       - name: 网络设备层级
-        method: SetNone
+        method: GetDict
+        source_sheet: 网络设备
+        source_column: 角色
+        value: 网络设备层级
+        memo: 网络设备->角色 与 网络设备层级字典键值进行匹配,|
+          返回字典内容，不能匹配所有键值，则返回其他项
 
       - name: 硬件配置信息
         method: GetAssertInfo
@@ -127,12 +133,12 @@ rules:
         value: 品牌
         memo: 与资产信息匹配-配队列，获取品牌
 
-      - name: 网管网IP 
+      - name: 网管网IP
         method: Copy
         source_sheet: 网络设备
         source_column: 网管网（包括iLO、ipmi）
         memo: 网络设备—C列-copy 网管网（包括iLO、ipmi）
-  
+
       - name: 网管网网关
         method: Copy
         source_sheet: 网络设备
@@ -173,11 +179,11 @@ rules:
 
       - name: SSH账号
         method: SetValue
-        value: COC_operator
+        value: yundiao_read
 
       - name: SSH密码
         method: SetValue
-        value: Qx9ETU!!36
+        value: yundiao*&COC2016
 
       - name: 设备标牌功率
         method: GetAssertInfo
@@ -210,7 +216,11 @@ rules:
         source_column: 设备标签
 
       - name: 设备版本
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 设备版本号
+        memo: 设备清单-"设备版本号"
 
       - name: 设备补丁
         method: SetNone
@@ -219,10 +229,12 @@ rules:
         method: SetNone
 
       - name: 自动化管理账户
-        method: SetNone
+        method: SetValue
+        value: AutoDevOps
 
       - name: 自动化管理密码
-        method: SetNone
+        method: SetValue
+        value: OPS_5Df*1cp!K0_250e
 
   - sheet_name: 说明（请勿修改此页内容）
     order: first

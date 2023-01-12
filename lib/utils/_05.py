@@ -275,9 +275,9 @@ def _getSNMPVersion(brand: str, snmp_dict: dict) -> str:
     for k, v in snmp_dict.items():
         if k == brand:
             return v
-    if '其他品牌' in snmp_dict:
-        return snmp_dict['其他品牌']
-    return '待确认: 请检查SNMP版本字典，无默认"其他品牌"的内容'
+    if '其他' in snmp_dict:
+        return snmp_dict['其他']
+    return '待确认: 请检查SNMP版本字典，无默认"其他"的内容'
 
 
 def GetSNMPVersion(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
@@ -296,3 +296,14 @@ def GetSNMPVersion(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: st
         lambda row: _getSNMPVersion(row[col_name], snmp_dict), axis=1)
 
     return df, True
+
+
+
+def GetNetworkAssertLevel(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+
+    df = target_data_frame
+    
+    # 获取网络设备层级字典
+    fetchedDict = jwDict.GetDict("网络设备层级")
+
+    return df,True

@@ -32,8 +32,11 @@ class JWRule(object):
     zero = None
     jwDict = None
 
-    # 文件编号
+    # 输入文件编号
     file_id = ""
+
+    # 输出文件编号
+    output_file_id = ""
 
     # 文件名称
     file_name = ""
@@ -51,22 +54,21 @@ class JWRule(object):
 
     error = None
 
-    def __init__(self, batch_id: str, work_dir: str, file_id: str, zero: JWZero, jwDict: JWDict) -> None:
+    def __init__(self, batch_id: str, file_id: str, work_dir: str, zero: JWZero, jwDict: JWDict) -> None:
 
-        self.file_name = "%s.yaml" % file_id
+        self.file_name = "%s.yaml" % (file_id)
         full_name = os.path.join(work_dir, "rules",  self.file_name)
 
-        logging.info("file_id: %s" % file_id)
         logging.info("full_name: %s" % full_name)
 
         if not os.path.exists(full_name):
             return
 
-        self.file_id = file_id
         self.work_dir = work_dir
         self.batch_id = batch_id
         self.zero = zero
         self.jwDict = jwDict
+        self.file_id = file_id
 
     def Generate(self) -> Exception:
         # 生成路径
@@ -204,11 +206,12 @@ class JWRule(object):
         self.rules = self.content['rules']
         self.meta = self.content['meta']
         self.name = self.content['meta']['name']
+        self.output_file_id = str(self.content['meta']['fileID'])
 
         return None
 
     def generate_output_file_name(self) -> str:
-        file_no = self.file_id.zfill(2)
+        file_no = self.output_file_id.zfill(2)
         project_name = self.zero.GetProject("项目名称")
         return "%s%s--%s" % (file_no,
                              project_name, self.name)
@@ -232,10 +235,10 @@ def LoadRules(work_dir: str, zero: JWZero, jwDict: JWDict) -> list:
     for f in rule_file_list:
         file_id = str(os.path.splitext(f)[0])
         rule_file_id_list.append(file_id)
- 
-    rule_file_id_list.sort() 
+
+    rule_file_id_list.sort()
     for file_id in rule_file_id_list:
         logging.info("加载:%s.yaml" % file_id)
-        rules.append(JWRule(batch_id, work_dir, file_id, zero, jwDict))
+        rules.append(JWRule(batch_id, file_id, work_dir, zero, jwDict))
 
     return rules

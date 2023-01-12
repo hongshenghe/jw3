@@ -39,9 +39,11 @@ def fetchDictValue(fetchedDict: dict, match_value: str, dict_name: str) -> str:
     """
 
     for k, v in fetchedDict.items():
-
         if re.search(k, match_value):
             return v
+
+    if "其他" in fetchedDict:
+        return fetchedDict['其他']
 
     return "待确认: %s字典无法匹配到:%s" % (dict_name, match_value)
 
