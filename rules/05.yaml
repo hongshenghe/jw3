@@ -12,7 +12,7 @@ rules:
       - name: 所属机房
         method: GenerateProjectSiteInfo
         value: 机房
-        memo: 聚合网络设备、服务器表中机架和机房信息进行计算 |
+        description: 聚合网络设备、服务器表中机架和机房信息进行计算 |
           所属机房 = {项目信息.云调所属机房}+{网络设备|服务器}机房列
           例如：项目信息.云调所属机房 = 郑州市高新区枢纽楼数据中心{site_name}机房
           网络设备.机房 = 122
@@ -21,38 +21,38 @@ rules:
       - name: 列号
         method: GenerateProjectSiteInfo
         value: 列号
-        memo: 聚合网络设备、服务器表中机架和机房信息进行计算 |
+        description: 聚合网络设备、服务器表中机架和机房信息进行计算 |
           列号,网络设备和服务器列表机架信息列号去重唯一值
 
       - name: 机柜号
         method: GenerateProjectSiteInfo
         value: 机柜号
-        memo: 聚合网络设备、服务器表中机架和机房信息进行计算 |
+        description: 聚合网络设备、服务器表中机架和机房信息进行计算 |
           机柜号,网络设备和服务器列表机架信息列号去重唯一值
 
       - name: 建设项目
         method: GetProjectDict
         value: 项目名称
-        memo: 项目信息-建设项目
+        description: 项目信息-建设项目
 
       - name: 建设项目编码
         method: GetProjectDict
         value: 项目编号
-        memo: 项目信息-项目编号
+        description: 项目信息-项目编号
 
       - name: 产品线
         method: GetRackProductLine
-        memo: 统计机柜中设备所属的产品线，产品线数量最多的值
+        description: 统计机柜中设备所属的产品线，产品线数量最多的值
 
       - name: 机位数
         method: GetProjectDict
         value: 机柜机位数
-        memo: 项目信息-机柜机位数
+        description: 项目信息-机柜机位数
 
       - name: 功率(KW)
         method: GetProjectDict
         value: 机柜功率
-        memo: 项目信息-机柜功率
+        description: 项目信息-机柜功率
 
       - name: 品牌
         method: SetValue
@@ -87,12 +87,12 @@ rules:
       - name: 机柜规格(A)
         method: GetProjectDict
         value: 机柜规格（A）
-        memo: 项目信息-机柜规格(A)
+        description: 项目信息-机柜规格(A)
 
       - name: PDU总容量(A)
         method: GetProjectDict
         value: PDU总容量
-        memo: 项目信息-PDU总容量
+        description: 项目信息-PDU总容量
 
       - name: 长(毫米)
         method: SetValue
