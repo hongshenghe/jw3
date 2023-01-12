@@ -158,7 +158,7 @@ class JWRule(object):
             col_num = 1
             for value in c.split("|"):
                 cell = ws.cell(column=col_num, row=row_num)
-                cell.value = "\n".join(value.split(" "))
+                cell.value = "\n".join(value.replace("`", "|").split(" "))
 
                 cell.border = border
                 cell.alignment = Alignment(wrapText=True)
@@ -167,14 +167,15 @@ class JWRule(object):
 
             row_num += 1
 
-        print("sheet_name: %s" % ws.title)
+        # print("sheet_name: %s" % ws.title)
         ws.column_dimensions["A"].column_width = 50
         if "说明" in ws.title:
-            ws.column_dimensions["A"].column_width = 10.27
-            ws.column_dimensions["B"].column_width = 77.45
-        if "字典值" in ws.title:
-            ws.column_dimensions["A"].column_width = 26.73
-            ws.column_dimensions["B"].column_width = 17.36
+            ws.column_dimensions["A"].width  = 10.27
+            ws.column_dimensions["B"].width  = 77.45
+        if "字典" in ws.title:
+            # print("字典命中：", ws.title)
+            ws.column_dimensions["A"].width  = 30
+            ws.column_dimensions["B"].width = 60
 
         ws.column_dimensions["B"].width = 50
 
