@@ -232,7 +232,8 @@ def LoadRules(work_dir: str, zero: JWZero, jwDict: JWDict) -> list:
     for f in rule_file_list:
         file_id = str(os.path.splitext(f)[0])
         rule_file_id_list.append(file_id)
-
+ 
+    rule_file_id_list.sort() 
     for file_id in rule_file_id_list:
         logging.info("加载:%s.yaml" % file_id)
         rules.append(JWRule(batch_id, work_dir, file_id, zero, jwDict))

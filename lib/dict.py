@@ -136,14 +136,14 @@ class JWDict(object):
         Returns:
             dict: 字典对象
         """
-        logging.warning("获取字典:%s" % dict_name)
+        # logging.warning("获取字典:%s" % dict_name)
 
         fetchedDict = {}
         if dict_name not in self.data:
             return fetchedDict
         fetchedDict = self.data[dict_name]
 
-        logging.warning("获取字典内容:%s" % fetchedDict)
+        # logging.warning("获取字典内容:%s" % fetchedDict)
         # for k, v in fetchedDict.items():
         #     logging.warning("k:%s v:%s" % (k, v))
 

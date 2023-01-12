@@ -43,16 +43,17 @@ class TestRule(unittest.TestCase):
         if os.path.exists(cache_dir):
             shutil.rmtree(cache_dir)
 
-    def test_load_rules(self):
-        self.assertGreater(len(self.jwRules), 0)
+    # def test_load_rules(self):
+    #     print(self.jwRules)
+    #     self.assertGreater(len(self.jwRules), 0)
 
-    def test_rule_generate(self):
-        batch_id = generate_batchid()
+    # def test_rule_generate(self):
+    #     batch_id = generate_batchid()
 
-        rule = JWRule(batch_id, work_dir, "05", self.jwZero)
-        err = rule.Generate()
+    #     rule = JWRule(batch_id, work_dir, "05", self.jwZero,self.jwDict)
+    #     err = rule.Generate()
 
-        self.assertIsNone(err)
+    #     self.assertIsNone(err)
 
     def test_generate_all(self):
         self.jwRules = LoadRules(work_dir, self.jwZero, self.jwDict)

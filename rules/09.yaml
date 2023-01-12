@@ -77,10 +77,11 @@ rules:
         memo: 项目信息-投资类型
 
       - name: 细分产品线
-        method: SetValue
-        # TODO: 根据产品线获取细分产品线， 等谢总细分产品线字典
-        value: 待确认：根据产品线获取细分产品线， 等谢总细分产品线字典
-        memo: 根据产品线获取细分产品线
+        method: GetDict
+        source_sheet: 网络设备
+        source_column: 角色
+        value: 网络设备资源类型
+        memo: 网络设备->系统名称 与 网络设备类型键值进行匹配，返回字典内容
 
       - name: 网络类型
         method: SetValue
