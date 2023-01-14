@@ -1,6 +1,6 @@
 version: 1.0
 meta:
-  name: 交维物理机导入表
+  name: 交维物理机上传表（COC）
   fileID: 10
   createdAt: 2023-01-08 10:40:00
   updatedAt: 2023-01-08 10:40:00
@@ -8,7 +8,7 @@ meta:
 
 rules:
   # 列名列表
-  # 设备编码	设备名称	设备序列号	所属机房	详细位置	建设项目	建设项目编码	产品线	投资类型	细分产品线	生产模式	业务类型	设备类型	品牌	型号	操作系统	CPU配置	内存配置	SSD	SAS	SATA	硬盘配置	配置信息	业务网管IP	业务网管网关	业务网管VLAN	网管网IP	网管网网关	网管网VLAN	原厂联系人	原厂联系方式	代理商联系人	代理商联系方式	400/800电话	服务等级	盘点状态	IPMI用户名	IPMI密码	是否定制化	WWN(HBA port1) 	WWN(HBA port2) 	备注	设备标牌功率	资产原值	到货时间	出保时间	终验时间	SNMP版本	SNMP只读串	SNMPv3安全级别	SNMPv3用户名	SNMPv3认证密码	SNMPv3认证协议	SNMPv3加密密码	SNMPv3加密协议	自动化管理账户	自动化管理密码
+  # 设备编码	设备名称	设备序列号	所属机房	详细位置	建设项目	建设项目编码	产品线	投资类型	细分产品线	工期	设备业务类型	生产模式	业务类型	设备类型	品牌	型号	操作系统	CPU配置	内存配置	SSD	SAS	SATA	硬盘配置	配置信息	业务网管IP	业务网管网关	业务网管VLAN	网管网IP	网管网网关	网管网VLAN	原厂联系人	原厂联系方式	代理商联系人	代理商联系方式	400/800电话	服务等级	盘点状态	IPMI用户名	IPMI密码	是否定制化	WWN(HBA port1) 	WWN(HBA port2) 	备注	设备标牌功率	资产原值	到货时间	出保时间	终验时间	SNMP版本	SNMP只读串	SNMPv3安全级别	SNMPv3用户名	SNMPv3认证密码	SNMPv3认证协议	SNMPv3加密密码	SNMPv3加密协议	自动化管理账户	自动化管理密码	IPMI管理员账户	IPMI管理员密码	IPMI管理员账户(ID4)	IPMI管理员密码	IPMI云调账户	IPMI云调密码
 
   - sheet_name: 物理机
     columns:
@@ -72,6 +72,16 @@ rules:
         source_column: 对应设备清单-配对列
         description: 1. 服务器 通过设备清单获取产品线 |
           2. 产品线与细分产品线字典，获取细分产品线
+
+      - name: 工期
+        method: SetNone
+
+      - name: 设备业务类型
+        method: GetAssertInfo
+        source_sheet: 服务器
+        source_column: 对应设备清单-配对列
+        value: 设备业务类型
+        description: 与资产信息匹配-配队列，获取设备业务类型
 
       - name: 生产模式
         method: SetNone
@@ -275,6 +285,30 @@ rules:
       - name: 自动化管理密码
         method: SetValue
         value: OPS_5Df*1cp!K0_250e
+
+      - name: IPMI管理员账户
+        method: SetValue
+        value: Administrator
+
+      - name: IPMI管理员密码
+        method: SetValue
+        value: Ctyun@20220801
+
+      - name: IPMI管理员账户(ID4)
+        method: SetValue
+        value: ydadmin
+
+      - name: IPMI管理员密码
+        method: SetValue
+        value: Ctyun@20220801
+
+      - name: IPMI云调账户
+        method: SetValue
+        value: ydview
+
+      - name: IPMI云调密码
+        method: SetValue
+        value: yd@sj1507
 
   - sheet_name: 说明（请勿修改此页内容）
     order: first

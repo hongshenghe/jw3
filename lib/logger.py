@@ -19,7 +19,7 @@ logger.setLevel(logging.DEBUG)
 
 # 创建日志记录器，指明日志保存的路径、每个日志文件的最大大小、保存的日志文件个数上限
 file_log_handler = RotatingFileHandler(
-    "jw.log", maxBytes=1024 * 1024 * 100, backupCount=10)
+    "jw.log", maxBytes=1024 * 1024 * 100, backupCount=10, encoding="utf-8")
 stream_handler = logging.StreamHandler()  # 往屏幕上输出
 
 # 创建日志记录的格式
