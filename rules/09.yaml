@@ -7,6 +7,9 @@ meta:
   author: hongsheng he
 
 rules:
+  # 列名列表
+  # 设备编码	设备名称	设备序列号	设备资源类型	设备角色	所属机房	物理位置	建设项目	建设项目编码	产品线	投资类型	细分产品线	网络类型	品牌	型号	网络设备层级	硬件配置信息	SNMP只读串	SNMP可写串	SNMP版本	网管网IP	网管网网关	网管网VLAN	原厂联系人	原厂联系方式	代理商联系人	代理商联系方式	400/800电话	服务等级	盘点状态	设备描述	备注	SSH账号	SSH密码	设备标牌功率	资产原值	到货时间	出保时间	终验时间	逻辑编码	设备版本	设备补丁	Loopback	自动化管理账户	自动化管理密码
+
   - sheet_name: 网络设备
     columns:
       - name: 设备编码
@@ -219,8 +222,8 @@ rules:
         method: GetAssertInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
-        value: 设备版本号
-        description: 设备清单-"设备版本号"
+        value: 操作系统和设备版本号
+        description: 设备清单-"操作系统和设备版本号"
 
       - name: 设备补丁
         method: SetNone

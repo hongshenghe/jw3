@@ -1,58 +1,44 @@
 version: 1.0
 meta:
-  name: 交维网络设备上传表（COC）
-  fileID: 09
+  name: 交维物理机上传表（COC）
+  fileID: 10
   createdAt: 2023-01-08 10:40:00
   updatedAt: 2023-01-08 10:40:00
   author: hongsheng he
 
 rules:
   # 列名列表
-  # 设备编码	设备名称	设备序列号	设备资源类型	设备角色	所属机房	物理位置	建设项目	建设项目编码	产品线	投资类型	细分产品线	设备业务类型	网络类型	品牌	型号	网络设备层级	硬件配置信息	SNMP只读串	SNMP可写串	SNMP版本	网管网IP	网管网网关	网管网VLAN	原厂联系人	原厂联系方式	代理商联系人	代理商联系方式	400/800电话	服务等级	盘点状态	设备描述	备注	SSH账号	SSH密码	设备标牌功率	资产原值	到货时间	出保时间	终验时间	逻辑编码	设备版本	设备补丁	Loopback	自动化管理账户	自动化管理密码	管理员账户	管理员密码	只读账号	只读密码
+  # 设备编码	设备名称	设备序列号	所属机房	详细位置	建设项目	建设项目编码	产品线	投资类型	细分产品线	工期	设备业务类型	生产模式	业务类型	设备类型	品牌	型号	操作系统	CPU配置	内存配置	SSD	SAS	SATA	硬盘配置	配置信息	业务网管IP	业务网管网关	业务网管VLAN	网管网IP	网管网网关	网管网VLAN	原厂联系人	原厂联系方式	代理商联系人	代理商联系方式	400/800电话	服务等级	盘点状态	IPMI用户名	IPMI密码	是否定制化	WWN(HBA port1) 	WWN(HBA port2) 	备注	设备标牌功率	资产原值	到货时间	出保时间	终验时间	SNMP版本	SNMP只读串	SNMPv3安全级别	SNMPv3用户名	SNMPv3认证密码	SNMPv3认证协议	SNMPv3加密密码	SNMPv3加密协议	自动化管理账户	自动化管理密码	IPMI管理员账户	IPMI管理员密码	IPMI管理员账户(ID4)	IPMI管理员密码	IPMI云调账户	IPMI云调密码
 
-  - sheet_name: 网络设备
+  - sheet_name: 物理机
     columns:
       - name: 设备编码
         method: Copy
-        source_sheet: 网络设备
+        source_sheet: 服务器
         source_column: 设备标签
-        description: 网络设备—C列-copy
+        description: 服务器-copy
 
       - name: 设备名称
         method: Copy
-        source_sheet: 网络设备
+        source_sheet: 服务器
         source_column: 系统名称
-        description: 网络设备—B列-copy
+        description: 服务器—B列-copy
 
       - name: 设备序列号
         method: Copy
-        source_sheet: 网络设备
+        source_sheet: 服务器
         source_column: 设备序列号
-        description: 网络设备—G列-copy
-
-      - name: 设备资源类型
-        method: GetDict
-        source_sheet: 网络设备
-        source_column: 角色
-        value: 网络设备资源类型
-        description: 网络设备->系统名称 与 网络设备类型键值进行匹配，返回字典内容
-
-      - name: 设备角色
-        method: GetDict
-        source_sheet: 网络设备
-        source_column: 角色
-        value: 网络设备角色
-        description: 网络设备->角色 与 网络设备角色键值进行匹配，返回字典内容
+        description: 服务器—设备序列号-copy
 
       - name: 所属机房
         method: GetProjectSite
         value: 云调所属机房
-        source_sheet: 网络设备
+        source_sheet: 服务器
         source_column: 机房
 
-      - name: 物理位置
+      - name: 详细位置
         method: GetPosition
-        source_sheet: 网络设备
+        source_sheet: 服务器
         source_column: 机房
         description: 所属机房+U位置+机架 |
           郑州市高新区枢纽楼数据中心122机房/04列01(6~17)
@@ -70,7 +56,7 @@ rules:
 
       - name: 产品线
         method: GetAssertInfo
-        source_sheet: 网络设备
+        source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 产品线
         description: 与资产信息匹配-配队列，获取产品线
@@ -80,84 +66,124 @@ rules:
         value: 投资类型
         description: 项目信息-投资类型
 
+      - name: 细分产品线
+        method: GetSubProductLine
+        source_sheet: 服务器
+        source_column: 对应设备清单-配对列
+        description: 1. 服务器 通过设备清单获取产品线 |
+          2. 产品线与细分产品线字典，获取细分产品线
+
+      - name: 工期
+        method: SetNone
+
       - name: 设备业务类型
         method: GetAssertInfo
-        source_sheet: 网络设备
+        source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 设备业务类型
         description: 与资产信息匹配-配队列，获取设备业务类型
 
-      - name: 细分产品线
-        method: GetSubProductLine
-        source_sheet: 网络设备
-        source_column: 对应设备清单-配对列
-        description: 1. 网络设备 通过设备清单获取产品线 |
-          2. 产品线与细分产品线字典，获取细分产品线
+      - name: 生产模式
+        method: SetNone
 
-      - name: 网络类型
+      - name: 业务类型
+        method: GetProjectDict
+        value: 业务类型
+        description: 项目信息-业务类型
+
+      - name: 设备类型
         method: SetValue
-        value: 内网
-        description: 固定值
+        value: PC
 
       - name: 品牌
         method: GetAssertInfo
-        source_sheet: 网络设备
+        source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 品牌
         description: 与资产信息匹配-配队列，获取品牌
 
       - name: 型号
         method: GetAssertInfo
-        source_sheet: 网络设备
+        source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 云调库中对应型号
         description: 与资产信息匹配-配队列，获取型号
 
-      - name: 网络设备层级
-        method: GetDict
-        source_sheet: 网络设备
-        source_column: 角色
-        value: 网络设备层级
-        description: 网络设备->角色 与 网络设备层级字典键值进行匹配,|
-          返回字典内容，不能匹配所有键值，则返回其他项
-
-      - name: 硬件配置信息
+      - name: 操作系统
         method: GetAssertInfo
-        source_sheet: 网络设备
+        source_sheet: 服务器
+        source_column: 对应设备清单-配对列
+        value: 操作系统和设备版本号
+        description: 设备清单-"操作系统和设备版本号"
+
+      - name: CPU配置
+        method: GetAssertInfo
+        source_sheet: 服务器
+        source_column: 对应设备清单-配对列
+        value: CPU
+        description: 设备清单-CPU
+
+      - name: 内存配置
+        method: GetAssertInfo
+        source_sheet: 服务器
+        source_column: 对应设备清单-配对列
+        value: 内存
+        description: 设备清单-内存
+
+      - name: SSD
+        method: SetNone
+
+      - name: SAS
+        method: SetNone
+
+      - name: SATA
+        method: SetNone
+
+      - name: 硬盘配置
+        method: SetNone
+
+      - name: 配置信息
+        method: GetAssertInfo
+        source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 配置
         description: 与资产信息匹配-配队列，获取“配置”列信息
 
-      - name: SNMP只读串
-        method: SetValue
-        value: yundiao*&COC2016
-        description: 固定值
+      - name: 业务网管IP
+        method: Copy
+        source_sheet: 服务器
+        source_column: 业务网管IP
+        description: 服务器—X列-copy
 
-      - name: SNMP可写串
-        method: SetNone
+      - name: 业务网管网关
+        method: Copy
+        source_sheet: 服务器
+        source_column: 业务网管网关
+        description: 服务器—J列-copy
 
-      - name: SNMP版本
-        method: GetSNMPVersion
-        source_sheet: 网络设备
-        source_column: 对应设备清单-配对列
-        value: 品牌
-        description: 与资产信息匹配-配队列，获取品牌
+      - name: 业务网管VLAN
+        method: Copy
+        source_sheet: 服务器
+        source_column: 业务网管VLAN
+        description: 服务器—G列-copy
 
       - name: 网管网IP
         method: Copy
-        source_sheet: 网络设备
+        source_sheet: 服务器
         source_column: 网管网（包括iLO、ipmi）
-        description: 网络设备—C列-copy 网管网（包括iLO、ipmi）
+        description: 服务器—L列-copy
 
       - name: 网管网网关
         method: Copy
-        source_sheet: 网络设备
+        source_sheet: 服务器
         source_column: 网关
+        description: 服务器—N列-copy
 
       - name: 网管网VLAN
         method: Copy
-        source_sheet: 网络设备
+        source_sheet: 服务器
         source_column: 网管网vlan
+        description: 服务器—K列-copy
 
       - name: 原厂联系人
         method: SetNone
@@ -181,30 +207,37 @@ rules:
       - name: 盘点状态
         method: SetNone
 
-      - name: 设备描述
+      - name: IPMI用户名
+        method: SetValue
+        value: ydview
+
+      - name: IPMI密码
+        method: SetValue
+        value: yd@sj1507
+
+      - name: 是否定制化
+        method: SetValue
+        value: 否
+
+      - name: WWN(HBA port1)
+        method: SetNone
+
+      - name: WWN(HBA port2)
         method: SetNone
 
       - name: 备注
         method: SetNone
 
-      - name: SSH账号
-        method: SetValue
-        value: yundiao_read
-
-      - name: SSH密码
-        method: SetValue
-        value: yundiao*&COC2016
-
       - name: 设备标牌功率
         method: GetAssertInfo
-        source_sheet: 网络设备
+        source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 实际功率(W)
         description: 设备清单-实际功率(W)
 
       - name: 资产原值
         method: GetAssertInfo
-        source_sheet: 网络设备
+        source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 资产原值（除税价）
         description: 设备清单-“资产原值（除税价）”
@@ -220,28 +253,30 @@ rules:
       - name: 终验时间
         method: SetNone
 
-      - name: 逻辑编码
-        method: Copy
-        source_sheet: 网络设备
-        source_column: 设备标签
-
-      - name: 设备版本
-        method: GetAssertInfo
+      - name: SNMP版本
+        method: GetSNMPVersion
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
-        value: 操作系统和设备版本号
-        description: 设备清单-"操作系统和设备版本号"
+        value: 品牌
+        description: 与资产信息匹配-配队列，获取品牌
 
-      - name: 设备补丁
+      - name: SNMP只读串
+        method: SetValue
+        value: yundiaoCOC2016
+        description: 固定值
+
+      - name: SNMPv3安全级别
         method: SetNone
-
-      - name: Loopback
-        method: GetDict
-        source_sheet: 网络设备
-        source_column: 角色
-        value: 回环地址
-        description: 网络设备->角色 与 网络设备层级字典键值进行匹配,|
-          返回字典内容，不能匹配所有键值，则返回其他项
+      - name: SNMPv3用户名
+        method: SetNone
+      - name: SNMPv3认证密码
+        method: SetNone
+      - name: SNMPv3认证协议
+        method: SetNone
+      - name: SNMPv3加密密码
+        method: SetNone
+      - name: SNMPv3加密协议
+        method: SetNone
 
       - name: 自动化管理账户
         method: SetValue
@@ -249,31 +284,31 @@ rules:
 
       - name: 自动化管理密码
         method: SetValue
-        value: OPS_5Df*1cp!K0_250e.
+        value: OPS_5Df*1cp!K0_250e
 
-      - name: 管理员账号
+      - name: IPMI管理员账户
         method: SetValue
-        value: COC_operator
+        value: Administrator
 
-      - name: 管理员密码
+      - name: IPMI管理员密码
         method: SetValue
-        value: Qx9ETU!!36
+        value: Ctyun@20220801
 
-      - name: 本地管理员账号
+      - name: IPMI管理员账户(ID4)
         method: SetValue
-        value: hhy_local
+        value: ydadmin
 
-      - name: 本地管理员账号密码
+      - name: IPMI管理员密码
         method: SetValue
-        value: mYjsy,89wqt
+        value: Ctyun@20220801
 
-      - name: 只读账号
+      - name: IPMI云调账户
         method: SetValue
-        value: yundiao_read
+        value: ydview
 
-      - name: 只读密码
+      - name: IPMI云调密码
         method: SetValue
-        value: yundiao*&COC2016
+        value: yd@sj1507
 
   - sheet_name: 说明（请勿修改此页内容）
     order: first
@@ -284,12 +319,23 @@ rules:
       - 模板描述|该模板交维导入网络设备
       - 导入说明|导入要求：
         1、红色为必填项，黑色为非必填项
-        2、所属机房请填写系统中已存在的机房名称
-        3、所属项目请填写系统中已存在的项目名称
-        4、业务网IP、业务网网关、业务网VALN、业务网管IP、业务网管网关、业务网管VLAN、网管网IP、网管网网关、网管网VLAN这九列若要导入多个时，请使用分号进行分隔
-        5、产品线字典值：
+
+        2、[所属机房]请填写系统中已存在的机房名称
+
+        3、[所属项目]请填写系统中已存在的项目名称
+
+        4、[详细位置]格式为：机房/列号行号(占用U位)，如亦庄机房/A列01(1~4)
+
+        5、[CPU配置]格式为：[cpu数量]C[每cpu内核数]核，如：4C8核
+
+        6、[内存配置]格式为：[数量*内存容量][GB`TB]，多个用分号隔开，如：1*2TB;2*256GB
+
+        7、业务网IP、业务网网关、业务网VALN、业务网管IP、业务网管网关、业务网管VLAN、网管网IP、网管网网关、网管网VLAN这九列若要导入多个时，请使用分号进行分隔
+
+        8、产品线字典值：
         云存储（OOS）产品线、云终端产品线、CDN产品线、数据库产品线、云网融合产品线、应用研发与运营中心、弹性计算产品线、PaaS平台产品线、大数据平台研发与运营中心、弹性存储产品线、合营产品线、网信安、办公网、广东IDC、内蒙IDC、贵州IDC、云网运营部、Zstack产品线、ZStack混合云、自研混合云、HCSO混合云、其他IDC、超融合产品线、待治理、IT运营中心、产品与生态部、市场营销部、研发一部、战略客户中心
-        6、细分产品线（根据产品线级联选择）：
+
+        9、细分产品线（根据产品线级联选择）：
         产品线：云存储（OOS）产品线，细分产品线：云存储（OOS）产品线；
         产品线：云终端产品线，细分产品线：云终端产品线；
         产品线：CDN产品线，细分产品线：存储、CDN、边缘计算；
@@ -299,6 +345,16 @@ rules:
         产品线：弹性计算产品线，细分产品线：弹性计算产品线；
         产品线：PaaS平台产品线，细分产品线：PaaS平台产品线；
         产品线：弹性存储产品线，细分产品线：弹性存储产品线。
+
+        10、SNMP版本：优先填写V2C，不支持的情况下再填写V3
+
+        SNMPv3安全级别，字段取值优先级：
+
+        1、 authPriv
+
+        2、authNoPriv
+
+        3、noAuthNoPriv
 
   - sheet_name: 字典值
     sheet_type: fixed
