@@ -40,7 +40,7 @@ def SetValue(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, val
     if not value:
         df[col_name] = "待确认: 没有指定设定值"
         return df, False
-    df[col_name] = value
+    df[col_name] = str(value)
     return df, True
 
 
