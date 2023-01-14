@@ -82,8 +82,11 @@ rules:
 
       - name: 生产模式
         method: SetNone
+        description: 生成模式定义
+
       - name: 业务类型
         method: SetNone
+
       - name: 设备类型
         method: SetNone
       - name: 品牌
