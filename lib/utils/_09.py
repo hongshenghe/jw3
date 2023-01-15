@@ -20,7 +20,7 @@ from lib.utils.base import _fetchDictValue, _getAsssetInfo
 
 def Copy(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
     df = target_data_frame
-    if not source_sheet or not source_sheet:
+    if not source_sheet or not source_column:
         df[col_name] = "待确认: 源sheet或源列未指定"
         return df, False
 
@@ -49,7 +49,7 @@ def GetSubProductLine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name:
     """获取细分产品线
 
     Args:
-        zero (_type_): 零号表实例 
+        zero (_type_): 零号表实例
     Returns:
         _type_: pd.DataFrame
     """
@@ -83,10 +83,8 @@ def GetNetworkLogicCode(zero: JWZero, jwDict: JWDict, target_data_frame, col_nam
 
     df = target_data_frame
 
-    # if pd.isna(df[col_name]):
-    # df[col_name] = zero.GetData("网络设备")["堆叠后名称/M-LAG（逻辑名称）"]
-    # else:
-    # df[col_name] == zero.GetData("网络设备")["堆叠后名称/M-LAG（设备标签）"]
-    # TODO：待确认
+    df[col_name] = zero.GetData("网络设备")["堆叠后名称/M-LAG（逻辑名称）"]
+    # pd.isna()
+    # TODO 待确认
 
-    return df, False
+    return df, True
