@@ -1,0 +1,166 @@
+version: 1.0
+meta:
+  name: 服务器4A纳管
+  fileID: 12
+  createdAt: 2023-01-08 10:40:00
+  updatedAt: 2023-01-08 10:40:00
+  author: hongsheng he
+
+rules:
+  # 列名列表
+  # 资源名称（资源名称只能是中文、英文、数字、下划线、中划线、小数点组成，同设备标签命名，每个资源名称不能重复）	资源名称拼音（与资源名称可以一致）	资源简称（不能超过10个字符，只能是数字+字母）省份+节点名+4位编号，例：HNYY0001	资源IP（不能有空格，bmc地址）	资源类型	业务系统BMC-资源池名称（中文），例如：BMC-湖南一城一池-益阳	认证参数	连接方式	通信协议HTTPS=bmc访问地址 HTTP=bmc访问地址属于哪一种协议填哪一种	帐号管理功能	口令策略	关联资源	帐号区分大小写	权限管理模块	帐号是否同步	描述	登录脚本	导入方式	关联堡垒机	帐号来源	登录页面URL（BMC的访问地址）	登录请求URL	用户名输入框类型	用户名输入框类型值	密码输入框类型	密码输入框类型值	登录按钮类型	登录按钮类型值	登录结果判断方式	登录成功判断标准	登录前置按钮类型	登录前置按钮类型值	密码修改页面URL	修改请求URL	新密码输入框类型	新密码输入框类型值	改密结果判断方式	改密成功判断标准	自定义OU
+
+  - sheet_name: 应用资源列表
+    columns:
+      - name: 资源名称（资源名称只能是中文、英文、数字、下划线、中划线、小数点组成，同设备标签命名，每个资源名称不能重复）
+        method: Copy
+        source_sheet: 服务器
+        source_column: 设备标签
+        description: 服务器-copy
+
+      - name: 资源名称拼音（与资源名称可以一致）
+        method: Copy
+        source_sheet: 服务器
+        source_column: 设备标签
+        description: 服务器-copy
+
+      - name: 资源简称（不能超过10个字符，只能是数字+字母）省份+节点名+4位编号，例：HNYY0001
+        method: GetDataCenterShort
+        description: HAZZ0001
+
+      - name: 资源IP（不能有空格，bmc地址）
+        method: Copy
+        source_sheet: 服务器
+        source_column: 网管网（包括iLO、ipmi）
+        description: 服务器-copy
+
+      - name: 资源类型
+        method: SetNone
+
+      - name: 业务系统BMC-资源池名称（中文），例如：BMC-湖南一城一池-益阳
+        method: BMC
+        description: BMC-资源池-省-市
+
+      - name: 认证参数
+        method: SetValue
+        value: utype=id&username=&ptype=id&password=&stype=id&submit=
+        description: 固定值
+
+      - name: 连接方式
+        method: SetNone
+
+      - name: 通信协议HTTPS=bmc访问地址 HTTP=bmc访问地址属于哪一种协议填哪一种
+        method: HTTPS
+        description: HTTPS+IP地址("服务器")["网管网（包括iLO、ipmi）"]
+
+      - name: 帐号管理功能
+        method: SetValue
+        value: 允许
+        description: 固定值
+
+      - name: 口令策略
+        method: SetValue
+        value: 默认资源口令策略
+        description: 固定值
+
+      - name: 关联资源
+        method: SetNone
+
+      - name: 帐号区分大小写
+        method: SetValue
+        value: 忽略大小写
+        description: 固定值
+
+      - name: 权限管理模块
+        method: SetValue
+        value: 支持
+        description: 固定值
+
+      - name: 帐号是否同步
+        method: SetNone
+
+      - name: 描述
+        method: SetNone
+
+      - name: 登录脚本
+        method: SetNone
+
+      - name: 导入方式
+        method: SetValue
+        value: 新增
+        description: 固定值
+
+      - name: 关联堡垒机
+        method: SetNone
+
+      - name: 帐号来源
+        method: SetValue
+        value: 资源现有帐号
+        description: 固定值
+
+      - name: 登录页面URL（BMC的访问地址）
+        method: HTTPS
+        description: HTTPS+IP地址("服务器")["网管网（包括iLO、ipmi）"]
+
+      - name: 登录请求URL
+        method: SetNone
+
+      - name: 用户名输入框类型
+        method: SetNone
+
+      - name: 用户名输入框类型值
+        method: SetNone
+
+      - name: 密码输入框类型
+        method: SetValue
+        value: id
+        description: 固定值
+
+      - name: 密码输入框类型值
+        method: SetNone
+
+      - name: 登录按钮类型
+        method: SetValue
+        value: id
+        description: 固定值
+
+      - name: 登录按钮类型值
+        method: SetNone
+
+      - name: 登录结果判断方式
+        method: SetValue
+        value: redirect
+        description: 固定值
+
+      - name: 登录成功判断标准
+        method: SetNone
+
+      - name: 登录前置按钮类型
+        method: SetValue
+        value: id
+        description: 固定值
+
+      - name: 登录前置按钮类型值
+        method: SetNone
+
+      - name: 密码修改页面URL
+        method: SetNone
+
+      - name: 修改请求URL
+        method: SetNone
+
+      - name: 新密码输入框类型
+        method: SetValue
+        value: id
+        description: 固定值
+
+      - name: 改密结果判断方式
+        method: SetValue
+        value: redirect
+        description: 固定值
+
+      - name: 改密成功判断标准
+        method: SetNone
+
+      - name: 自定义OU
+        method: SetNone
