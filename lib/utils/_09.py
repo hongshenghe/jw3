@@ -73,3 +73,20 @@ def GetSubProductLine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name:
         lambda row: _fetchDictValue(sub_product_dict, row[col_name], "细分产品线"), axis=1)
 
     return df, True
+
+
+def GetNetworkLogicCode(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+    """获取网络设备逻辑编码
+    返回源数据“堆叠后名称/M-LAG（逻辑名称）”
+    如果为空，则返回“设备标签“
+    """
+
+    df = target_data_frame
+
+    # if pd.isna(df[col_name]):
+    # df[col_name] = zero.GetData("网络设备")["堆叠后名称/M-LAG（逻辑名称）"]
+    # else:
+    # df[col_name] == zero.GetData("网络设备")["堆叠后名称/M-LAG（设备标签）"]
+    # TODO：待确认
+
+    return df, False

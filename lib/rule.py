@@ -22,7 +22,7 @@ from lib.base import ensurePath, generate_batchid
 from lib.logger import logging
 from lib.utils._05 import (GenerateProjectSiteInfo, GetProjectDict, SetNone,
                            SetValue, GetProjectSite, GetRackProductLine, GetPosition, GetAssertInfo, GetSNMPVersion)
-from lib.utils._09 import Copy, GetDict, GetSubProductLine
+from lib.utils._09 import Copy, GetDict, GetSubProductLine, GetNetworkLogicCode
 from lib.zero import JWZero
 from lib.dict import JWDict
 
@@ -170,11 +170,11 @@ class JWRule(object):
         # print("sheet_name: %s" % ws.title)
         ws.column_dimensions["A"].column_width = 50
         if "说明" in ws.title:
-            ws.column_dimensions["A"].width  = 10.27
-            ws.column_dimensions["B"].width  = 77.45
+            ws.column_dimensions["A"].width = 10.27
+            ws.column_dimensions["B"].width = 77.45
         if "字典" in ws.title:
             # print("字典命中：", ws.title)
-            ws.column_dimensions["A"].width  = 30
+            ws.column_dimensions["A"].width = 30
             ws.column_dimensions["B"].width = 60
 
         ws.column_dimensions["B"].width = 50
