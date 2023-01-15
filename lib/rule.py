@@ -23,7 +23,7 @@ from lib.logger import logging
 from lib.utils._05 import (GenerateProjectSiteInfo, GetProjectDict, SetNone,
                            SetValue, GetProjectSite, GetRackProductLine, GetPosition, GetAssertInfo, GetSNMPVersion)
 from lib.utils._09 import Copy, GetDict, GetSubProductLine, GetNetworkLogicCode
-from lib.utils._12 import GetDataCenterShort, BMC, HTTPS
+from lib.utils._13 import GetDataCenterShort, BMC, HTTPS
 from lib.zero import JWZero
 from lib.dict import JWDict
 
