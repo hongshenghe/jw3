@@ -13,14 +13,12 @@ rules:
   - sheet_name: 普罗米修斯
     columns:
       - name: location
-        method: GetProjectDict
-        value: 省份
-        description: 项目信息-省份  # TODO 获取不到信息
+        method: SetNone
+        description: 项目信息-省份-强制占坑
 
       - name: pool
-        method: GetProjectDict
-        value: 市
-        description: 项目信息-市  # TODO 获取不到信息
+        method: SetNone
+        description: 项目信息-市-强制占坑
 
       - name: type
         method: PrometheusFilter
@@ -28,6 +26,16 @@ rules:
         source_column: 系统名称
         value: 角色
         description: 普罗米修斯过滤不需要的设备角色、如串口交换机
+
+      - name: location
+        method: GetProjectDict
+        value: 省份
+        description: 项目信息-省份
+
+      - name: pool
+        method: GetProjectDict
+        value: 市
+        description: 项目信息-市
 
       - name: model
         method: GetAssertInfo

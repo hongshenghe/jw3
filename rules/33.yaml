@@ -12,6 +12,20 @@ rules:
 
   - sheet_name: 采集机交维
     columns:
+      - name: 采集IP(主)
+        method: SetNone
+        value: SNMP/NTP-1
+        description: 项目信息-SNMP/NTP-1-强制占坑
+
+      - name: 采集IP(备)
+        method: SetNone
+        value: SNMP/NTP-2
+        description: 项目信息-SNMP/NTP-1-强制占坑
+
+      - name: 设备管理IP
+        method: HarvestMachine
+        description: 网络设备+服务器-网管网（包括iLO、ipmi）
+
       - name: 序号
         method: SequenceNumber
         description: 递增序号1,2,3 eg..
@@ -19,13 +33,9 @@ rules:
       - name: 采集IP(主)
         method: GetProjectDict
         value: SNMP/NTP-1
-        description: 项目信息-SNMP/NTP-1 # TODO 获取不到信息
+        description: 项目信息-SNMP/NTP-1
 
       - name: 采集IP(备)
         method: GetProjectDict
         value: SNMP/NTP-2
-        description: 项目信息-SNMP/NTP-2 # TODO 获取不到信息
-
-      - name: 设备管理IP
-        method: HarvestMachine
-        description: 网络设备+服务器-网管网（包括iLO、ipmi）
+        description: 项目信息-SNMP/NTP-2

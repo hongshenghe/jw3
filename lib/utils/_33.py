@@ -24,7 +24,8 @@ def SequenceNumber(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: st
 
     df = target_data_frame
 
-    # TODO 递增序号1,2,3 eg..
+    df.insert(0, col_name, range(1, len(df)+1))
+
     return df, True
 
 
@@ -32,12 +33,12 @@ def HarvestMachine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: st
 
     df = target_data_frame
 
-    # dfA = zero.GetData("网络设备")["网管网（包括iLO、ipmi）"]
-    # dfB = zero.GetData("服务器")["网管网（包括iLO、ipmi）"]
+    network = zero.GetData("网络设备")[['网管网（包括iLO、ipmi）']]
+    server = zero.GetData("服务器")[['网管网（包括iLO、ipmi）']]
 
-    # df2[col_name] = pd.concat(dfA, dfB, ignore_index=True)
+    dfSummary = pd.concat([network, server], axis=0).sort_values(
+        by=['网管网（包括iLO、ipmi）'], ascending=True)
 
-    # df[col_name] = df2[col_name]
+    df[col_name] = dfSummary['网管网（包括iLO、ipmi）']
 
-    # TODO 合并sheet (网络设备)[网管网（包括iLO、ipmi）],(服务器)[网管网（包括iLO、ipmi）]
     return df, True
