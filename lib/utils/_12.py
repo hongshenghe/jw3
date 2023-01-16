@@ -24,7 +24,7 @@ def GetDataCenterShort(zero: JWZero, jwDict: JWDict, target_data_frame, col_name
     df = target_data_frame
 
     df[col_name] = df.apply(
-        lambda row: zero.GetProject("编码缩写") + zero.GetProject("资源编码"), axis=1)
+        lambda row: zero.GetProject("编码缩写") + zero.GetProject("资源编号"), axis=1)
 
     return df, True
 
