@@ -1,0 +1,260 @@
+version: 1.0
+meta:
+  name: 网络自动化验收表
+  fileID: 49
+  createdAt: 2023-01-08 10:40:00
+  updatedAt: 2023-01-08 10:40:00
+  author: hongsheng he
+
+rules:
+  # 列名列表
+  # 设备编码	逻辑编码	设备名称	设备序列号	设备资源类型	设备角色	所属机房	物理位置	产品线	投资类型	细分产品线	网络类型	品牌	型号	网络设备层级	硬件配置信息	设备版本	设备补丁	SNMP只读串	SNMP可写串	SNMP版本	网管网IP	网管网网关	网管网VLAN	Loopback	原厂联系人	原厂联系方式	代理商联系人	代理商联系方式	400/800电话	服务等级	盘点状态	设备描述	备注	自动化管理账户	自动化管理密码	SSH账号	SSH密码	设备标牌功率	资产原值	到货时间	终验时间	采集机IP	通信协议	端口号	登录URL	维护厂商	维护联系人	首保状态	资源池可用区AZ	自治域AS号
+
+  - sheet_name: 网络设备
+    columns:
+      - name: 设备编码
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 设备标签
+        description: 网络设备—C列-copy
+
+      - name: 逻辑编码
+        method: GetNetworkLogicCode
+        source_sheet: 网络设备
+        source_column: 堆叠后名称/M-LAG（逻辑名称）
+        description: 返回源数据“堆叠后名称/M-LAG（逻辑名称）” 如果为空值，则返回“设备标签”
+
+      - name: 设备名称
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 系统名称
+        description: 网络设备—B列-copy
+
+      - name: 设备序列号
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 设备序列号
+        description: 网络设备—G列-copy
+
+      - name: 设备资源类型
+        method: GetDict
+        source_sheet: 网络设备
+        source_column: 角色
+        value: 网络设备资源类型
+        description: 网络设备->系统名称 与 网络设备类型键值进行匹配，返回字典内容
+
+      - name: 设备角色
+        method: GetDict
+        source_sheet: 网络设备
+        source_column: 角色
+        value: 网络设备角色
+        description: 网络设备->角色 与 网络设备角色键值进行匹配，返回字典内容
+
+      - name: 所属机房
+        method: GetProjectSite
+        value: 云调所属机房
+        source_sheet: 网络设备
+        source_column: 机房
+
+      - name: 物理位置
+        method: GetPosition
+        source_sheet: 网络设备
+        source_column: 机房
+        description: 所属机房+U位置+机架 |
+          郑州市高新区枢纽楼数据中心122机房/04列01(6~17)
+          郑州市高新区枢纽楼数据中心122机房/04列01(40)
+
+      - name: 产品线
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 产品线
+        description: 与资产信息匹配-配队列，获取产品线
+
+      - name: 投资类型
+        method: GetProjectDict
+        value: 投资类型
+        description: 项目信息-投资类型
+
+      - name: 细分产品线
+        method: GetSubProductLine
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        description: 1. 网络设备 通过设备清单获取产品线 |
+          2. 产品线与细分产品线字典，获取细分产品线
+
+      - name: 网络类型
+        method: SetValue
+        value: 内网
+        description: 固定值
+
+      - name: 品牌
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 品牌
+        description: 与资产信息匹配-配队列，获取品牌
+
+      - name: 型号
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 云调库中对应型号
+        description: 与资产信息匹配-配队列，获取型号
+
+      - name: 网络设备层级
+        method: GetDict
+        source_sheet: 网络设备
+        source_column: 角色
+        value: 网络设备层级
+        description: 网络设备->角色 与 网络设备层级字典键值进行匹配,|
+          返回字典内容，不能匹配所有键值，则返回其他项
+
+      - name: 硬件配置信息
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 配置
+        description: 与资产信息匹配-配队列，获取“配置”列信息
+
+      - name: 设备版本
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 操作系统和设备版本号
+        description: 设备清单-"操作系统和设备版本号"
+
+      - name: 设备补丁
+        method: SetNone
+
+      - name: SNMP只读串
+        method: SetValue
+        value: yundiao*&COC2016
+        description: 固定值
+
+      - name: SNMP可写串
+        method: SetNone
+
+      - name: SNMP版本
+        method: GetSNMPVersion
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 品牌
+        description: 与资产信息匹配-配队列，获取品牌
+
+      - name: 网管网IP
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 网管网（包括iLO、ipmi）
+        description: 网络设备—C列-copy 网管网（包括iLO、ipmi）
+
+      - name: 网管网网关
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 网关
+
+      - name: 网管网VLAN
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 网管网vlan
+
+      - name: Loopback
+        method: GetDict
+        source_sheet: 网络设备
+        source_column: 角色
+        value: 回环地址
+        description: 网络设备->角色 与 网络设备层级字典键值进行匹配,|
+          返回字典内容，不能匹配所有键值，则返回其他项
+
+      - name: 原厂联系人
+        method: SetNone
+
+      - name: 原厂联系方式
+        method: SetNone
+
+      - name: 代理商联系人
+        method: SetNone
+
+      - name: 代理商联系方式
+        method: SetNone
+
+      - name: 400/800电话
+        method: SetNone
+
+      - name: 服务等级
+        method: SetValue
+        value: 7*24
+
+      - name: 盘点状态
+        method: SetNone
+
+      - name: 设备描述
+        method: SetNone
+
+      - name: 备注
+        method: SetNone
+
+      - name: 自动化管理账户
+        method: SetValue
+        value: AutoDevOps
+
+      - name: 自动化管理密码
+        method: SetValue
+        value: OPS_5Df*1cp!K0_250e
+
+      - name: SSH账号
+        method: SetValue
+        value: COC_operator
+
+      - name: SSH密码
+        method: SetValue
+        value: Qx9ETU!!36
+
+      - name: 设备标牌功率
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 实际功率(W)
+        description: 设备清单-实际功率(W)
+
+      - name: 资产原值
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 资产原值（除税价）
+        description: 设备清单-“资产原值（除税价）”
+
+      - name: 到货时间
+        method: GetProjectDict
+        value: 设备到货时间
+        description: 项目信息-设备到货时间
+
+      - name: 终验时间
+        method: SetNone
+
+      - name: 采集机IP
+        method: SetNone
+
+      - name: 通信协议
+        method: SetNone
+
+      - name: 端口号
+        method: SetNone
+
+      - name: 登录URL
+        method: SetNone
+
+      - name: 维护厂商
+        method: SetNone
+
+      - name: 维护联系人
+        method: SetNone
+
+      - name: 首保状态
+        method: SetNone
+
+      - name: 资源池可用区AZ
+        method: SetNone
+
+      - name: 自治域AS号
+        method: SetNone

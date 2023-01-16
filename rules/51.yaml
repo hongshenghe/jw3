@@ -1,7 +1,7 @@
 version: 1.0
 meta:
   name: 采集机交维
-  fileID: 33
+  fileID: 51
   createdAt: 2023-01-08 10:40:00
   updatedAt: 2023-01-08 10:40:00
   author: hongsheng he
@@ -21,7 +21,7 @@ rules:
         description: 强制占坑
 
       - name: 设备管理IP
-        method: HarvestMachine
+        method: SnmpTarget
         description: 网络设备+服务器-网管网（包括iLO、ipmi）
 
       - name: 序号
