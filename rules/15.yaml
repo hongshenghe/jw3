@@ -1,0 +1,61 @@
+version: 1.0
+meta:
+  name: 普罗米修斯
+  fileID: 15
+  createdAt: 2023-01-08 10:40:00
+  updatedAt: 2023-01-08 10:40:00
+  author: hongsheng he
+
+rules:
+  # 列名列表
+  # location	pool	type	model	IP	client	project	"SNMP Server"
+
+  - sheet_name: 普罗米修斯
+    columns:
+      - name: location
+        method: GetProjectDict
+        value: 省份
+        description: 项目信息-省份
+
+      - name: pool
+        method: GetProjectDict
+        value: 市
+        description: 项目信息-市
+
+      - name: type
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 系统名称
+        description: 网络设备—B列-copy
+
+      - name: model
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 云调库中对应型号
+        description: 与资产信息匹配-配队列，获取型号
+
+      - name: IP
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 网管网（包括iLO、ipmi）
+        description: 网络设备—I列-copy
+
+      - name: client
+        method: SetValue
+        value: 云公司
+        description: 固定值
+
+      - name: project
+        method: SetValue
+        value: 自营池
+        description: 固定值
+
+      - name: project
+        method: SetValue
+        value: 自营池
+        description: 固定值
+
+      - name: SNMP Server
+        method: PrometheusSNMPServer
+        description: def获取固定值
