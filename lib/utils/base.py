@@ -161,3 +161,23 @@ def _getSNMPVersion(brand: str, snmp_dict: dict) -> str:
     if '其他' in snmp_dict:
         return snmp_dict['其他']
     return '待确认: 请检查SNMP版本字典，无默认"其他"的内容'
+
+
+def _getNetworkLogicCode(group_name: str, asset_label: str) -> str:
+    """获取网络设备逻辑编码
+
+    Args:
+        group_name (str): 堆叠名称
+        asset_label (str): 设备标签
+
+    Returns:
+        str: 逻辑编码 
+    """
+    _group = str(group_name)
+
+    code = _group
+    if pd.isna(group_name):
+        code = asset_label
+
+    # print("-------------堆叠名称：%s 设备标签：%s 逻辑编码:%s" % (_group, asset_label, code))
+    return code

@@ -26,7 +26,7 @@ class TestRule(unittest.TestCase):
     jwZero = None
     jwDict = None
     jwRules = None
-
+ 
     def setUp(self) -> None:
         self.jwZero = JWZero(work_dir,
                              os.path.join("upload", "00-天翼云集成实施基本信息表模板(网络和服务器设备表含公式)20230101(1).xlsx"))

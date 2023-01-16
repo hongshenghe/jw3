@@ -84,19 +84,10 @@ def GetNetworkLogicCode(zero: JWZero, jwDict: JWDict, target_data_frame, col_nam
     df = target_data_frame
 
     # 生成原始数据
-    # source_data = zero.GetData(source_sheet)
+    source_data = zero.GetData(source_sheet)
 
     # 生成逻辑编码
-    # df[col_name] = source_data.apply(
-    #     lambda row: _getNetworkLogicCode(row['堆叠后名称/M-LAG（逻辑名称）'], row['设备标签']), axis=1)
-
-    """获取网络设备逻辑编码
-    返回源数据“堆叠后名称/M-LAG（逻辑名称）”
-    如果为空，则返回“设备标签“
-    """
-
-    df[col_name] = zero.GetData("网络设备")["堆叠后名称/M-LAG（逻辑名称）"]
-    # pd.isna()
-    # TODO 待确认
+    df[col_name] = source_data.apply(
+        lambda row: _getNetworkLogicCode(row['堆叠后名称/M-LAG（逻辑名称）'], row['设备标签']), axis=1)
 
     return df, True
