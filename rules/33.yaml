@@ -1,0 +1,31 @@
+version: 1.0
+meta:
+  name: 采集机交维
+  fileID: 33
+  createdAt: 2023-01-08 10:40:00
+  updatedAt: 2023-01-08 10:40:00
+  author: hongsheng he
+
+rules:
+  # 列名列表
+  # 序号	采集IP(主)	采集IP(备)	设备管理IP
+
+  - sheet_name: 采集机交维
+    columns:
+      - name: 序号
+        method: SequenceNumber
+        description: 递增序号1,2,3 eg..
+
+      - name: 采集IP(主)
+        method: GetProjectDict
+        value: SNMP/NTP-1
+        description: 项目信息-SNMP/NTP-1
+
+      - name: 采集IP(备)
+        method: GetProjectDict
+        value: SNMP/NTP-2
+        description: 项目信息-SNMP/NTP-2
+
+      - name: 设备管理IP
+        method: HarvestMachine
+        description: 网络设备+服务器-网管网（包括iLO、ipmi）

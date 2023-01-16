@@ -23,10 +23,11 @@ rules:
         description: 项目信息-市
 
       - name: type
-        method: Copy
+        method: PrometheusFilter
         source_sheet: 网络设备
         source_column: 系统名称
-        description: 网络设备—B列-copy
+        value: 角色
+        description: 普罗米修斯过滤不需要的设备角色、如串口交换机
 
       - name: model
         method: GetAssertInfo
