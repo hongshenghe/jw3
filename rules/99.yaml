@@ -224,7 +224,7 @@ rules:
         method: GetNetworkLogicCode
         source_sheet: 网络设备 
         description: 返回源数据“堆叠后名称/M-LAG（逻辑名称）”列，|
-          如“堆叠后名称/M-LAG（逻辑名称）”为空，则返回“设备标签 # TODO
+          如“堆叠后名称/M-LAG（逻辑名称）”为空，则返回“设备标签 
 
       - name: 设备版本
         method: GetAssertInfo

@@ -88,7 +88,7 @@ rules:
         source_sheet: 网络设备
         source_column: 系统名称
         value: 角色
-        description: 需要的设备类型网络设备角色（防火墙、安全设备） ,其他类型设备不写入 # TODO: CFW MFW VPN
+        description: 需要的设备类型网络设备角色（防火墙、安全设备） ,其他类型设备不写入 
 
       - name: 资产ip
         method: Copy
