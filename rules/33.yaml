@@ -19,12 +19,12 @@ rules:
       - name: 采集IP(主)
         method: GetProjectDict
         value: SNMP/NTP-1
-        description: 项目信息-SNMP/NTP-1
+        description: 项目信息-SNMP/NTP-1 # TODO 获取不到信息
 
       - name: 采集IP(备)
         method: GetProjectDict
         value: SNMP/NTP-2
-        description: 项目信息-SNMP/NTP-2
+        description: 项目信息-SNMP/NTP-2 # TODO 获取不到信息
 
       - name: 设备管理IP
         method: HarvestMachine

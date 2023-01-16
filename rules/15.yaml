@@ -15,12 +15,12 @@ rules:
       - name: location
         method: GetProjectDict
         value: 省份
-        description: 项目信息-省份
+        description: 项目信息-省份  # TODO 获取不到信息
 
       - name: pool
         method: GetProjectDict
         value: 市
-        description: 项目信息-市
+        description: 项目信息-市  # TODO 获取不到信息
 
       - name: type
         method: PrometheusFilter
