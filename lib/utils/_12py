@@ -22,6 +22,7 @@ from lib.utils.base import _generateProjectSiteInfo, _getProjectDictItem, _fetch
 
 def GetDataCenterShort(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
     df = target_data_frame
+
     df[col_name] = df.apply(
         lambda row: zero.GetProject("编码缩写") + zero.GetProject("资源编码"), axis=1)
 
