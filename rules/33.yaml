@@ -14,13 +14,11 @@ rules:
     columns:
       - name: 采集IP(主)
         method: SetNone
-        value: SNMP/NTP-1
-        description: 项目信息-SNMP/NTP-1-强制占坑
+        description: 强制占坑
 
       - name: 采集IP(备)
         method: SetNone
-        value: SNMP/NTP-2
-        description: 项目信息-SNMP/NTP-1-强制占坑
+        description: 强制占坑
 
       - name: 设备管理IP
         method: HarvestMachine

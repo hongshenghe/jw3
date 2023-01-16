@@ -36,8 +36,7 @@ def HarvestMachine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: st
     network = zero.GetData("网络设备")[['网管网（包括iLO、ipmi）']]
     server = zero.GetData("服务器")[['网管网（包括iLO、ipmi）']]
 
-    dfSummary = pd.concat([network, server], axis=0).sort_values(
-        by=['网管网（包括iLO、ipmi）'], ascending=True)
+    dfSummary = pd.concat([network, server], axis=0)
 
     df[col_name] = dfSummary['网管网（包括iLO、ipmi）']
 
