@@ -1,0 +1,154 @@
+version: 1.0
+meta:
+  name: 网络设备4A纳管
+  fileID: 13
+  createdAt: 2023-01-08 10:40:00
+  updatedAt: 2023-01-08 10:40:00
+  author: hongsheng he
+
+rules:
+  # 列名列表
+  # 资产名称（资产名称不能重复）  资产ip  资产账号（读写账号）  资产密码（读写账号）  资产账号（只读账号）  资产密码（只读账号）  业务系统  资源类型  服务协议（RDP、SSH等）  服务端口号 厂商  型号
+
+  - sheet_name: 4A资产信息-ssh
+    columns:
+      - name: 资产名称（资产名称不能重复）
+        method: GetNetworkLogicCode
+        source_sheet: 网络设备
+        source_column: 堆叠后名称/M-LAG（逻辑名称）
+        description: 返回源数据“堆叠后名称/M-LAG（逻辑名称）” 如果为空值，则返回“设备标签”
+
+      - name: 资产ip
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 网管网（包括iLO、ipmi）
+        description: 网络设备—I列-copy
+
+      - name: 资产账号（读写账号）
+        method: SetValue
+        value: COC_operator
+        description: 固定值：COC_operator
+
+      - name: 资产密码（读写账号）
+        method: SetValue
+        value: Qx9ETU!!36
+        description: 固定值： Qx9ETU!!36
+
+      - name: 资产账号（只读账号）
+        method: SetValue
+        value: yundiao_read
+        description: 固定值： yundiao_read
+
+      - name: 资产密码（只读账号）
+        method: SetValue
+        value: yundiao*&COC2016
+        description: 固定值： yundiao*&COC2016
+
+      - name: 业务系统
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 系统名称
+        description: 网络设备-系统名称
+
+      - name: 资源类型
+        method: GetDict
+        source_sheet: 网络设备
+        source_column: 角色
+        value: 网络设备资源类型
+        description: 网络设备->系统名称 与 网络设备类型键值进行匹配，返回字典内容
+
+      - name: 服务协议（RDP、SSH等）
+        method: SetValue
+        value: SSH
+
+      - name: 服务端口号
+        method: SetValue
+        value: 22
+        description: 端口基本是22,如有特殊情况再调整
+
+      - name: 厂商
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 品牌
+        description: 与资产信息匹配-配队列，获取厂商
+
+      - name: 型号
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 云调库中对应型号
+        description: 与资产信息匹配-配队列，获取型号
+
+
+  - sheet_name: 4A资产信息-web
+    columns:
+      - name: 资产名称（资产名称不能重复）
+        method: GetNetworkLogicCode
+        source_sheet: 网络设备
+        source_column: 堆叠后名称/M-LAG（逻辑名称）
+        description: 需要的设备类型网络设备角色（防火墙、安全设备） ,其他类型设备不写入 # TODO
+
+      - name: 资产ip
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 网管网（包括iLO、ipmi）
+        description: 网络设备—I列-copy
+
+      - name: 资产账号（读写账号）
+        method: SetValue
+        value: COC_operator
+        description: 固定值：COC_operator
+
+      - name: 资产密码（读写账号）
+        method: SetValue
+        value: Qx9ETU!!36
+        description: 固定值： Qx9ETU!!36
+
+      - name: 资产账号（只读账号）
+        method: SetValue
+        value: yundiao_read
+        description: 固定值： yundiao_read
+
+      - name: 资产密码（只读账号）
+        method: SetValue
+        value: yundiao*&COC2016
+        description: 固定值： yundiao*&COC2016
+
+      - name: 业务系统
+        method: GetPosition
+        source_sheet: 网络设备
+        source_column: 机房
+        description: 所属机房+U位置+机架 |
+          郑州市高新区枢纽楼数据中心122机房/04列01(6~17)
+          郑州市高新区枢纽楼数据中心122机房/04列01(40)
+
+      - name: 资源类型
+        method: GetDict
+        source_sheet: 网络设备
+        source_column: 角色
+        value: 网络设备资源类型
+        description: 网络设备->系统名称 与 网络设备类型键值进行匹配，返回字典内容
+
+      - name: 服务协议（RDP、SSH等）
+        method: SetValue
+        value: HTTPS
+
+      - name: 服务端口号
+        method: SetValue
+        value: 443
+        description: 端口基本是443,如有特殊情况再调整
+
+      - name: 厂商
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 品牌
+        description: 与资产信息匹配-配队列，获取厂商
+
+      - name: 型号
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 云调库中对应型号
+        description: 与资产信息匹配-配队列，获取型号
