@@ -173,6 +173,20 @@ def _getNetworkAssetPos(site_name: str, room_id: str, rack_info: str, start_pos:
     return physical_address
 
 
+def _getCloudDesktopRackAsset(site_code: str, rack_info: str) -> str:
+
+    # 列号
+    rack_col = _fetchSiteCol(rack_info, 0)
+    # logging.info("列号:%s" % rack_col)
+
+    # 机柜号
+    rack_no = _fetchSiteCol(rack_info, 1)
+    # logging.info("机柜号:%s" % rack_no)
+
+    rack_code = "%s-%s-%s" % (site_code, rack_col, rack_no)
+    return rack_code
+
+
 def _getSNMPVersion(brand: str, snmp_dict: dict) -> str:
     for k, v in snmp_dict.items():
         if k == brand:

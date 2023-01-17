@@ -1,0 +1,112 @@
+version: 1.0
+meta:
+  name: 云桌面服务器交维模版(研发)-需补充业务IP
+  fileID: 62
+  createdAt: 2023-01-08 10:40:00
+  updatedAt: 2023-01-08 10:40:00
+  author: hongsheng he
+
+rules:
+# 列名列表
+# 设备标签    交维设备名称  设备序列号   所属机房    所属机柜    所属机位    建设项目    建设项目编码  投资类型    服务器类型   品牌  型号  操作系统    内核版本    CPU配置   内存配置    硬盘配置    配置信息    业务管理网IP 业务管理网VLAN   业务网IP   业务网VLAN 存内网IP   存内网VLAN 存外网IP   存外网VLAN CN2 IP  CN2 VLAN    带外网网关   带外IP    带外网VLAN 操作系统用户名 操作系统密码  带外用户名   带外密码    是否定制化   设备标牌功率  资产原值    到货时间    交维时间    所属物理资源池
+
+  - sheet_name: 服务器交维模版(研发)
+    columns:
+      - name: 设备标签
+        method: Copy
+        source_sheet: 服务器
+        source_column: 设备标签
+
+      - name: 交维设备名称
+        method: Copy
+        source_sheet: 服务器
+        source_column: 系统名称
+
+      - name: 设备序列号
+        method: Copy
+        source_sheet: 服务器
+        source_column: 设备序列号
+
+      - name: 所属机房
+        method: GetProjectSite
+        value: 云调所属机房
+        source_sheet: 服务器
+        source_column: 机房
+
+      - name: 所属机柜
+        method: GetCloudDesktopRack
+        source_sheet: 服务器
+        source_column: 机房
+
+      - name: 所属机位
+        method: SetNone
+      - name: 建设项目
+        method: SetNone
+      - name: 建设项目编码
+        method: SetNone
+      - name: 投资类型
+        method: SetNone
+      - name: 服务器类型
+        method: SetNone
+      - name: 品牌
+        method: SetNone
+      - name: 型号
+        method: SetNone
+      - name: 操作系统
+        method: SetNone
+      - name: 内核版本
+        method: SetNone
+      - name: CPU配置
+        method: SetNone
+      - name: 内存配置
+        method: SetNone
+      - name: 硬盘配置
+        method: SetNone
+      - name: 配置信息
+        method: SetNone
+      - name: 业务管理网IP
+        method: SetNone
+      - name: 业务管理网VLAN
+        method: SetNone
+      - name: 业务网IP
+        method: SetNone
+      - name: 业务网VLAN
+        method: SetNone
+      - name: 存内网IP
+        method: SetNone
+      - name: 存内网VLAN
+        method: SetNone
+      - name: 存外网IP
+        method: SetNone
+      - name: 存外网VLAN
+        method: SetNone
+      - name: CN2 IP
+        method: SetNone
+      - name: CN2 VLAN
+        method: SetNone
+      - name: 带外网网关
+        method: SetNone
+      - name: 带外IP
+        method: SetNone
+      - name: 带外网VLAN
+        method: SetNone
+      - name: 操作系统用户名
+        method: SetNone
+      - name: 操作系统密码
+        method: SetNone
+      - name: 带外用户名
+        method: SetNone
+      - name: 带外密码
+        method: SetNone
+      - name: 是否定制化
+        method: SetNone
+      - name: 设备标牌功率
+        method: SetNone
+      - name: 资产原值
+        method: SetNone
+      - name: 到货时间
+        method: SetNone
+      - name: 交维时间
+        method: SetNone
+      - name: 所属物理资源池
+        method: SetNone

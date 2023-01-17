@@ -21,7 +21,7 @@ from lib.utils.base import _generateProjectSiteInfo, _getProjectDictItem, _fetch
 
 
 def GenerateProjectSiteInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
-    
+
     df = target_data_frame
     df[col_name] = _generateProjectSiteInfo(zero, value)
     return df, True
@@ -41,7 +41,7 @@ def SetValue(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, val
     if not value:
         df[col_name] = "待确认: 没有指定设定值"
         return df, False
-    
+
     # print("value:%s" % value)
     df[col_name] = str(value)
 

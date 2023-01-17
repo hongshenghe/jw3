@@ -51,19 +51,20 @@ def GetVMInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, va
     """
     df = target_data_frame
 
-    fetched_dict = jwDict.GetDict("采集机信息收纳")
-    _vminfo = []
-    for k, v in fetched_dict.items():
-        if k not in _vminfo:
-            _vminfo.append(k)
+    # fetched_dict = jwDict.GetDict("采集机信息收纳")
+    # _vminfo = []
+    # for k, v in fetched_dict.items():
+    #     if k not in _vminfo:
+    #         _vminfo.append(k)
 
     vminfo = zero.GetData("VM规划")
 
     server_data = zero.GetData("服务器")
-    server_data = server_data[server_data["角色"].isin(_vminfo)][['角色', '设备标签']]
+    server_data = server_data[server_data["角色"] == "KVM"][['角色', '设备标签']]
+    # server_data = server_data[server_data["角色"].isin(_vminfo)][['角色', '设备标签']]
 
     df[col_name] = server_data.apply(
-        lambda row: _getvminfo(vminfo, row["设备标签"]), value, axis=1)
+        lambda row: _getvminfo(vminfo, row["设备标签"], value), axis=1)
 
     return df, True
 
