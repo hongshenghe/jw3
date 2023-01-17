@@ -55,6 +55,14 @@ class TestRule(unittest.TestCase):
 
         self.assertIsNone(err)
 
+    def test_rule_52(self):
+        batch_id = generate_batchid()
+
+        rule = JWRule(batch_id,  "52", work_dir, self.jwZero, self.jwDict)
+        err = rule.Generate()
+
+        self.assertIsNone(err)
+
     # def test_copy_sheet(self):
     #     source_file = self.jwZero.Full_file_name()
     #     source_sheet = "AS"

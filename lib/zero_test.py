@@ -40,6 +40,9 @@ class TestZero(unittest.TestCase):
         self.assertIsNotNone(project_id)
         print("项目编号:%s" % project_id)
 
+        server = self.jwZero.GetData("服务器")[['角色'] == 'KVM']
+        print(server)
+
     def test_load_data(self):
         err = self.jwZero.LoadData()
         self.assertFalse(err)
@@ -48,3 +51,4 @@ class TestZero(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+    def test_getvminfo(self):

@@ -104,6 +104,23 @@ def _getAsssetInfo(asserts: pd.DataFrame, match_col: str, parameter: str) -> str
     return df.iloc(0)[0]
 
 
+def _getvminfo(vminfo: pd.DataFrame, match_col: str, parameter: str) -> str:
+    """获取资产信息表格的列属性
+
+    Args:
+        asserts (pd.DataFrame): 资产dataframe对象
+        match_col (str): 子表配队列
+        parameter (str): 资产信息表格的列名称
+
+    Returns:
+        str: _description_
+    """
+    df = vminfo[vminfo['宿主机'] == match_col][parameter]
+    if len(df) == 0:
+        return "待确认: 请核对是否存在 %s 配对列,设备信息是否存在%s列" % (match_col, parameter)
+    return df.iloc(0)[0]
+
+
 def _getRackProductLine(rackSummary: pd.DataFrame, rack: str, site: str) -> str:
 
     # df = rackSummary[rackSummary['机架'] ==

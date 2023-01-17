@@ -40,6 +40,9 @@ def SnmpHostInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str,
 
 
 def VmInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+    print("source_sheet:%s" % source_sheet)
+    print("source_column:%s" % source_column)
+    print("value:%s" % value)
 
     df = target_data_frame
 
@@ -55,4 +58,36 @@ def VmInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value
     # 按照字典过滤
     df[col_name] = source_data[source_data[value].isin(_vm)][source_column]
 
+    return df, True
+
+
+def GetvmInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+    """获取机柜所属产品线
+
+    Args:
+        zero (_type_): 零号表对象实例
+        target_data_frame (_type_): 生成数据集合 
+
+    Returns:
+        _type_: DataFrame
+    """
+    df = target_data_frame
+
+    server = zero.GetData("服务器")[['角色', '设备标签'] == 'KVM']
+
+    dfSummary = pd.concat([network, server], axis=0).sort_values(
+        by=['对应设备清单-配对列', '机架', '机房'], ascending=True)
+
+    # assert_list = 产品线
+    asserts = zero.GetData("设备清单")
+
+    dfSummary['产品线'] = dfSummary.apply(
+        lambda row: _getAsssetInfo(asserts, row['对应设备清单-配对列'], "产品线"), axis=1)
+
+    # 获取原始机房号
+    df[col_name] = _generateProjectSiteInfo(zero, "原始机房号")
+
+    # df[col_name] = '-'
+    df[col_name] = df.apply(
+        lambda row: _getRackProductLine(dfSummary, "%s列%s" % (row['列号'], row['机柜号']), row[col_name]), axis=1)
     return df, True

@@ -77,8 +77,7 @@ rules:
         method: SetNone
 
 
-  - sheet_name: 采集虚机信息
-    columns:
+
       - name: 采集机1107地址
         method: VmInfo
         source_sheet: VM规划
