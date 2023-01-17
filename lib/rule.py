@@ -87,19 +87,30 @@ class JWRule(object):
             return err
 
         # generate data
+
+        # 数据分类
+        dynamic_rule_list, fixed_rule_list, copy_rule_list = [], [], []
+        for sheet in self.rules:
+            sheet_name = sheet['sheet_name']
+            sheet_type = "动态计算" if "sheet_type" not in sheet else sheet['sheet_type']
+            if sheet_type == "动态计算":
+                dynamic_rule_list.append(sheet)
+            if sheet_type == "fixed":
+                fixed_rule_list.append(sheet)
+            if sheet_type == "copy":
+                copy_rule_list.append(sheet)
+
         # 动态数据计算
         file_name = self.generate_output_file_name()
         output = os.path.join(output_dir, '%s.xlsx' % file_name)
+
         data = {}
-        for sheet in self.rules:
+        for sheet in dynamic_rule_list:
 
             sheet_name = sheet['sheet_name']
             sheet_type = "动态计算" if "sheet_type" not in sheet else sheet['sheet_type']
             order = None if "order" not in sheet else sheet['order']
             content = None if "content" not in sheet else sheet['content']
-
-            if sheet_type == "fixed":
-                continue
 
             logging.info("处理 %s-%s 开始" % (self.file_id, sheet_name))
             logging.info("  sheet类型: %s" % (sheet_type))
@@ -121,10 +132,11 @@ class JWRule(object):
             data[sheet_name] = df
             logging.info("处理 %s-%s 结束" % (self.file_id, sheet_name))
 
-        self._save_excel(output, data)
+        if len(data) != 0:
+            self._save_excel(output, data)
 
         # 固定表格生成
-        for sheet in self.rules:
+        for sheet in fixed_rule_list:
             sheet_name = sheet['sheet_name']
             sheet_type = "动态计算" if "sheet_type" not in sheet else sheet['sheet_type']
             order = None if "order" not in sheet else sheet['order']
@@ -139,6 +151,65 @@ class JWRule(object):
                 self._save_fixed_sheet(
                     output, sheet_name, order, content)
             logging.info("处理 %s-%s 结束" % (self.file_id, sheet_name))
+
+        # 复制sheet
+        for sheet in copy_rule_list:
+            source_file = self.zero.Full_file_name()
+            source_sheet = None if "source_sheet" not in sheet else sheet['source_sheet']
+
+            target_file = output
+            target_sheet_name = sheet['sheet_name']
+
+            err = self._copy_sheet(
+                source_file, source_sheet, target_file, target_sheet_name)
+
+            if err:
+                return err
+        return None
+
+    def _copy_sheet(self, source_file, source_sheet, target_file, target_sheet_name) -> Exception:
+        """复制sheet
+
+        Args:
+            source_file (_type_): 源数据文件
+            source_sheet (_type_): 源sheet
+            target_file (_type_): 目标文件
+            target_sheet_name (_type_): 目标sheet名称
+        """
+        # print("_copy_sheet  source_file：%s, source_sheet：%s, target_file：%s, target_sheet_name：%s" %
+        #       source_file, source_sheet, target_file, target_sheet_name)
+        print("_copy_sheet  source_file：%s" % source_file)
+        print("_copy_sheet  source_sheet：%s" % source_sheet)
+        print("_copy_sheet  target_file：%s" % target_file)
+        print("_copy_sheet  target_sheet_name：%s" % target_sheet_name)
+        if not os.path.exists(source_file):
+            err = "%s文件名不存在，无法复制sheet,%s-%s" % (source_file,
+                                                target_file, target_sheet_name)
+            logging.error(err)
+            return Exception(err)
+
+        wb = openpyxl.load_workbook(source_file)
+        sheets = wb.get_sheet_names()
+        # print("sheets:%s" % sheets)
+        if source_sheet not in sheets:
+            err = "%s文件名%s sheet不存在，无法复制sheet,%s-%s" % (source_file, source_sheet,
+                                                        target_file, target_sheet_name)
+            logging.error(err)
+            return Exception(err)
+
+        work_sheet = wb[source_sheet]
+
+        if os.path.exists(target_file):
+            os.remove(target_file)
+
+        new_workbook = openpyxl.Workbook()
+        new_sheet = new_workbook.active
+        new_sheet.title = target_sheet_name
+
+        for row in work_sheet.iter_rows(values_only=True):
+            new_sheet.append(row)
+
+        new_workbook.save(target_file)
 
         return None
 
