@@ -29,6 +29,7 @@ from lib.utils._13 import GetNetwork4AWebAssetName
 from lib.utils._15 import PrometheusSNMPServer, PrometheusFilter
 from lib.utils._51 import SequenceNumber, SnmpTarget
 from lib.utils._52 import SnmpHostInfo, VmInfo
+from lib.utils._07 import CopySheet
 from lib.zero import JWZero
 from lib.dict import JWDict
 
@@ -86,21 +87,32 @@ class JWRule(object):
         if err:
             return err
 
+        # 目标表分类
+        dynamic_rule_list, fixed_rule_list, copy_rule_list = [], [], []
+        for sheet in self.rules:
+            sheet_type = "动态计算" if "sheet_type" not in sheet else sheet['sheet_type']
+
+            if sheet_type == "动态计算":
+                dynamic_rule_list.append(sheet)
+
+            if sheet_type == "fixed":
+                fixed_rule_list.append(sheet)
+
+            if sheet_type == "copy":
+                copy_rule_list.append(sheet)
+
         # generate data
         # 动态数据计算
         file_name = self.generate_output_file_name()
         output = os.path.join(output_dir, '%s.xlsx' % file_name)
         data = {}
-        for sheet in self.rules:
+        for sheet in dynamic_rule_list:
 
             sheet_name = sheet['sheet_name']
             sheet_type = "动态计算" if "sheet_type" not in sheet else sheet['sheet_type']
             order = None if "order" not in sheet else sheet['order']
             content = None if "content" not in sheet else sheet['content']
-
-            if sheet_type == "fixed":
-                continue
-
+            
             logging.info("处理 %s-%s 开始" % (self.file_id, sheet_name))
             logging.info("  sheet类型: %s" % (sheet_type))
 
@@ -124,9 +136,10 @@ class JWRule(object):
         self._save_excel(output, data)
 
         # 固定表格生成
-        for sheet in self.rules:
+        for sheet in fixed_rule_list:
             sheet_name = sheet['sheet_name']
             sheet_type = "动态计算" if "sheet_type" not in sheet else sheet['sheet_type']
+
             order = None if "order" not in sheet else sheet['order']
             # width = 50 if "width" not in sheet else sheet['width']
             content = None if "content" not in sheet else sheet['content']
@@ -139,6 +152,11 @@ class JWRule(object):
                 self._save_fixed_sheet(
                     output, sheet_name, order, content)
             logging.info("处理 %s-%s 结束" % (self.file_id, sheet_name))
+
+        # 复制表
+        for sheet in copy_rule_list:
+            sheet_name = sheet['sheet_name']
+            sheet_type = "动态计算" if "sheet_type" not in sheet else sheet['sheet_type']
 
         return None
 
@@ -201,6 +219,7 @@ class JWRule(object):
             sheet_name = k
             df = v
 
+            
             df.to_excel(writer, sheet_name=sheet_name, index=False)
 
         writer.close()
