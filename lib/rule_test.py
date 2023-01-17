@@ -26,7 +26,7 @@ class TestRule(unittest.TestCase):
     jwZero = None
     jwDict = None
     jwRules = None
- 
+
     def setUp(self) -> None:
         self.jwZero = JWZero(work_dir,
                              os.path.join("upload", "00-天翼云集成实施基本信息表模板(网络和服务器设备表含公式)20230101(1).xlsx"))
@@ -47,13 +47,23 @@ class TestRule(unittest.TestCase):
     #     print(self.jwRules)
     #     self.assertGreater(len(self.jwRules), 0)
 
-    # def test_rule_generate(self):
+    def test_rule_generate(self):
+        batch_id = generate_batchid()
+
+        rule = JWRule(batch_id,  "07", work_dir, self.jwZero, self.jwDict)
+        err = rule.Generate()
+
+        self.assertIsNone(err)
+
+    # def test_copy_sheet(self):
+    #     source_file = self.jwZero.Full_file_name()
+    #     source_sheet = "AS"
+    #     target_file = "d:\\as.xlsx"
+    #     target_sheet = "as"
+
     #     batch_id = generate_batchid()
-
-    #     rule = JWRule(batch_id, work_dir, "05", self.jwZero,self.jwDict)
-    #     err = rule.Generate()
-
-    #     self.assertIsNone(err)
+    #     rule = JWRule(batch_id, work_dir, "07", self.jwZero, self.jwDict)
+    #     rule._copy_sheet(source_file, source_sheet, target_file, target_sheet)
 
     def test_generate_all(self):
         self.jwRules = LoadRules(work_dir, self.jwZero, self.jwDict)
