@@ -58,6 +58,15 @@ class JWZero(object):
         self.LoadProject()
         self.LoadData()
 
+    def Full_file_name(self) -> str:
+        """获取零号文件名称
+
+        Returns:
+            str: 文件路径
+        """
+        return os.path.join(
+            self._work_dir, self._zero_file_name)
+
     def LoadProject(self) -> Exception:
         sheet_name = "项目信息"
         if sheet_name not in self.data:
