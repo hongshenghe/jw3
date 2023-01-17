@@ -14,11 +14,11 @@ rules:
     columns:
       - name: location
         method: SetNone
-        description: 项目信息-省份-强制占坑
+        description: 强制占坑
 
       - name: pool
         method: SetNone
-        description: 项目信息-市-强制占坑
+        description: 强制占坑
 
       - name: type
         method: PrometheusFilter

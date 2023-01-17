@@ -1,12 +1,12 @@
 # -*- encoding: utf-8 -*-
 '''
-@File    :   33.py
+@File    :   51.py
 @Time    :   2023/01/08 15:07:59
 @Author  :   Hongsheng He
 @Version :   1.0
 @Contact :   24836227@qq.com
 @License :   (C)Copyright 2007-2020, hongsheng
-@Desc    :   33 规则文件处理
+@Desc    :   51 规则文件处理
 '''
 
 import re
@@ -29,15 +29,14 @@ def SequenceNumber(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: st
     return df, True
 
 
-def HarvestMachine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def SnmpTarget(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
 
     df = target_data_frame
 
     network = zero.GetData("网络设备")[['网管网（包括iLO、ipmi）']]
     server = zero.GetData("服务器")[['网管网（包括iLO、ipmi）']]
 
-    dfSummary = pd.concat([network, server], axis=0).sort_values(
-        by=['网管网（包括iLO、ipmi）'], ascending=True)
+    dfSummary = pd.concat([network, server], axis=0)
 
     df[col_name] = dfSummary['网管网（包括iLO、ipmi）']
 

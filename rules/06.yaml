@@ -1,0 +1,38 @@
+version: 1.0
+meta:
+  name: VLAN表
+  fileID: 06
+  createdAt: 2023-01-08 10:40:00
+  updatedAt: 2023-01-08 10:40:00
+  author: hongsheng he
+
+rules:
+  # 列名列表
+  # 集群	资源类型	设备编码	管理地址	VLAN	用途
+
+  - sheet_name: 设备VLAN
+    columns:
+      - name: 集群
+        method: SetNone
+        description: 强制占坑
+
+      - name: 资源类型
+        method: ResourceType
+        description: 网络设备和服务器-系统名称
+
+      - name: 集群
+        method: SetValue
+        value: 集群1
+        description: 固定值
+
+      - name: 设备编码
+        method: DeviceCode
+        description: 网络设备和服务器-设备编码
+
+      - name: 管理地址
+        method: DeviceIP
+        description: 网络设备和服务器-网管网（包括iLO、ipmi）
+
+      - name: VLAN
+        method: VlanAsset
+        description: 网络设备和服务器-网管网vlan

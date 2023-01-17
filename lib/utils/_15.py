@@ -25,7 +25,7 @@ def PrometheusSNMPServer(zero: JWZero, jwDict: JWDict, target_data_frame, col_na
     df = target_data_frame
 
     df[col_name] = df.apply(
-        lambda row: zero.GetProject("SNMP/NTP-1") + "\r\n" + zero.GetProject("SNMP/NTP-2"), axis=1)
+        lambda row: zero.GetProject("SNMP/NTP-1") + "," + zero.GetProject("SNMP/NTP-2"), axis=1)
     # our_database[new_column] = "\n".join([list of columns you want])
     return df, True
 
