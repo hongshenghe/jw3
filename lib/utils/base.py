@@ -118,7 +118,7 @@ def _getvminfo(vminfo: pd.DataFrame, match_col: str, parameter: str) -> str:
     # print("vminfo:%s" % vminfo)
     print("match_col:%s" % match_col)
     print("parameter:%s" % parameter)
-    df = vminfo[vminfo['宿主机'] == match_col][parameter]
+    df = vminfo[vminfo['宿主机设备标签'] == match_col][parameter]
     if len(df) == 0:
         return "待确认: 请核对是否存在 %s ,设备信息是否存在%s列" % (match_col, parameter)
     return df.iloc(0)[0]
