@@ -28,7 +28,7 @@ from lib.utils._12 import GetDataCenterShort, BMC, HTTPS
 from lib.utils._13 import GetNetwork4AWebAssetName
 from lib.utils._15 import PrometheusSNMPServer, PrometheusFilter
 from lib.utils._51 import SequenceNumber, SnmpTarget
-from lib.utils._52 import SnmpHostInfo, VmInfo
+from lib.utils._52 import SnmpHostInfo, GetVMInfo
 from lib.zero import JWZero
 from lib.dict import JWDict
 

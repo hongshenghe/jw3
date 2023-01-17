@@ -17,7 +17,7 @@ from lib.dict import JWDict
 from lib.logger import logging
 from lib.zero import JWZero
 
-# from lib.utils.base import
+from lib.utils.base import _getAsssetInfo, _getvminfo
 
 
 def SnmpHostInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
@@ -61,8 +61,8 @@ def VmInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value
     return df, True
 
 
-def GetvmInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
-    """获取机柜所属产品线
+def GetVMInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+    """获取虚拟机信息
 
     Args:
         zero (_type_): 零号表对象实例
@@ -73,21 +73,16 @@ def GetvmInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, va
     """
     df = target_data_frame
 
-    server = zero.GetData("服务器")[['角色', '设备标签'] == 'KVM']
+    vminfo = zero.GetData("VM规划")
 
-    dfSummary = pd.concat([network, server], axis=0).sort_values(
-        by=['对应设备清单-配对列', '机架', '机房'], ascending=True)
+    server_data = zero.GetData("服务器")
+    server_data = server_data[server_data["角色"] == "KVM"][['角色', '设备标签']]
 
-    # assert_list = 产品线
-    asserts = zero.GetData("设备清单")
+    # _getAsssetInfo
 
-    dfSummary['产品线'] = dfSummary.apply(
-        lambda row: _getAsssetInfo(asserts, row['对应设备清单-配对列'], "产品线"), axis=1)
+    # print("vminfo:", vminfo)
 
-    # 获取原始机房号
-    df[col_name] = _generateProjectSiteInfo(zero, "原始机房号")
+    df[col_name] = server_data.apply(
+        lambda row: _getvminfo(vminfo, row["设备标签"], value), axis=1)
 
-    # df[col_name] = '-'
-    df[col_name] = df.apply(
-        lambda row: _getRackProductLine(dfSummary, "%s列%s" % (row['列号'], row['机柜号']), row[col_name]), axis=1)
     return df, True

@@ -41,10 +41,15 @@ jwDict = JWDict(work_dir,
 
 
 # 测试获取生成产品线
-network = zero.GetData("网络设备")[['对应设备清单-配对列', '机架', '机房']]
-server = zero.GetData("服务器")[['对应设备清单-配对列', '机架', '机房']]
-dfSummary = pd.concat([network, server], axis=0).sort_values(
-    by=['对应设备清单-配对列', '机架', '机房'], ascending=True)
-asserts = zero.GetData("设备清单")
+# network = zero.GetData("网络设备")[['对应设备清单-配对列', '机架', '机房']]
+# server = zero.GetData("服务器")[['对应设备清单-配对列', '机架', '机房']]
+# dfSummary = pd.concat([network, server], axis=0).sort_values(
+#     by=['对应设备清单-配对列', '机架', '机房'], ascending=True)
+# asserts = zero.GetData("设备清单")
 
- 
+# 测试vm规划
+
+
+server_data = zero.GetData("服务器")
+server_data =server_data[server_data["角色"] == "KVM"][['角色','设备标签']]
+# print(server_data)

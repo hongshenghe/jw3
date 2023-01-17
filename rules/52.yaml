@@ -76,76 +76,78 @@ rules:
       - name: VCenter Datacenter
         method: SetNone
 
-
-
       - name: 采集机1107地址
-        method: VmInfo
-        source_sheet: VM规划
-        source_column: CN2/25
-        value: 配置
+        method: GetVMInfo
+        value: CN2/25
 
-      - name: 采集机内网地址（如有内网请填写）
-        method: SetValue
-        value: 无
+      # - name: 采集机1107地址
+      #   method: VmInfo
+      #   source_sheet: VM规划
+      #   source_column: CN2/25
+      #   value: 配置
 
-      - name: 采集机1107网关
-        method: SetValue
-        value: 254
+      # - name: 采集机内网地址（如有内网请填写）
+      #   method: SetValue
+      #   value: 无
 
-      - name: 采集机内网网关（如有内网请填写）
-        method: SetValue
-        value: 无
+      # - name: 采集机1107网关
+      #   method: SetValue
+      #   value: 254
 
-      - name: 虚机名称
-        method: VmInfo
-        source_sheet: VM规划
-        source_column: 虚拟机名称
-        value: 配置
+      # - name: 采集机内网网关（如有内网请填写）
+      #   method: SetValue
+      #   value: 无
 
-      - name: 操作系统
-        method: SetValue
-        value: centos 7.6
+      # - name: 虚机名称
+      #   method: VmInfo
+      #   source_sheet: VM规划
+      #   source_column: 虚拟机名称
+      #   value: 配置
 
-      - name: 采集机配置
-        method: SetValue
-        value: 16C64G/500G
+      # - name: 操作系统
+      #   method: SetValue
+      #   value: centos 7.6
 
-      - name: 采集机状态
-        method: SetValue
-        value: open
+      # - name: 采集机配置
+      #   method: SetValue
+      #   value: 16C64G/500G
 
-      - name: 业务类型
-        method: SetValue
-        value: 云调采集机
+      # - name: 采集机状态
+      #   method: SetValue
+      #   value: open
 
-      - name: KVM-维护部门
-        method: SetValue
-        value: 研发一部
+      # - name: 业务类型
+      #   method: SetValue
+      #   value: 云调采集机
 
-      - name: KVM-维护部门联系人及联系方式
-        method: SetValue
-        value: 陈世涛 15375792718
+      # - name: KVM-维护部门
+      #   method: SetValue
+      #   value: 研发一部
 
-      - name: ESXI-维护部门
-        method: SetValue
-        value: 云网运
+      # - name: KVM-维护部门联系人及联系方式
+      #   method: SetValue
+      #   value: 陈世涛 15375792718
 
-      - name: ESXI-维护部门联系人及联系方式
-        method: SetValue
-        value: 徐郑航 18310811780
+      # - name: ESXI-维护部门
+      #   method: SetValue
+      #   value: 云网运
 
-      - name: 工程项目名称
-        method: GetProjectDict
-        value: 项目名称
-        description: 项目信息-建设项目
+      # - name: ESXI-维护部门联系人及联系方式
+      #   method: SetValue
+      #   value: 徐郑航 18310811780
 
-      - name: 集成单位名称
-        method: SetValue
-        value: 上海理想信息产业（集团）有限公司
+      # - name: 工程项目名称
+      #   method: GetProjectDict
+      #   value: 项目名称
+      #   description: 项目信息-建设项目
 
-      - name: 集成商联系人及联系电话
-        method: SetValue
-        value: 谢芳勇 18916817627
+      # - name: 集成单位名称
+      #   method: SetValue
+      #   value: 上海理想信息产业（集团）有限公司
 
-      - name: 交付日期
-        method: SetNone
+      # - name: 集成商联系人及联系电话
+      #   method: SetValue
+      #   value: 谢芳勇 18916817627
+
+      # - name: 交付日期
+      #   method: SetNone
