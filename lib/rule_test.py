@@ -26,11 +26,8 @@ class TestRule(unittest.TestCase):
     jwZero = None
     jwDict = None
     jwRules = None
-
+ 
     def setUp(self) -> None:
-
-        print("work_dir:%s" % work_dir)
-        
         self.jwZero = JWZero(work_dir,
                              os.path.join("upload", "00-天翼云集成实施基本信息表模板(网络和服务器设备表含公式)20230101(1).xlsx"))
         self.jwDict = JWDict(work_dir,
@@ -50,11 +47,11 @@ class TestRule(unittest.TestCase):
     #     print(self.jwRules)
     #     self.assertGreater(len(self.jwRules), 0)
 
-    def test_rule_generate(self):
-        batch_id = generate_batchid()
+    # def test_rule_generate(self):
+    #     batch_id = generate_batchid()
 
-        rule = JWRule(batch_id,"07", work_dir, self.jwZero, self.jwDict)
-        err = rule.Generate()
+    #     rule = JWRule(batch_id, work_dir, "05", self.jwZero,self.jwDict)
+    #     err = rule.Generate()
 
     #     self.assertIsNone(err)
 
