@@ -1,0 +1,12 @@
+version: 1.0
+meta:
+  name: 资源池出口带宽统计模板
+  fileID: 17
+  createdAt: 2023-01-17 10:50:00
+  updatedAt: 2023-01-17 13:17:00
+  author: hongsheng he
+
+rules:
+  - sheet_name: 资源池出口带宽统计模板
+    source_sheet: 出口信息
+    sheet_type: copy

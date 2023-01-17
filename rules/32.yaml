@@ -1,0 +1,12 @@
+version: 1.0
+meta:
+  name: IP地址段
+  fileID: 32
+  createdAt: 2023-01-17 10:50:00
+  updatedAt: 2023-01-17 13:17:00
+  author: hongsheng he
+
+rules:
+  - sheet_name: IP地址段
+    source_sheet: IP地址段
+    sheet_type: copy
