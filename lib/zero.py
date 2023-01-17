@@ -121,6 +121,14 @@ class JWZero(object):
         return None
 
     def GetData(self, dict_name: str) -> pd.DataFrame:
+        """获取零号表sheet数据
+
+        Args:
+            dict_name (str): 字典（sheet_name）名称
+
+        Returns:
+            pd.DataFrame: DataFrame
+        """
         if dict_name not in self.data:
             return None
 
