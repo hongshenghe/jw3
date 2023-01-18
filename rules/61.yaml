@@ -1,0 +1,150 @@
+version: 1.0
+meta:
+  name: 云桌面网络设备交维模版(研发)
+  fileID: 61
+  createdAt: 2023-01-08 10:40:00
+  updatedAt: 2023-01-08 10:40:00
+  author: hongsheng he
+
+rules:
+# 列名列表
+# 设备编码	设备名称	设备序列号	设备资源类型	设备类型	所属机房	所属机柜	所属机位	建设项目	建设项目编码	投资类型	系统名称	品牌	型号	配置信息	带外IP	带外网网关	带外网VLAN	带外用户名	带外密码	设备标签功率	资产原值	到货时间	交维时间	所属物理资源池	更新者（目前只支持手动选择）	备注
+
+  - sheet_name: 网络设备管理
+    columns:
+      - name: 设备编码
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 设备标签
+
+      - name: 设备名称
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 系统名称
+
+      - name: 设备序列号
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 设备序列号
+
+      - name: 设备资源类型
+        method: GetDict
+        source_sheet: 网络设备
+        source_column: 角色
+        value: 网络设备资源类型
+        description: 网络设备->系统名称 与 网络设备类型键值进行匹配，返回字典内容
+
+      - name: 设备类型
+        method: GetDict
+        source_sheet: 网络设备
+        source_column: 角色
+        value: 网络设备角色
+        description: 网络设备->角色 与 网络设备角色键值进行匹配，返回字典内容
+
+      - name: 所属机房
+        method: GetProjectSite
+        value: 云调所属机房
+        source_sheet: 网络设备
+        source_column: 机房
+
+      - name: 所属机柜
+        method: GetCloudDesktopRack
+        source_sheet: 网络设备
+        source_column: 机房
+
+      - name: 所属机位
+        method: GetCloudDesktopPos
+        source_sheet: 网络设备
+
+      - name: 建设项目
+        method: GetProjectDict
+        value: 项目名称
+        description: 项目信息-建设项目
+
+      - name: 建设项目编码
+        method: GetProjectDict
+        value: 项目编号
+        description: 项目信息-项目编号
+
+      - name: 投资类型
+        method: GetProjectDict
+        value: 投资类型
+        description: 项目信息-投资类型
+
+      - name: 系统名称
+        method: SetValue
+        value: 云桌面
+
+      - name: 品牌
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 品牌
+        description: 与资产信息匹配-配队列，获取品牌
+
+      - name: 型号
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 云调库中对应型号
+        description: 与资产信息匹配-配队列，获取型号
+
+      - name: 配置信息
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 配置
+        description: 与资产信息匹配-配队列，获取“配置”列信息
+
+      - name: 带外IP
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 网管网（包括iLO、ipmi）
+
+      - name: 带外网网关
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 网关
+
+      - name: 带外网VLAN
+        method: Copy
+        source_sheet: 网络设备
+        source_column: 网管网vlan
+
+      - name: 带外用户名
+        method: SetNone
+
+      - name: 带外密码
+        method: SetNone
+
+      - name: 设备标签功率
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 实际功率(W)
+        description: 设备清单-实际功率(W)
+
+      - name: 资产原值
+        method: GetAssertInfo
+        source_sheet: 网络设备
+        source_column: 对应设备清单-配对列
+        value: 资产原值（除税价）
+        description: 设备清单-“资产原值（除税价）”
+
+      - name: 到货时间
+        method: GetProjectDict
+        value: 设备到货时间
+        description: 项目信息-设备到货时间
+
+      - name: 交维时间
+        method: SetNone
+
+      - name: 所属物理资源池
+        method: GetCloudDesktopProjectSite
+        description: 项目信息-省+市
+
+      - name: 更新者（目前只支持手动选择）
+        method: SetNone
+
+      - name: 备注
+        method: SetNone
