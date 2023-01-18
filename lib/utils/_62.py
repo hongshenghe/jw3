@@ -17,7 +17,7 @@ from lib.dict import JWDict
 from lib.logger import logging
 from lib.zero import JWZero
 
-from lib.utils.base import _getCloudDesktopRackAsset
+from lib.utils.base import _getCloudDesktopRackAsset, _getCloudDesktopPos
 
 
 def GetCloudDesktopRack(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
@@ -42,4 +42,26 @@ def GetCloudDesktopRack(zero: JWZero, jwDict: JWDict, target_data_frame, col_nam
         lambda row: _getCloudDesktopRackAsset(rackCode, row['机架']), axis=1)
 
     df[col_name] = df2[col_name]
+    return df, True
+
+
+def GetCloudDesktopPos(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+
+    df = target_data_frame
+
+    df2 = zero.GetData(source_sheet)
+    df2[col_name] = df2.apply(
+        lambda row: _getCloudDesktopPos(row['设备高度'], row['U位置']), axis=1)
+
+    df[col_name] = df2[col_name]
+
+    return df, True
+
+
+def GetCloudDesktopProjectSite(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+
+    df = target_data_frame
+
+    df[col_name] = df.apply(
+        lambda row: zero.GetProject("省份") + zero.GetProject("市"), axis=1)
     return df, True

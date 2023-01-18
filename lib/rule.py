@@ -29,7 +29,7 @@ from lib.utils._13 import GetNetwork4AWebAssetName
 from lib.utils._15 import PrometheusSNMPServer, PrometheusFilter
 from lib.utils._51 import SequenceNumber, SnmpTarget
 from lib.utils._52 import SnmpHostInfo, GetVMInfo
-from lib.utils._62 import GetCloudDesktopRack
+from lib.utils._62 import GetCloudDesktopRack, GetCloudDesktopPos, GetCloudDesktopProjectSite
 from lib.zero import JWZero
 from lib.dict import JWDict
 

@@ -39,74 +39,175 @@ rules:
         source_column: 机房
 
       - name: 所属机位
-        method: SetNone
+        method: GetCloudDesktopPos
+        source_sheet: 服务器
+
       - name: 建设项目
-        method: SetNone
+        method: GetProjectDict
+        value: 项目名称
+        description: 项目信息-建设项目
+
       - name: 建设项目编码
-        method: SetNone
+        method: GetProjectDict
+        value: 项目编号
+        description: 项目信息-项目编号
+
       - name: 投资类型
-        method: SetNone
+        method: GetProjectDict
+        value: 投资类型
+        description: 项目信息-投资类型
+
       - name: 服务器类型
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 服务器
+        source_column: 对应设备清单-配对列
+        value: 设备业务类型
+        description: 云锥面服务器类型,与资产信息匹配-配队列，获取设备业务类型
+
       - name: 品牌
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 服务器
+        source_column: 对应设备清单-配对列
+        value: 品牌
+        description: 与资产信息匹配-配队列，获取品牌
+
       - name: 型号
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 服务器
+        source_column: 对应设备清单-配对列
+        value: 云调库中对应型号
+        description: 与资产信息匹配-配队列，获取型号
+
       - name: 操作系统
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 服务器
+        source_column: 对应设备清单-配对列
+        value: 操作系统和设备版本号
+        description: 设备清单-"操作系统和设备版本号"
+
       - name: 内核版本
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 服务器
+        source_column: 对应设备清单-配对列
+        value: 内核版本和设备补丁
+        description: 设备清单-"操作系统和设备版本号"
+
       - name: CPU配置
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 服务器
+        source_column: 对应设备清单-配对列
+        value: CPU
+        description: 设备清单-CPU
+
       - name: 内存配置
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 服务器
+        source_column: 对应设备清单-配对列
+        value: 内存
+        description: 设备清单-内存
+
       - name: 硬盘配置
         method: SetNone
+
       - name: 配置信息
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 服务器
+        source_column: 对应设备清单-配对列
+        value: 配置
+        description: 与资产信息匹配-配队列，获取“配置”列信息
+
       - name: 业务管理网IP
         method: SetNone
+
       - name: 业务管理网VLAN
-        method: SetNone
+        method: SetValue
+        value: 350
+
       - name: 业务网IP
         method: SetNone
+
       - name: 业务网VLAN
-        method: SetNone
+        method: SetValue
+        value: 351
+
       - name: 存内网IP
         method: SetNone
+
       - name: 存内网VLAN
-        method: SetNone
+        method: SetValue
+        value: 352
+
       - name: 存外网IP
         method: SetNone
+
       - name: 存外网VLAN
-        method: SetNone
+        method: SetValue
+        value: 353
+
       - name: CN2 IP
         method: SetNone
+
       - name: CN2 VLAN
-        method: SetNone
+        method: SetValue
+        value: 198
+
       - name: 带外网网关
-        method: SetNone
+        method: Copy
+        source_sheet: 服务器
+        source_column: 网关
+
       - name: 带外IP
-        method: SetNone
+        method: Copy
+        source_sheet: 服务器
+        source_column: 网管网（包括iLO、ipmi）
+
       - name: 带外网VLAN
-        method: SetNone
+        method: Copy
+        source_sheet: 服务器
+        source_column: 网管网vlan
+
       - name: 操作系统用户名
-        method: SetNone
+        method: SetValue
+        value: root
+
       - name: 操作系统密码
-        method: SetNone
+        method: SetValue
+        value: Ctyun@20220801
+
       - name: 带外用户名
-        method: SetNone
+        method: SetValue
+        value: ydnadmin
+
       - name: 带外密码
-        method: SetNone
+        method: SetValue
+        value: Ctyun@20220801
+
       - name: 是否定制化
-        method: SetNone
+        method: SetValue
+        value: 否
+
       - name: 设备标牌功率
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 服务器
+        source_column: 对应设备清单-配对列
+        value: 实际功率(W)
+        description: 设备清单-实际功率(W)
+
       - name: 资产原值
-        method: SetNone
+        method: GetAssertInfo
+        source_sheet: 服务器
+        source_column: 对应设备清单-配对列
+        value: 资产原值（除税价）
+        description: 设备清单-“资产原值（除税价）”
+
       - name: 到货时间
-        method: SetNone
+        method: GetProjectDict
+        value: 设备到货时间
+        description: 项目信息-设备到货时间
+
       - name: 交维时间
         method: SetNone
+
       - name: 所属物理资源池
-        method: SetNone
+        method: GetCloudDesktopProjectSite
+        description: 项目信息-省+市

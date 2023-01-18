@@ -187,6 +187,18 @@ def _getCloudDesktopRackAsset(site_code: str, rack_info: str) -> str:
     return rack_code
 
 
+def _getCloudDesktopPos(height: str, start_pos: str) -> str:
+
+    # 起始位置
+    rack_start_pos = int(re.search("(\d+)", str(start_pos)).groups()
+                         [0]) if re.search("(\d+)", str(start_pos)) else 0
+    # 设备高度
+    asset_height = int(height) if not pd.isna(height) else 0
+
+    cloud_desktop_pos = "%sU%s" % (asset_height, rack_start_pos)
+    return cloud_desktop_pos
+
+
 def _getSNMPVersion(brand: str, snmp_dict: dict) -> str:
     for k, v in snmp_dict.items():
         if k == brand:

@@ -19,7 +19,7 @@ rules:
       - name: 设备标签
         method: SnmpHostInfo
         source_sheet: 服务器
-        source_column: 系统名称
+        source_column: 设备标签
         value: 角色
         description: 服务器角色过滤、KVM或ESXI、采集机的宿主机系统
 
