@@ -17,7 +17,7 @@ from lib.dict import JWDict
 from lib.logger import logging
 from lib.zero import JWZero
 
-from lib.utils.base import _generateProjectSiteInfo, _getProjectDictItem, _fetchSiteName, _getAsssetInfo, _getRackProductLine, _fetchSiteCol, _getNetworkAssetPos, _getSNMPVersion
+from lib.utils.base import _fetchDictValue, _generateProjectSiteInfo, _getProjectDictItem, _fetchSiteName, _getAsssetInfo, _getRackProductLine, _fetchSiteCol, _getNetworkAssetPos, _getSNMPVersion
 
 
 def GenerateProjectSiteInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
@@ -174,6 +174,20 @@ def GetSNMPVersion(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: st
 
     return df, True
 
+
+def GetRackHeight(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+
+    df = target_data_frame
+
+    # 获取原始值
+    source_data = str(zero.GetProject("机柜机位数"))
+
+    # 匹配字典
+    fetchedDict = jwDict.GetDict(value)
+
+    df[col_name] = df.apply(
+        lambda row: _fetchDictValue(fetchedDict, source_data, value), axis=1)
+    return df, True
 
 # def GetNetworkAssertLevel(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
 

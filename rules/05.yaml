@@ -104,10 +104,11 @@ rules:
       - name: 宽(毫米)
         method: SetValue
         value: 600
+        description: 项目信息->机柜机位数 与 机柜高度字典键值进行匹配,返回字典内数值
 
       - name: 高(毫米)
-        method: SetValue
-        value: 1200
+        method: GetRackHeight
+        value: 机柜高度
 
       - name: 类型
         method: SetValue

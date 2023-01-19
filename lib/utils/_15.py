@@ -35,16 +35,16 @@ def PrometheusFilter(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: 
     df = target_data_frame
 
     fetched_dict = jwDict.GetDict("普罗米修斯")
-    _Prometheu = []
+    _prometheus = []
     for k, v in fetched_dict.items():
-        if k not in _Prometheu:
-            _Prometheu.append(k)
+        if k not in _prometheus:
+            _prometheus.append(k)
 
     # 原始数据
     source_data = zero.GetData(source_sheet)
 
     # 按照字典过滤
     df[col_name] = source_data[source_data[value].isin(
-        _Prometheu)][source_column]
+        _prometheus)][source_column]
 
     return df, True

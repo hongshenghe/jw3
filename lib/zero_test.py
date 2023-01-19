@@ -23,8 +23,8 @@ class TestZero(unittest.TestCase):
     jwZero = None
 
     def setUp(self) -> None:
-        self.jwZero = JWZero(work_dir,
-                             os.path.join("upload", "00-天翼云集成实施基本信息表模板(网络和服务器设备表含公式)20230101(1).xlsx"))
+        self.jwZero = JWZero(work_dir, os.path.join(
+            "upload", "00-天翼云集成实施基本信息表模板(网络和服务器设备表含公式)20230101(1).xlsx"))
 
         return super().setUp()
 
@@ -49,6 +49,6 @@ class TestZero(unittest.TestCase):
         self.jwZero.ShowZeroData()
 
 
-if __name__ == '__main__':
-    unittest.main()
-    def test_getvminfo(self):
+# if __name__ == '__main__':
+#     unittest.main()
+#     def test_getvminfo(self):
