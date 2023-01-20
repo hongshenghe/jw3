@@ -66,3 +66,8 @@ Requirement already satisfied: six>=1.5 in d:\projects\python\jw3\venv\lib\site-
 ```bash
 (venv) ➜  jw3 git:(master) ✗ python -m unittest lib/rule_test.py
 ```
+
+4. 程序执行
+   
+    4.1 双击执行sbin/run.cmd
+    4.2 在down目录查找最新目录
