@@ -166,6 +166,13 @@ class JWRule(object):
 
             if err:
                 return err
+
+        # 增加作者信息 output
+        workbook = openpyxl.load_workbook(output)
+        workbook.properties.creator = "理想"
+        workbook.properties.description = file_name
+        workbook.save(output)
+
         return None
 
     def _copy_sheet(self, source_file, source_sheet, target_file, target_sheet_name) -> Exception:
@@ -179,10 +186,10 @@ class JWRule(object):
         """
         # print("_copy_sheet  source_file：%s, source_sheet：%s, target_file：%s, target_sheet_name：%s" %
         #       source_file, source_sheet, target_file, target_sheet_name)
-        print("_copy_sheet  source_file：%s" % source_file)
-        print("_copy_sheet  source_sheet：%s" % source_sheet)
-        print("_copy_sheet  target_file：%s" % target_file)
-        print("_copy_sheet  target_sheet_name：%s" % target_sheet_name)
+        # print("_copy_sheet  source_file：%s" % source_file)
+        # print("_copy_sheet  source_sheet：%s" % source_sheet)
+        # print("_copy_sheet  target_file：%s" % target_file)
+        # print("_copy_sheet  target_sheet_name：%s" % target_sheet_name)
         if not os.path.exists(source_file):
             err = "%s文件名不存在，无法复制sheet,%s-%s" % (source_file,
                                                 target_file, target_sheet_name)
@@ -210,6 +217,7 @@ class JWRule(object):
         for row in work_sheet.iter_rows(values_only=True):
             new_sheet.append(row)
 
+        # new_workbook.properties.author = "理想"
         new_workbook.save(target_file)
 
         return None
@@ -263,6 +271,7 @@ class JWRule(object):
         # ws.column_dimensions["B"].auto_size = True
         # ws.column_dimensions["A"].bestFit = True
         # ws.column_dimensions["B"].bestFit = True
+        # wb.properties.author = "理想"
         wb.save(output_file)
 
     def _save_excel(self, file_name: str, data: dict) -> None:
@@ -273,7 +282,7 @@ class JWRule(object):
             sheet_name = k
             df = v
 
-            df.to_excel(writer, sheet_name=sheet_name, index=False)
+            df.to_excel(writer, sheet_name=sheet_name, index=False,engine='openpyxl')
 
         writer.close()
 
