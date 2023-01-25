@@ -17,8 +17,8 @@ rules:
         description: 强制占坑
 
       - name: 设备标签
-        method: SnmpHostInfo
-        source_sheet: 服务器
+        method: GetVMHostInfo
+        source_sheet: VM宿主机
         source_column: 设备标签
         value: 角色
         description: 服务器角色过滤、KVM或ESXI、采集机的宿主机系统
@@ -30,45 +30,38 @@ rules:
 
       - name: 设备序列号
         method: Copy
-        source_sheet: 服务器
+        source_sheet: VM宿主机
         source_column: 设备序列号
-        description: 服务器—G列-copy
 
       - name: 带外管理地址（iLO）
         method: Copy
-        source_sheet: 服务器
+        source_sheet: VM宿主机
         source_column: 网管网（包括iLO、ipmi）
-        description: 服务器-copy
 
       - name: 运行环境（物理裸机/ESXI/KVM）
         method: Copy
-        source_sheet: 服务器
+        source_sheet: VM宿主机
         source_column: 角色
-        description: 服务器-copy
 
       - name: 宿主机业务地址
         method: Copy
-        source_sheet: 服务器
+        source_sheet: VM宿主机
         source_column: 业务网管IP
-        description: 服务器-copy
 
       - name: 宿主机掩码
         method: Copy
-        source_sheet: 服务器
+        source_sheet: VM宿主机
         source_column: 业务网管掩码
-        description: 服务器-copy
 
       - name: 宿主机网关
         method: Copy
-        source_sheet: 服务器
+        source_sheet: VM宿主机
         source_column: 业务网管网关
-        description: 服务器-copy
 
       - name: 宿主机VLAN
         method: Copy
-        source_sheet: 服务器
+        source_sheet: VM宿主机
         source_column: 业务网管VLAN
-        description: 服务器-copy
 
       - name: 配置网卡
         method: SetNone
@@ -76,57 +69,17 @@ rules:
       - name: VCenter Datacenter
         method: SetNone
 
-      - name: 采集机1107地址
-        method: GetVMInfo
-        value: OS_CN2
+      - name: 维护部门
+        method: GetDict
+        source_sheet: VM宿主机
+        source_column: 角色
+        value: 采集机维护部门
 
-      - name: 采集机内网地址（如有内网请填写）
-        method: SetValue
-        value: 无
-
-      - name: 采集机1107网关
-        method: SetValue
-        value: 254
-
-      - name: 采集机内网网关（如有内网请填写）
-        method: SetValue
-        value: 无
-
-      - name: 虚机名称
-        method: GetVMInfo
-        value: 虚拟机名称
-
-      - name: 操作系统
-        method: SetValue
-        value: centos 7.6
-
-      - name: 采集机配置
-        method: SetValue
-        value: 16C64G/500G
-
-      - name: 采集机状态
-        method: SetValue
-        value: open
-
-      - name: 业务类型
-        method: SetValue
-        value: 云调采集机
-
-      - name: KVM-维护部门
-        method: SetValue
-        value: 研发一部
-
-      - name: KVM-维护部门联系人及联系方式
-        method: SetValue
-        value: 陈世涛 15375792718
-
-      - name: ESXI-维护部门
-        method: SetValue
-        value: 云网运
-
-      - name: ESXI-维护部门联系人及联系方式
-        method: SetValue
-        value: 徐郑航 18310811780
+      - name: 维护部门联系人及联系方式
+        method: GetDict
+        source_sheet: VM宿主机
+        source_column: 角色
+        value: 采集机维护联系人
 
       - name: 工程项目名称
         method: GetProjectDict
@@ -143,3 +96,47 @@ rules:
 
       - name: 交付日期
         method: SetNone
+
+
+  - sheet_name: 采集虚机信息
+    columns:
+      - name: 采集机1107地址
+        method: GetVMInfo
+        source_sheet: VM规划
+        source_column: OS_CN2
+        value: 配置
+        description: 根据字典虚拟的配置信息取得采集虚机信息
+
+      - name: 采集机内网地址（如有内网请填写）
+        method: SetValue
+        value: 无
+
+      - name: 采集机1107网关
+        method: SetValue
+        value: 254
+
+      - name: 采集机内网网关（如有内网请填写）
+        method: SetValue
+        value: 无
+
+      - name: 虚机名称
+        method: GetVMInfo
+        source_sheet: VM规划
+        source_column: 虚拟机名称
+        value: 配置
+
+      - name: 操作系统
+        method: SetValue
+        value: centos 7.6
+
+      - name: 采集机配置
+        method: SetValue
+        value: 16C64G/500G
+
+      - name: 采集机状态
+        method: SetValue
+        value: open
+
+      - name: 业务类型
+        method: SetValue
+        value: 云调采集机
