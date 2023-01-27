@@ -10,6 +10,7 @@
 '''
 
 import re
+import sys
 
 import pandas as pd
 
@@ -17,7 +18,7 @@ from lib.dict import JWDict
 from lib.logger import logging
 from lib.zero import JWZero
 
-from lib.utils.base import _fetchDictValue, _generateProjectSiteInfo, _getProjectDictItem, _fetchSiteName, _getAsssetInfo, _getRackProductLine, _fetchSiteCol, _getNetworkAssetPos, _getSNMPVersion
+from lib.utils.base import _fetchDictValue, _generateProjectSiteInfo, _getProjectDictItem, _fetchSiteName, _getAssetInfo, _getRackProductLine, _fetchSiteCol, _getNetworkAssetPos, _getSNMPVersion
 
 
 def GenerateProjectSiteInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
@@ -103,7 +104,7 @@ def GetRackProductLine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name
     asserts = zero.GetData("设备清单")
 
     dfSummary['产品线'] = dfSummary.apply(
-        lambda row: _getAsssetInfo(asserts, row['对应设备清单-配对列'], "产品线"), axis=1)
+        lambda row: _getAssetInfo(asserts, row['对应设备清单-配对列'], "产品线"), axis=1)
 
     # 获取原始机房号
     df[col_name] = _generateProjectSiteInfo(zero, "原始机房号")
@@ -140,20 +141,34 @@ def GetPosition(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, 
     return df, True
 
 
-def GetAssertInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetAssetInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+    """获取设备信息
+
+    Args:
+        zero (JWZero): 零号文件对象实例
+        jwDict (JWDict): 字典对象实例
+        target_data_frame (_type_): 目标df
+        col_name (str): 列名称
+        value (str): _description_
+        source_sheet (str): 源表格
+        source_column (str): 源列
+
+    Returns:
+        _type_: df
+    """
 
     df = target_data_frame
 
     asserts = zero.GetData("设备清单")
 
     # 网络设备或者服务器
-    asertSheet = zero.GetData(source_sheet)
+    assetSheet = zero.GetData(source_sheet)
 
     # 生成目标列
-    asertSheet[col_name] = asertSheet.apply(
-        lambda row: _getAsssetInfo(asserts, row[source_column], value), axis=1)
+    assetSheet[col_name] = assetSheet.apply(
+        lambda row: _getAssetInfo(asserts, row[source_column], value), axis=1)
 
-    df[col_name] = asertSheet[col_name]
+    df[col_name] = assetSheet[col_name]
     return df, True
 
 
@@ -162,7 +177,7 @@ def GetSNMPVersion(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: st
     df = target_data_frame
 
     # 获取品牌
-    df, flag = GetAssertInfo(zero, jwDict, df, col_name,
+    df, flag = GetAssetInfo(zero, jwDict, df, col_name,
                              value, source_sheet, source_column)
 
     # 获取SNMP版本字典
@@ -171,6 +186,8 @@ def GetSNMPVersion(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: st
     # 获取SNMP版本
     df[col_name] = df.apply(
         lambda row: _getSNMPVersion(row[col_name], snmp_dict), axis=1)
+
+    # sys.exit(1)
 
     return df, True
 

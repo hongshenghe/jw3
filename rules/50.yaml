@@ -31,14 +31,14 @@ rules:
         description: 服务器-copy
 
       - name: 品牌
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 品牌
         description: 与资产信息匹配-配队列，获取品牌
 
       - name: 型号
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 云调库中对应型号

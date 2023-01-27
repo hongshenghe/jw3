@@ -15,7 +15,7 @@ import pandas as pd
 
 from lib.dict import JWDict
 from lib.zero import JWZero
-from lib.utils.base import _fetchDictValue, _getAsssetInfo, _getNetworkLogicCode
+from lib.utils.base import _fetchDictValue, _getAssetInfo, _getNetworkLogicCode
 
 
 def Copy(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
@@ -66,7 +66,7 @@ def GetSubProductLine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name:
 
     # 生成产品线
     df[col_name] = source_data.apply(
-        lambda row: _getAsssetInfo(asserts, row[source_column], "产品线"), axis=1)
+        lambda row: _getAssetInfo(asserts, row[source_column], "产品线"), axis=1)
 
     # 生成细分产品线
     df[col_name] = df.apply(

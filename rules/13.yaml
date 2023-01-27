@@ -67,14 +67,14 @@ rules:
         description: 端口基本是22,如有特殊情况再调整
 
       - name: 厂商
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 品牌
         description: 与资产信息匹配-配队列，获取厂商
 
       - name: 型号
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 云调库中对应型号
@@ -141,14 +141,14 @@ rules:
         description: 端口基本是443,如有特殊情况再调整
 
       - name: 厂商
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 品牌
         description: 与资产信息匹配-配队列，获取厂商
 
       - name: 型号
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 云调库中对应型号

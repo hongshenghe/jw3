@@ -51,5 +51,5 @@ jwDict = JWDict(work_dir,
 
 
 server_data = zero.GetData("服务器")
-server_data =server_data[server_data["角色"] == "KVM"][['角色','设备标签']]
+# server_data =server_data[server_data["角色"] == "KVM"][['角色','设备标签']]
 # print(server_data)

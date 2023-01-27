@@ -58,7 +58,7 @@ class TestRule(unittest.TestCase):
     def test_rule_15(self):
         batch_id = generate_batchid()
 
-        rule = JWRule(batch_id,  "15", work_dir, self.jwZero, self.jwDict)
+        rule = JWRule(batch_id,  "100", work_dir, self.jwZero, self.jwDict)
         err = rule.Generate()
 
         self.assertIsNone(err)

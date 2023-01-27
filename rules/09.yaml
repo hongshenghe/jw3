@@ -69,7 +69,7 @@ rules:
         description: 项目信息-项目编号
 
       - name: 产品线
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 产品线
@@ -93,14 +93,14 @@ rules:
         description: 固定值
 
       - name: 品牌
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 品牌
         description: 与资产信息匹配-配队列，获取品牌
 
       - name: 型号
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 云调库中对应型号
@@ -115,7 +115,7 @@ rules:
           返回字典内容，不能匹配所有键值，则返回其他项
 
       - name: 硬件配置信息
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 配置
@@ -189,14 +189,14 @@ rules:
         value: yundiao*&COC2016
 
       - name: 设备标牌功率
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 实际功率(W)
         description: 设备清单-实际功率(W)
 
       - name: 资产原值
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 资产原值（除税价）
@@ -220,7 +220,7 @@ rules:
         description: 返回源数据“堆叠后名称/M-LAG（逻辑名称）” 如果为空值，则返回“设备标签” 
 
       - name: 设备版本
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 操作系统和设备版本号

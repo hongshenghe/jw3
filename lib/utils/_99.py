@@ -17,6 +17,6 @@ from lib.dict import JWDict
 from lib.logger import logging
 from lib.zero import JWZero
 
-from lib.utils.base import _getAsssetInfo, _fetchDictValue
+from lib.utils.base import _getAssetInfo, _fetchDictValue
 
 

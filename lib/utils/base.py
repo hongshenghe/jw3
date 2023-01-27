@@ -87,7 +87,7 @@ def _getProjectDictItem(zero, key: str) -> str:
     return content
 
 
-def _getAsssetInfo(asserts: pd.DataFrame, match_col: str, parameter: str) -> str:
+def _getAssetInfo(asserts: pd.DataFrame, match_col: str, parameter: str) -> str:
     """获取资产信息表格的列属性
 
     Args:
@@ -201,12 +201,25 @@ def _getCloudDesktopPos(height: str, start_pos: str) -> str:
 
 
 def _getSNMPVersion(brand: str, snmp_dict: dict) -> str:
+
+    # print("brand:%s" % brand)
+    # print("snmp_dict:%s" % snmp_dict)
+
+    version = '待确认: 请检查SNMP版本字典，无默认"其他"的内容'
+    flag = False
     for k, v in snmp_dict.items():
         if k == brand:
-            return v
-    if '其他' in snmp_dict:
-        return snmp_dict['其他']
-    return '待确认: 请检查SNMP版本字典，无默认"其他"的内容'
+            version = v
+            flag = True
+            # return v
+    # if '其他' in snmp_dict:
+    if not flag and '其他' in snmp_dict:
+        # return snmp_dict['其他']
+        version = snmp_dict['其他']
+
+    # print("version:%s" % version)
+
+    return version
 
 
 def _getNetworkLogicCode(group_name: str, asset_label: str) -> str:
@@ -229,7 +242,7 @@ def _getNetworkLogicCode(group_name: str, asset_label: str) -> str:
     return code
 
 
-def _getPrometheusAssetInfo(asserts: pd.DataFrame,match_col_val:str) -> str:
+def _getPrometheusAssetInfo(asserts: pd.DataFrame, match_col_val: str) -> str:
     """根据match_col_val匹配设备清单“匹配列”内容，获取“品牌和型号”信息
 
     Args:
@@ -243,12 +256,12 @@ def _getPrometheusAssetInfo(asserts: pd.DataFrame,match_col_val:str) -> str:
     # if len(df1) == 0:
     #     return "待确认: 请核对是否存在 对应设备清单-配对列 配对列,设备信息是否存在品牌列"
 
-    band = _getAsssetInfo(asserts, match_col_val, "品牌")
+    band = _getAssetInfo(asserts, match_col_val, "品牌")
 
     # df2 = asserts[asserts['配对列'] == "对应设备清单-配对列"]["型号"]
     # if len(df2) == 0:
     #     return "待确认: 请核对是否存在 对应设备清单-配对列 配对列,设备信息是否存在型号列"
 
-    model = _getAsssetInfo(asserts, match_col_val, "云调库中对应型号")
+    model = _getAssetInfo(asserts, match_col_val, "云调库中对应型号")
 
     return "%s %s" % (band, model)

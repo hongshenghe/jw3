@@ -55,7 +55,7 @@ rules:
         description: 项目信息-项目编号
 
       - name: 产品线
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 产品线
@@ -86,35 +86,35 @@ rules:
         value: PC
 
       - name: 品牌
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 品牌
         description: 与资产信息匹配-配队列，获取品牌
 
       - name: 型号
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 云调库中对应型号
         description: 与资产信息匹配-配队列，获取型号
 
       - name: 操作系统
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 操作系统和设备版本号
         description: 设备清单-"操作系统和设备版本号"
 
       - name: CPU配置
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: CPU
         description: 设备清单-CPU
 
       - name: 内存配置
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 内存
@@ -133,7 +133,7 @@ rules:
         method: SetNone
 
       - name: 配置信息
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 配置
@@ -219,14 +219,14 @@ rules:
         method: SetNone
 
       - name: 设备标牌功率
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 实际功率(W)
         description: 设备清单-实际功率(W)
 
       - name: 资产原值
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 服务器
         source_column: 对应设备清单-配对列
         value: 资产原值（除税价）

@@ -76,21 +76,21 @@ rules:
         value: 云桌面
 
       - name: 品牌
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 品牌
         description: 与资产信息匹配-配队列，获取品牌
 
       - name: 型号
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 云调库中对应型号
         description: 与资产信息匹配-配队列，获取型号
 
       - name: 配置信息
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 配置
@@ -118,14 +118,14 @@ rules:
         method: SetNone
 
       - name: 设备标签功率
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 实际功率(W)
         description: 设备清单-实际功率(W)
 
       - name: 资产原值
-        method: GetAssertInfo
+        method: GetAssetInfo
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 资产原值（除税价）
