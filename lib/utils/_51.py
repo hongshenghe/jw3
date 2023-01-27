@@ -33,8 +33,8 @@ def SnmpTarget(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, v
 
     df = target_data_frame
 
-    network = zero.GetData("网络设备")[['网管网（包括iLO、ipmi）']]
-    server = zero.GetData("服务器")[['网管网（包括iLO、ipmi）']]
+    network = zero.GetData("网络设备")[['网管网（包括iLO、ipmi）']].drop_duplicates()
+    server = zero.GetData("服务器")[['网管网（包括iLO、ipmi）']].drop_duplicates()
 
     dfSummary = pd.concat([network, server], axis=0)
 
