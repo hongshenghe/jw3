@@ -227,3 +227,19 @@ def _getNetworkLogicCode(group_name: str, asset_label: str) -> str:
 
     # print("-------------堆叠名称：%s 设备标签：%s 逻辑编码:%s" % (_group, asset_label, code))
     return code
+
+
+def _getPrometheusAssetInfo(asserts: pd.DataFrame) -> str:
+    # df1 = asserts[asserts['配对列'] == "对应设备清单-配对列"]["品牌"]
+    # if len(df1) == 0:
+    #     return "待确认: 请核对是否存在 对应设备清单-配对列 配对列,设备信息是否存在品牌列"
+
+    band = _getAsssetInfo(asserts, "对应设备清单-配对列", "品牌")
+
+    # df2 = asserts[asserts['配对列'] == "对应设备清单-配对列"]["型号"]
+    # if len(df2) == 0:
+    #     return "待确认: 请核对是否存在 对应设备清单-配对列 配对列,设备信息是否存在型号列"
+
+    model = _getAsssetInfo(asserts, "对应设备清单-配对列", "云调库中对应型号")
+
+    return "%s %s" % (band, model)

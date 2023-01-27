@@ -17,7 +17,7 @@ from lib.dict import JWDict
 from lib.logger import logging
 from lib.zero import JWZero
 
-from lib.utils.base import _generateProjectSiteInfo, _getProjectDictItem, _fetchSiteName, _getAsssetInfo, _getRackProductLine, _fetchSiteCol, _getNetworkAssetPos, _getSNMPVersion
+from lib.utils.base import _getPrometheusAssetInfo
 
 
 def PrometheusSNMPServer(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
@@ -47,4 +47,22 @@ def PrometheusFilter(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: 
     df[col_name] = source_data[source_data[value].isin(
         _prometheus)][source_column]
 
+    return df, True
+
+
+def GetPrometheusAssetInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+
+    df = target_data_frame
+
+    asserts = zero.GetData("设备清单")
+
+    # 网络设备或者服务器
+    asertSheet = zero.GetData('网络设备')
+
+    # 生成目标列
+    asertSheet[col_name] = asertSheet.apply(
+        lambda row: _getPrometheusAssetInfo(asserts), axis=1)
+
+    df[col_name] = asertSheet[col_name]
+    # df[col_name] = "-"
     return df, True

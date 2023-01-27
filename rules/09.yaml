@@ -243,7 +243,7 @@ rules:
 
       - name: 自动化管理密码
         method: SetValue
-        value: OPS_5Df*1cp!K0_250e
+        value: OPS_5Df*1cp!K0_250e.
 
   - sheet_name: 说明（请勿修改此页内容）
     order: first

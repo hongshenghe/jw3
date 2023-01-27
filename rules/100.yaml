@@ -284,7 +284,7 @@ rules:
 
       - name: 自动化管理密码
         method: SetValue
-        value: OPS_5Df*1cp!K0_250e
+        value: Automation@2022
 
       - name: IPMI管理员账户
         method: SetValue
@@ -298,9 +298,17 @@ rules:
         method: SetValue
         value: ydadmin
 
-      - name: IPMI管理员密码
+      - name: IPMI管理员密码(ID4)
         method: SetValue
         value: Ctyun@20220801
+
+      - name: IPMI管理员账户(ID8)
+        method: SetValue
+        value: jcfadmin
+
+      - name: IPMI管理员密码(ID8)
+        method: SetValue
+        value: jcfadmin@2021
 
       - name: IPMI云调账户
         method: SetValue

@@ -34,15 +34,12 @@ rules:
 
       - name: pool
         method: GetProjectDict
-        value: 市
-        description: 项目信息-市
+        value: 资源池
+        description: 项目信息-资源池
 
       - name: model
-        method: GetAssertInfo
-        source_sheet: 网络设备
-        source_column: 对应设备清单-配对列
-        value: 云调库中对应型号
-        description: 与资产信息匹配-配队列，获取型号
+        method: GetPrometheusAssetInfo
+        description: 品牌+型号
 
       - name: IP
         method: Copy
