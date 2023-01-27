@@ -1,0 +1,143 @@
+version: 1.0
+meta:
+  name: 维保信息
+  fileID: 16
+  createdAt: 2023-01-08 10:40:00
+  updatedAt: 2023-01-08 10:40:00
+  author: hongsheng he
+
+rules:
+  # 列名列表
+  # 序号	厂家	设备类型	型号	序列号	数量	位置	原厂联系人	联系方式	是否第三方代理	代理联系人	联系方式	原厂维保证明和协议文本	服务等级	服务内容	维保时间	服务开始日期	服务截止日期	维保期间是否可以得到原厂支持	400/800电话	姓名	联系方式	姓名	联系方式	入机房备案人员（多名）	备品和存放位置	设备维保响应时间（一般性通信故障）	恢复设备正常运行时间（一般性通信故障）	设备维保响应时间（重大通信故障）	恢复设备正常运行时间（重大通信故障）	响应服务时间
+
+  - sheet_name: 普罗米修斯
+    columns:
+      - name: 序号
+        method: SetNone
+        description: 序号递增1,2,3...
+
+      - name: 厂家
+        method: SetNone
+        description: 获取设备清单-列-品牌
+
+      - name: 设备类型
+        method: SetNone
+        description: 网络设备->系统名称 与 网络设备类型键值进行匹配，返回字典内容
+                    服务器设备：固定值：服务器
+
+      - name: 型号
+        method: 获取设备清单-列-品牌
+        description: 获取设备清单-列-云调库中对应型号
+
+      - name: 序列号
+        method: SetNone
+        description: 为空值就行
+
+      - name: 数量
+        method: SetNone
+        description: 同一个品牌,数量相加(设备清单里1个品牌可能有多行信息)
+
+      - name: 位置
+        method: SetNone
+        description: 项目信息-云调所属机房
+
+      - name: 原厂联系人
+        method: SetNone
+        description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
+
+      - name: 联系方式
+        method: SetNone
+        description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
+
+      - name: 是否第三方代理
+        method: SetValue
+        value: 否
+        description: 固定值
+
+      - name: 代理联系人
+        method: SetValue
+        value: /
+        description: 固定值
+
+      - name: 联系方式
+        method: SetValue
+        value: /
+        description: 固定值
+
+      - name: 原厂维保证明和协议文本
+        method: SetValue
+        value: 售后服务承诺函
+        description: 固定值
+
+      - name: 服务等级
+        method: SetNone
+        description: 设备维保信息字典内容（不同的品牌不一样）
+
+      - name: 服务内容
+        method: SetNone
+        description: 设备维保信息字典内容（不同的品牌不一样）
+
+      - name: 维保时间
+        method: SetNone
+        description: 设备维保信息字典内容（不同的品牌不一样）
+
+      - name: 服务开始日期
+        method: SetNone
+        description: 设备维保信息字典内容（不同的品牌不一样）
+
+      - name: 服务截止日期
+        method: SetNone
+        description: 设备维保信息字典内容（不同的品牌不一样）
+
+      - name: 维保期间是否可以得到原厂支持
+        method: SetValue
+        value: 是
+        description: 固定值
+
+      - name: 400/800电话
+        method: SetNone
+        description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
+
+      - name: 姓名
+        method: SetNone
+        description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
+
+      - name: 联系方式
+        method: SetNone
+        description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
+
+      - name: 姓名
+        method: SetNone
+        description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
+
+      - name: 联系方式
+        method: SetNone
+        description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
+  
+      - name: 入机房备案人员（多名）
+        method: SetNone
+        description: 设备维保信息字典内容（不同的品牌不一样）
+
+      - name: 备品和存放位置
+        method: SetNone
+        description: 设备维保信息字典内容（不同的品牌不一样）
+
+      - name: 设备维保响应时间（一般性通信故障）
+        method: SetNone
+        description: 设备维保信息字典内容（不同的品牌不一样）
+
+      - name: 恢复设备正常运行时间（一般性通信故障）
+        method: SetNone
+        description: 设备维保信息字典内容（不同的品牌不一样）
+
+      - name: 设备维保响应时间（重大通信故障）
+        method: SetNone
+        description: 设备维保信息字典内容（不同的品牌不一样）
+
+      - name: 恢复设备正常运行时间（重大通信故障）
+        method: SetNone
+        description: 设备维保信息字典内容（不同的品牌不一样）
+        
+      - name: 响应服务时间
+        method: SetNone
+        description: 设备维保信息字典内容（不同的品牌不一样）
