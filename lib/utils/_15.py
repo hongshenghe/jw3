@@ -61,7 +61,7 @@ def GetPrometheusAssetInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_
 
     # 生成目标列
     asertSheet[col_name] = asertSheet.apply(
-        lambda row: _getPrometheusAssetInfo(asserts), axis=1)
+        lambda row: _getPrometheusAssetInfo(asserts,row['对应设备清单-配对列']), axis=1)
 
     df[col_name] = asertSheet[col_name]
     # df[col_name] = "-"

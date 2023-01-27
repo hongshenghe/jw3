@@ -229,17 +229,26 @@ def _getNetworkLogicCode(group_name: str, asset_label: str) -> str:
     return code
 
 
-def _getPrometheusAssetInfo(asserts: pd.DataFrame) -> str:
+def _getPrometheusAssetInfo(asserts: pd.DataFrame,match_col_val:str) -> str:
+    """根据match_col_val匹配设备清单“匹配列”内容，获取“品牌和型号”信息
+
+    Args:
+        asserts (pd.DataFrame): 设备清单信息实例
+        match_col_val (str): 匹配值
+
+    Returns:
+        str: “品牌+型号”
+    """
     # df1 = asserts[asserts['配对列'] == "对应设备清单-配对列"]["品牌"]
     # if len(df1) == 0:
     #     return "待确认: 请核对是否存在 对应设备清单-配对列 配对列,设备信息是否存在品牌列"
 
-    band = _getAsssetInfo(asserts, "对应设备清单-配对列", "品牌")
+    band = _getAsssetInfo(asserts, match_col_val, "品牌")
 
     # df2 = asserts[asserts['配对列'] == "对应设备清单-配对列"]["型号"]
     # if len(df2) == 0:
     #     return "待确认: 请核对是否存在 对应设备清单-配对列 配对列,设备信息是否存在型号列"
 
-    model = _getAsssetInfo(asserts, "对应设备清单-配对列", "云调库中对应型号")
+    model = _getAsssetInfo(asserts, match_col_val, "云调库中对应型号")
 
     return "%s %s" % (band, model)
