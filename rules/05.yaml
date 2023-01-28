@@ -74,6 +74,9 @@ rules:
       - name: PDU数量
         method: SetNone
 
+      - name: 原厂联系人
+        method: SetNone
+
       - name: 原厂联系人电话
         method: SetNone
 
