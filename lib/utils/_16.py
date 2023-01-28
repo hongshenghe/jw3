@@ -33,10 +33,10 @@ def GetShortSiteName(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: 
 
     df = target_data_frame
 
-    siteName = zero.GetProject("云调所属机房")
-    _siteName = _fetchShortSiteName(siteName)
+    # siteName = zero.GetProject("云调所属机房")
+    _siteName = _fetchShortSiteName(zero.GetProject("云调所属机房"))
 
-    print("_siteName:%s" % _siteName)
+    # print("_siteName:%s" % _siteName)
     df[col_name] = _siteName
 
     return df, True

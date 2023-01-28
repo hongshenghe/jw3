@@ -279,10 +279,13 @@ def _getMaintenanceInfo(zero: JWZero, col_name: str) -> pd.Series:
     """
 
     assets = zero.GetData("设备清单")
-    # group = assets[['类别', '品牌', '云调库中对应型号']].value_counts(
-    #     ascending=True).reset_index()
-    group = assets[['类别', '品牌', '云调库中对应型号']].value_counts().reset_index()
+
+    mask = assets["类别"].notnull()    # 去除空行
+    # group = assets[['类别', '品牌', '云调库中对应型号']][mask].value_counts().reset_index()
+    # group.columns = ['设备类型', '品牌', '型号', '数量']
+    group = assets.groupby(['类别', '品牌', '云调库中对应型号'])['总数'].sum().reset_index()
     group.columns = ['设备类型', '品牌', '型号', '数量']
+    group['数量'] = group['数量'].astype(int)
 
     if col_name in group.columns:
         return group[col_name]
