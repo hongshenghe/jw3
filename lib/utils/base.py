@@ -43,6 +43,10 @@ def _fetchSiteName(siteName, roomid):
     return siteName.replace("{site_name}", str(roomid))
 
 
+def _fetchShortSiteName(siteName: str):
+    return siteName.replace("{site_name}", "").replace("机房", "")
+
+
 def _fetchSiteCol(rack, pos):
     # rack = row['机架']  # 04列01
     m = re.match("(\S+)列(\S+)$", rack)
@@ -265,3 +269,21 @@ def _getPrometheusAssetInfo(asserts: pd.DataFrame, match_col_val: str) -> str:
     model = _getAssetInfo(asserts, match_col_val, "云调库中对应型号")
 
     return "%s %s" % (band, model)
+
+
+def _getMaintenanceInfo(zero: JWZero, col_name: str) -> pd.Series:
+    """生成维保基础信息
+
+    Returns:
+        pd.DataFrame: 维保信息列
+    """
+
+    assets = zero.GetData("设备清单")
+    # group = assets[['类别', '品牌', '云调库中对应型号']].value_counts(
+    #     ascending=True).reset_index()
+    group = assets[['类别', '品牌', '云调库中对应型号']].value_counts().reset_index()
+    group.columns = ['设备类型', '品牌', '型号', '数量']
+
+    if col_name in group.columns:
+        return group[col_name]
+    return pd.Series()

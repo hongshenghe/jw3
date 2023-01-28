@@ -19,6 +19,7 @@ from lib.rule import JWRule, LoadRules
 from lib.zero import JWZero
 from lib.dict import JWDict
 
+work_dir = os.getcwd()
 work_dir = Path(__file__).resolve().parent
 
 # zero 测试
@@ -50,6 +51,10 @@ jwDict = JWDict(work_dir,
 # 测试vm规划
 
 
-server_data = zero.GetData("服务器")
+# server_data = zero.GetData("服务器")
+assets = zero.GetData("设备清单")
 # server_data =server_data[server_data["角色"] == "KVM"][['角色','设备标签']]
 # print(server_data)
+
+
+group=assets[['品牌','云调库中对应型号']].value_counts(ascending=True).reset_index()

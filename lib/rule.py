@@ -30,6 +30,7 @@ from lib.utils._15 import PrometheusSNMPServer, PrometheusFilter, GetPrometheusA
 from lib.utils._51 import SequenceNumber, SnmpTarget
 from lib.utils._52 import GetVMHostInfo, GetVMInfo
 from lib.utils._62 import GetCloudDesktopRack, GetCloudDesktopPos, GetCloudDesktopProjectSite
+from lib.utils._16 import GetMaintenanceInfo, GetShortSiteName
 from lib.zero import JWZero
 from lib.dict import JWDict
 
