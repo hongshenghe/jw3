@@ -200,7 +200,7 @@ rules:
 
       - name: 自动化管理密码
         method: SetValue
-        value: OPS_5Df*1cp!K0_250e
+        value: OPS_5Df*1cp!K0_250e.
 
       - name: SSH账号
         method: SetValue
