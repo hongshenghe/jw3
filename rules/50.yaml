@@ -50,7 +50,7 @@ rules:
 
       - name: 自动化管理密码
         method: SetValue
-        value: OPS_5Df*1cp!K0_250e
+        value: Automation@2022
 
       - name: IPMI用户名
         method: SetValue

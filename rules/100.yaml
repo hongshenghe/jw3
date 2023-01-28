@@ -287,16 +287,20 @@ rules:
         value: Automation@2022
 
       - name: IPMI管理员账户
-        method: SetValue
-        value: Administrator
+        method: GetDict
+        source_sheet: 服务器
+        source_column: 角色
+        value: 账号ID2
 
       - name: IPMI管理员密码
         method: SetValue
         value: Ctyun@20220801
 
       - name: IPMI管理员账户(ID4)
-        method: SetValue
-        value: ydadmin
+        method: GetDict
+        source_sheet: 服务器
+        source_column: 角色
+        value: 账号ID4
 
       - name: IPMI管理员密码(ID4)
         method: SetValue
