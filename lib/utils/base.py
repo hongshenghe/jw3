@@ -31,6 +31,9 @@ def _fetchDictValue(fetchedDict: dict, match_value: str, dict_name: str) -> str:
     """
 
     for k, v in fetchedDict.items():
+        if pd.isna(match_value):
+            break
+        # print("match_value:%s k:%s v:%s " % (match_value, k, v))
         if re.search("^%s" % k, match_value):
             return v
     if "其他" in fetchedDict:
