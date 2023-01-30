@@ -12,17 +12,26 @@ rules:
 
   - sheet_name: 4A资产信息-ssh
     columns:
+      # - name: 资产名称（资产名称不能重复）
+      #   method: GetNetworkLogicCode
+      #   source_sheet: 网络设备
+      #   source_column: 堆叠后名称/M-LAG（逻辑名称）
+      #   description: 返回源数据“堆叠后名称/M-LAG（逻辑名称）” 如果为空值，则返回“设备标签”
+      - name: 资产名称（资产名称不能重复）
+        method: SetNone
+        description: 占位
+
+      - name: 资产ip
+        method: GetNetwork4AWebAssetIP
+        source_sheet: 网络设备
+        source_column: 网管网（包括iLO、ipmi）
+        description: 网管网（包括iLO、ipmi）去重
+
       - name: 资产名称（资产名称不能重复）
         method: GetNetworkLogicCode
         source_sheet: 网络设备
         source_column: 堆叠后名称/M-LAG（逻辑名称）
         description: 返回源数据“堆叠后名称/M-LAG（逻辑名称）” 如果为空值，则返回“设备标签”
-
-      - name: 资产ip
-        method: Copy
-        source_sheet: 网络设备
-        source_column: 网管网（包括iLO、ipmi）
-        description: 网络设备—I列-copy
 
       - name: 资产账号（读写账号）
         method: SetValue
@@ -81,7 +90,6 @@ rules:
         value: 云调库中对应型号
         description: 与资产信息匹配-配队列，获取型号
 
-
   - sheet_name: 4A资产信息-web
     columns:
       - name: 资产名称（资产名称不能重复）
@@ -89,7 +97,7 @@ rules:
         source_sheet: 网络设备
         source_column: 设备标签
         value: 角色
-        description: 需要的设备类型网络设备角色（防火墙、安全设备） ,其他类型设备不写入 
+        description: 需要的设备类型网络设备角色（防火墙、安全设备） ,其他类型设备不写入
 
       - name: 资产ip
         method: Copy

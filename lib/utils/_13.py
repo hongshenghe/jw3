@@ -37,3 +37,16 @@ def GetNetwork4AWebAssetName(zero: JWZero, jwDict: JWDict, target_data_frame, co
     df[col_name] = source_data[source_data[value].isin(_4Alist)][source_column]
 
     return df, True
+
+
+def GetNetwork4AWebAssetIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+    #
+    df = target_data_frame
+
+    # 原始数据
+    source_data = zero.GetData(source_sheet)
+
+    df[col_name] = pd.DataFrame(
+        source_data[source_column].unique(), columns=["资产ip"])
+
+    return df, True

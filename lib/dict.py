@@ -212,7 +212,7 @@ class JWDict(object):
             return "待确认：维保信息不存在需要的列:%s，厂家：%s 设备类型：%s 查找列名称：%s" % (column_name, vendor, asset_type,  column_name)
 
         try:
-            resp = df.reset_index()[column_name][0]
+            resp = str(df.reset_index()[column_name][0])
         except Exception as ex:
             resp = "待确认：无匹配的维保信息，厂家：%s 设备类型：%s 查找列名称：%s 异常信息:%s" % (
                 vendor, asset_type,  column_name, str(ex))
