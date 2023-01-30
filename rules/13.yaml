@@ -45,10 +45,11 @@ rules:
         description: 固定值： yundiao*&COC2016
 
       - name: 业务系统
-        method: Copy
+        method: GetAssetInfo
         source_sheet: 网络设备
-        source_column: 系统名称
-        description: 网络设备-系统名称
+        source_column: 对应设备清单-配对列
+        value: 设备名称
+        description: 设备清单-设备名称
 
       - name: 资源类型
         method: GetDict
@@ -86,7 +87,7 @@ rules:
       - name: 资产名称（资产名称不能重复）
         method: GetNetwork4AWebAssetName
         source_sheet: 网络设备
-        source_column: 系统名称
+        source_column: 设备标签
         value: 角色
         description: 需要的设备类型网络设备角色（防火墙、安全设备） ,其他类型设备不写入 
 
@@ -117,12 +118,11 @@ rules:
         description: 固定值： yundiao*&COC2016
 
       - name: 业务系统
-        method: GetPosition
+        method: GetAssetInfo
         source_sheet: 网络设备
-        source_column: 机房
-        description: 所属机房+U位置+机架 |
-          郑州市高新区枢纽楼数据中心122机房/04列01(6~17)
-          郑州市高新区枢纽楼数据中心122机房/04列01(40)
+        source_column: 对应设备清单-配对列
+        value: 设备名称
+        description: 设备清单-设备名称
 
       - name: 资源类型
         method: GetDict
