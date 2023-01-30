@@ -101,10 +101,10 @@ def GetRackProductLine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name
         by=['对应设备清单-配对列', '机架', '机房'], ascending=True)
 
     # assert_list = 产品线
-    asserts = zero.GetData("设备清单")
+    assets = zero.GetData("设备清单")
 
     dfSummary['产品线'] = dfSummary.apply(
-        lambda row: _getAssetInfo(asserts, row['对应设备清单-配对列'], "产品线"), axis=1)
+        lambda row: _getAssetInfo(assets, row['对应设备清单-配对列'], "产品线"), axis=1)
 
     # 获取原始机房号
     df[col_name] = _generateProjectSiteInfo(zero, "原始机房号")

@@ -16,7 +16,7 @@ import pandas as pd
 from lib.dict import JWDict
 from lib.logger import logging
 from lib.zero import JWZero
-from lib.utils.base import _get4ASSHName
+from lib.utils.base import _get4ASSHName, _getNetworkInfoColumnByIP, _getAssetInfoByNetworkIP
 
 # from lib.utils.base import
 
@@ -61,11 +61,61 @@ def GetNetwork4ASSHAssetName(zero: JWZero, jwDict: JWDict, target_data_frame, co
         df[col_name] = '待确认：需首先配置"资产ip"'
         return df, False
 
-    # df[col_name] =df.apply(
-    #     lambda row:
-    # )
     network = zero.GetData("网络设备")
     df[col_name] = df.apply(
         lambda row: _get4ASSHName(network, row["资产ip"]), axis=1)
+
+    return df, True
+
+
+def GetNetworkColumnBy4ASSHAssetIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+    # 根据ip地址获取网络设备表中对应列的信息
+    df = target_data_frame
+
+    if "资产ip" not in df.columns:
+        df[col_name] = '待确认：需首先配置"资产ip"列'
+        return df, False
+
+    network = zero.GetData("网络设备")
+    col_name = value
+    df[col_name] = df.apply(
+        lambda row: _getNetworkInfoColumnByIP(network=network, ip=row["资产ip"], column_name=col_name), axis=1)
+
+    return df, True
+
+
+def GetAssetInfoByNetworkIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+    # 根据ip地址获取网络设备的资产清单信息
+
+    df = target_data_frame
+
+    if "资产ip" not in df.columns:
+        df[col_name] = '待确认：需首先配置"资产ip"列'
+        return df, False
+
+    assets = zero.GetData("设备清单")
+    network = zero.GetData("网络设备")
+    col_name = value
+
+    df[col_name] = df.apply(lambda row: _getAssetInfoByNetworkIP(
+        assets=assets, network=network, ip=row["资产ip"], column_name=col_name), axis=1)
+
+    return df, True
+
+def GetDictByNetworkIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+    # 根据ip地址获取网络设备的资产清单信息
+
+    df = target_data_frame
+
+    if "资产ip" not in df.columns:
+        df[col_name] = '待确认：需首先配置"资产ip"列'
+        return df, False
+
+    assets = zero.GetData("设备清单")
+    network = zero.GetData("网络设备")
+    col_name = value
+
+    df[col_name] = df.apply(lambda row: _getAssetInfoByNetworkIP(
+        assets=assets, network=network, ip=row["资产ip"], column_name=col_name), axis=1)
 
     return df, True

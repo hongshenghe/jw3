@@ -94,20 +94,20 @@ def _getProjectDictItem(zero, key: str) -> str:
     return content
 
 
-def _getAssetInfo(asserts: pd.DataFrame, match_col: str, parameter: str) -> str:
+def _getAssetInfo(assets: pd.DataFrame, match_value: str, column_name: str) -> str:
     """获取资产信息表格的列属性
 
     Args:
-        asserts (pd.DataFrame): 资产dataframe对象
-        match_col (str): 子表配队列
-        parameter (str): 资产信息表格的列名称
+        assets (pd.DataFrame): 资产dataframe对象
+        match_value (str): 子表配队列
+        column_name (str): 资产信息表格的列名称
 
     Returns:
         str: _description_
     """
-    df = asserts[asserts['配对列'] == match_col][parameter]
+    df = assets[assets['配对列'] == match_value][column_name]
     if len(df) == 0:
-        return "待确认: 请核对是否存在 %s 配对列,设备信息是否存在%s列" % (match_col, parameter)
+        return "待确认: 请核对是否存在 %s 配对列,设备信息是否存在%s列" % (match_value, column_name)
     return df.iloc(0)[0]
 
 
@@ -304,3 +304,35 @@ def _get4ASSHName(network: pd.DataFrame, source_ip: str) -> str:
 
     name = str(df["设备标签"][0])
     return name
+
+
+def _getNetworkInfoColumnByIP(network: pd.DataFrame, ip: str, column_name: str) -> str:
+
+    df = network
+
+    df = df[df['网管网（包括iLO、ipmi）'] == ip].reset_index()
+    if len(df) == 0:
+        return f"待确认：网络设备中的网管网（包括iLO、ipmi）不存在:{ip}"
+
+    if column_name not in df.columns:
+        return f"待确认：数据集中查找列不存在{column_name}列"
+
+    name = str(df[column_name][0])
+
+    return name
+
+
+def _getIDXByNetworkIP(network: pd.DataFrame, ip: str) -> str:
+    idx_name = _getNetworkInfoColumnByIP(
+        network=network, ip=ip, column_name="对应设备清单-配对列")
+
+    return idx_name
+
+
+def _getAssetInfoByNetworkIP(assets:pd.DataFrame,network:pd.DataFrame,ip:str,column_name:str) ->str:
+    match_idx_name = _getNetworkInfoColumnByIP(
+        network=network, ip=ip, column_name="对应设备清单-配对列")
+
+    col = _getAssetInfo(assets=assets,match_value=match_idx_name,column_name=column_name)
+
+    return col
