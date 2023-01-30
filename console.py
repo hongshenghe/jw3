@@ -52,9 +52,9 @@ jwDict = JWDict(work_dir,
 
 
 # server_data = zero.GetData("服务器")
-assets = zero.GetData("设备清单")
+# assets = zero.GetData("设备清单")
 # server_data =server_data[server_data["角色"] == "KVM"][['角色','设备标签']]
 # print(server_data)
 
 
-group=assets[['品牌','云调库中对应型号']].value_counts(ascending=True).reset_index()
+# group=assets[['品牌','云调库中对应型号']].value_counts(ascending=True).reset_index()

@@ -40,3 +40,26 @@ def GetShortSiteName(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: 
     df[col_name] = _siteName
 
     return df, True
+
+
+def GetMaintenanceColumn(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+
+    df = target_data_frame
+
+    # print(df.columns)
+
+    if "厂家" not in df.columns:
+        df[col_name] = "待确认：需配置厂家列后，才能计算该列"
+        return df, False
+
+    if "设备类型" not in df.columns:
+        df[col_name] = "待确认：需配置设备类型列后，才能计算该列"
+        return df, False
+
+    # df[col_name] = "-"
+    # df[col_name] = df.apply(
+    #     lambda row: jwDict.FetchManufacturerInfo(row['厂家'], row['设备类型'], value), axis=1 
+    # )
+    df[col_name] = df.apply(lambda row: jwDict.FetchManufacturerInfo(
+        row['厂家'], row['设备类型'], value), axis=1)
+    return df, True

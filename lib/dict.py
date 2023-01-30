@@ -15,7 +15,7 @@ import pandas as pd
 import openpyxl
 import os
 
-from lib.base import fetch_dict_file_name
+from lib.base import fetch_dict_file_name, fetchExcelSheets
 from lib.logger import logging
 
 
@@ -53,6 +53,7 @@ class JWDict(object):
     #         },
     # }
     data = {}
+    manufacturer_data = {}
 
     def __init__(self, work_dir: str, dict_file: str) -> None:
         """字典初始化
@@ -66,6 +67,9 @@ class JWDict(object):
 
         # 初始化字典表
         self.data = self._init_dict()
+
+        # 初始化设备维保信息
+        self._loadDataFrame("设备维保")
 
     def _init_dict(self) -> dict:
         """初始化字典表
@@ -182,6 +186,51 @@ class JWDict(object):
         Returns:
             list: _description_
         """
-        wb = openpyxl.load_workbook(fileName)
-        sheet_list = wb.get_sheet_names()
-        return sheet_list
+        # wb = openpyxl.load_workbook(fileName)
+        # sheet_list = wb.get_sheet_names()
+
+        # return sheet_list
+        return fetchExcelSheets(fileName)
+
+    def FetchManufacturerInfo(self, vendor: str, asset_type: str, column_name: str) -> str:
+
+        # print("vendor:%s asset_type:%s column_name:%s" %
+        #       (vendor, asset_type, column_name))
+
+        df = self.manufacturer_data['设备维保']
+        # print(df.columns)
+
+        df = df[df["厂家"] == vendor]
+        df = df[df["设备类型"] == asset_type]
+
+        # df = df[((df["厂家"] == vendor) & (df["设备类型"] == asset_type))]
+
+        if len(df) == 0:
+            return "待确认：无匹配的维保信息，厂家：%s 设备类型：%s 查找列名称：%s" % (vendor, asset_type,  column_name)
+
+        if column_name not in df.columns:
+            return "待确认：维保信息不存在需要的列:%s，厂家：%s 设备类型：%s 查找列名称：%s" % (column_name, vendor, asset_type,  column_name)
+
+        try:
+            resp = df.reset_index()[column_name][0]
+        except Exception as ex:
+            resp = "待确认：无匹配的维保信息，厂家：%s 设备类型：%s 查找列名称：%s 异常信息:%s" % (
+                vendor, asset_type,  column_name, str(ex))
+        return resp
+
+    def _loadDataFrame(self, data_name: str) -> Exception:
+        if data_name not in self.data:
+            self.data[data_name] = None
+
+        # data sheet 是否存在
+        if not self._check_sheet_name(data_name):
+            return Exception("Error:%s 表格不存在" % data_name)
+
+        # 加载sheet
+        _dict_file_name = os.path.join(self._work_dir, self._dict_file)
+
+        df = pd.read_excel(
+            _dict_file_name, sheet_name=data_name, engine='openpyxl')
+
+        self.manufacturer_data[data_name] = df
+        return None

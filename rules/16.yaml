@@ -47,11 +47,13 @@ rules:
         description: 项目信息-云调所属机房
 
       - name: 原厂联系人
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 原厂联系人
         description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
 
       - name: 联系方式
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 联系方式
         description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
 
       - name: 是否第三方代理
@@ -75,23 +77,28 @@ rules:
         description: 固定值
 
       - name: 服务等级
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 服务等级
         description: 设备维保信息字典内容（不同的品牌不一样）
 
       - name: 服务内容
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 服务内容
         description: 设备维保信息字典内容（不同的品牌不一样）
 
       - name: 维保时间
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 维保时间
         description: 设备维保信息字典内容（不同的品牌不一样）
 
       - name: 服务开始日期
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 服务开始日期
         description: 设备维保信息字典内容（不同的品牌不一样）
 
       - name: 服务截止日期
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 服务截止日期
         description: 设备维保信息字典内容（不同的品牌不一样）
 
       - name: 维保期间是否可以得到原厂支持
@@ -100,31 +107,38 @@ rules:
         description: 固定值
 
       - name: 400/800电话
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 400/800电话
         description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
 
       - name: 姓名
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 姓名
         description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
 
       - name: 联系方式
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 联系方式1
         description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
 
       - name: 姓名
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 姓名
         description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
 
       - name: 联系方式
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 联系方式2
         description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
 
       - name: 入机房备案人员（多名）
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 入机房备案人员（多名）
         description: 设备维保信息字典内容（不同的品牌不一样）
 
       - name: 备品和存放位置
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 备品和存放位置
         description: 设备维保信息字典内容（不同的品牌不一样）
 
       - name: 设备维保响应时间（一般性通信故障）
@@ -132,17 +146,21 @@ rules:
         description: 设备维保信息字典内容（不同的品牌不一样）
 
       - name: 恢复设备正常运行时间（一般性通信故障）
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 恢复设备正常运行时间（一般性通信故障）
         description: 设备维保信息字典内容（不同的品牌不一样）
 
       - name: 设备维保响应时间（重大通信故障）
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 设备维保响应时间（重大通信故障）
         description: 设备维保信息字典内容（不同的品牌不一样）
 
       - name: 恢复设备正常运行时间（重大通信故障）
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 恢复设备正常运行时间（重大通信故障）
         description: 设备维保信息字典内容（不同的品牌不一样）
 
       - name: 响应服务时间
-        method: SetNone
+        method: GetMaintenanceColumn
+        value: 响应服务时间
         description: 设备维保信息字典内容（不同的品牌不一样）

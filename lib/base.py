@@ -25,8 +25,7 @@ def fetchExcelSheets(fileName: str) -> list:
         list: _description_
     """
     wb = openpyxl.load_workbook(fileName)
-    sheet_list = wb.get_sheet_names()
-    return sheet_list
+    return wb.sheetnames 
 
 
 def ensurePath(path: str) -> None:

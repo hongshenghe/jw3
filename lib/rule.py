@@ -30,7 +30,7 @@ from lib.utils._15 import PrometheusSNMPServer, PrometheusFilter, GetPrometheusA
 from lib.utils._51 import SequenceNumber, SnmpTarget
 from lib.utils._52 import GetVMHostInfo, GetVMInfo
 from lib.utils._62 import GetCloudDesktopRack, GetCloudDesktopPos, GetCloudDesktopProjectSite
-from lib.utils._16 import GetMaintenanceInfo, GetShortSiteName
+from lib.utils._16 import GetMaintenanceInfo, GetShortSiteName, GetMaintenanceColumn
 from lib.zero import JWZero
 from lib.dict import JWDict
 
@@ -198,7 +198,7 @@ class JWRule(object):
             return Exception(err)
 
         wb = openpyxl.load_workbook(source_file)
-        sheets = wb.get_sheet_names()
+        sheets = wb.sheetnames
         # print("sheets:%s" % sheets)
         if source_sheet not in sheets:
             err = "%s文件名%s sheet不存在，无法复制sheet,%s-%s" % (source_file, source_sheet,
