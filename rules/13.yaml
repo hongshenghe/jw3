@@ -22,13 +22,13 @@ rules:
         description: 占位
 
       - name: 资产ip
-        method: GetNetwork4AWebAssetIP
+        method: GetNetwork4ASSHAssetIP
         source_sheet: 网络设备
         source_column: 网管网（包括iLO、ipmi）
         description: 网管网（包括iLO、ipmi）去重
 
       - name: 资产名称（资产名称不能重复）
-        method: GetNetworkLogicCode
+        method: GetNetwork4ASSHAssetName
         source_sheet: 网络设备
         source_column: 堆叠后名称/M-LAG（逻辑名称）
         description: 返回源数据“堆叠后名称/M-LAG（逻辑名称）” 如果为空值，则返回“设备标签”

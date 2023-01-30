@@ -237,7 +237,7 @@ def _getNetworkLogicCode(group_name: str, asset_label: str) -> str:
         asset_label (str): 设备标签
 
     Returns:
-        str: 逻辑编码 
+        str: 逻辑编码
     """
     _group = str(group_name)
 
@@ -295,4 +295,12 @@ def _getMaintenanceInfo(zero: JWZero, col_name: str) -> pd.Series:
     return pd.Series()
 
 
- 
+def _get4ASSHName(network: pd.DataFrame, source_ip: str) -> str:
+    df = network
+
+    df = df[df['网管网（包括iLO、ipmi）'] == source_ip].reset_index()
+    if len(df) == 0:
+        return f"待确认：网络设备中的网管网（包括iLO、ipmi）不存在:{source_ip}"
+
+    name = str(df["设备标签"][0])
+    return name

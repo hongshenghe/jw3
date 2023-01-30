@@ -16,6 +16,7 @@ import pandas as pd
 from lib.dict import JWDict
 from lib.logger import logging
 from lib.zero import JWZero
+from lib.utils.base import _get4ASSHName
 
 # from lib.utils.base import
 
@@ -39,14 +40,32 @@ def GetNetwork4AWebAssetName(zero: JWZero, jwDict: JWDict, target_data_frame, co
     return df, True
 
 
-def GetNetwork4AWebAssetIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
-    #
+def GetNetwork4ASSHAssetIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+    # 4A资产信息-ssh 资产ip
     df = target_data_frame
 
     # 原始数据
     source_data = zero.GetData(source_sheet)
 
     df[col_name] = pd.DataFrame(
-        source_data[source_column].unique(), columns=["资产ip"])
+        source_data[source_column].unique(), columns=[col_name])
+
+    return df, True
+
+
+def GetNetwork4ASSHAssetName(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+    # 4A资产信息-ssh 资产名称
+    df = target_data_frame
+
+    if "资产ip" not in df.columns:
+        df[col_name] = '待确认：需首先配置"资产ip"'
+        return df, False
+
+    # df[col_name] =df.apply(
+    #     lambda row:
+    # )
+    network = zero.GetData("网络设备")
+    df[col_name] = df.apply(
+        lambda row: _get4ASSHName(network, row["资产ip"]), axis=1)
 
     return df, True
