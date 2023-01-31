@@ -25,8 +25,8 @@ rules:
         method: GetMaintenanceInfo
         value: 设备类型
         description:
-          网络设备->系统名称 与 网络设备类型键值进行匹配，返回字典内容
-          服务器设备：固定值：服务器
+          网络设备：固定值：网络设备
+          服务器：固定值：服务器
 
       - name: 型号
         method: GetMaintenanceInfo
@@ -35,7 +35,6 @@ rules:
 
       - name: 序列号
         method: SetNone
-        description: 为空值就行
 
       - name: 数量
         method: GetMaintenanceInfo
@@ -49,12 +48,12 @@ rules:
       - name: 原厂联系人
         method: GetMaintenanceColumn
         value: 原厂联系人
-        description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
+        description: 设备维保信息字典内容
 
       - name: 联系方式
         method: GetMaintenanceColumn
         value: 联系方式
-        description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
+        description: 设备维保信息字典内容
 
       - name: 是否第三方代理
         method: SetValue
@@ -79,27 +78,27 @@ rules:
       - name: 服务等级
         method: GetMaintenanceColumn
         value: 服务等级
-        description: 设备维保信息字典内容（不同的品牌不一样）
+        description: 设备维保信息字典内容
 
       - name: 服务内容
         method: GetMaintenanceColumn
         value: 服务内容
-        description: 设备维保信息字典内容（不同的品牌不一样）
+        description: 设备维保信息字典内容
 
       - name: 维保时间
         method: GetMaintenanceColumn
         value: 维保时间
-        description: 设备维保信息字典内容（不同的品牌不一样）
+        description: 设备维保信息字典内容
 
       - name: 服务开始日期
         method: GetMaintenanceColumn
         value: 服务开始日期
-        description: 设备维保信息字典内容（不同的品牌不一样）
+        description: 设备维保信息字典内容
 
       - name: 服务截止日期
         method: GetMaintenanceColumn
         value: 服务截止日期
-        description: 设备维保信息字典内容（不同的品牌不一样）
+        description: 设备维保信息字典内容
 
       - name: 维保期间是否可以得到原厂支持
         method: SetValue
@@ -109,58 +108,57 @@ rules:
       - name: 400/800电话
         method: GetMaintenanceColumn
         value: 400/800电话
-        description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
+        description: 设备维保信息字典内容
 
       - name: 姓名
         method: GetMaintenanceColumn
         value: 姓名
-        description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
+        description: 设备维保信息字典内容
 
       - name: 联系方式
         method: GetMaintenanceColumn
         value: 联系方式1
-        description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
+        description: 设备维保信息字典内容
 
       - name: 姓名
         method: GetMaintenanceColumn
         value: 姓名
-        description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
+        description: 设备维保信息字典内容
 
       - name: 联系方式
         method: GetMaintenanceColumn
         value: 联系方式2
-        description: 设备维保信息字典内容，其他表格也需要根据设备品牌调用
+        description: 设备维保信息字典内容
 
       - name: 入机房备案人员（多名）
         method: GetMaintenanceColumn
         value: 入机房备案人员（多名）
-        description: 设备维保信息字典内容（不同的品牌不一样）
+        description: 设备维保信息字典内容
 
       - name: 备品和存放位置
         method: GetMaintenanceColumn
         value: 备品和存放位置
-        description: 设备维保信息字典内容（不同的品牌不一样）
+        description: 设备维保信息字典内容
 
       - name: 设备维保响应时间（一般性通信故障）
         method: SetNone
-        description: 设备维保信息字典内容（不同的品牌不一样）
 
       - name: 恢复设备正常运行时间（一般性通信故障）
         method: GetMaintenanceColumn
         value: 恢复设备正常运行时间（一般性通信故障）
-        description: 设备维保信息字典内容（不同的品牌不一样）
+        description: 设备维保信息字典内容
 
       - name: 设备维保响应时间（重大通信故障）
         method: GetMaintenanceColumn
         value: 设备维保响应时间（重大通信故障）
-        description: 设备维保信息字典内容（不同的品牌不一样）
+        description: 设备维保信息字典内容
 
       - name: 恢复设备正常运行时间（重大通信故障）
         method: GetMaintenanceColumn
         value: 恢复设备正常运行时间（重大通信故障）
-        description: 设备维保信息字典内容（不同的品牌不一样）
+        description: 设备维保信息字典内容
 
       - name: 响应服务时间
         method: GetMaintenanceColumn
         value: 响应服务时间
-        description: 设备维保信息字典内容（不同的品牌不一样）
+        description: 设备维保信息字典内容

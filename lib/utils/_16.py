@@ -17,7 +17,7 @@ from lib.dict import JWDict
 from lib.logger import logging
 from lib.zero import JWZero
 
-from lib.utils.base import _getMaintenanceInfo, _fetchShortSiteName
+from lib.utils.base import _getMaintenanceInfo, _fetchShortSiteName, _getAssetInfo
 
 
 def GetMaintenanceInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
@@ -58,8 +58,24 @@ def GetMaintenanceColumn(zero: JWZero, jwDict: JWDict, target_data_frame, col_na
 
     # df[col_name] = "-"
     # df[col_name] = df.apply(
-    #     lambda row: jwDict.FetchManufacturerInfo(row['厂家'], row['设备类型'], value), axis=1 
+    #     lambda row: jwDict.FetchManufacturerInfo(row['厂家'], row['设备类型'], value), axis=1
     # )
     df[col_name] = df.apply(lambda row: jwDict.FetchManufacturerInfo(
         row['厂家'], row['设备类型'], value), axis=1)
+    return df, True
+
+
+def GetDeviceMaintenanceColumn(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+
+    df = target_data_frame
+
+    source_data = zero.GetData(source_sheet)
+
+    match_val = source_data["对应设备清单-配对列"].iloc[0]
+
+    assets = zero.GetData("设备清单")
+    asset_type = _getAssetInfo(assets, match_val, "类别")
+
+    df[col_name] = source_data.apply(lambda row: jwDict.FetchManufacturerInfo(
+        row['品牌'], asset_type, value), axis=1)
     return df, True

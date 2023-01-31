@@ -160,10 +160,14 @@ rules:
         source_column: 网管网vlan
 
       - name: 原厂联系人
-        method: SetNone
+        method: GetDeviceMaintenanceColumn
+        source_sheet: 网络设备
+        value: 原厂联系人
 
       - name: 原厂联系方式
-        method: SetNone
+        method: GetDeviceMaintenanceColumn
+        source_sheet: 网络设备
+        value: 联系方式1
 
       - name: 代理商联系人
         method: SetNone
@@ -172,7 +176,9 @@ rules:
         method: SetNone
 
       - name: 400/800电话
-        method: SetNone
+        method: GetDeviceMaintenanceColumn
+        source_sheet: 网络设备
+        value: 400/800电话
 
       - name: 服务等级
         method: SetValue

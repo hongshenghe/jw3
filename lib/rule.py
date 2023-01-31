@@ -27,10 +27,11 @@ from lib.utils._09 import Copy, GetDict, GetSubProductLine, GetNetworkLogicCode
 from lib.utils._12 import GetDataCenterShort, BMC, HTTPS
 from lib.utils._13 import GetNetwork4AWebAssetName, GetNetwork4ASSHAssetIP, GetNetwork4ASSHAssetName, GetAssetInfoByNetworkIP, GetDictByNetworkIP
 from lib.utils._15 import PrometheusSNMPServer, PrometheusFilter, GetPrometheusAssetInfo
+from lib.utils._16 import GetMaintenanceInfo, GetShortSiteName, GetMaintenanceColumn, GetDeviceMaintenanceColumn
 from lib.utils._51 import SequenceNumber, SnmpTarget
 from lib.utils._52 import GetVMHostInfo, GetVMInfo
 from lib.utils._62 import GetCloudDesktopRack, GetCloudDesktopPos, GetCloudDesktopProjectSite
-from lib.utils._16 import GetMaintenanceInfo, GetShortSiteName, GetMaintenanceColumn
+
 from lib.zero import JWZero
 from lib.dict import JWDict
 
