@@ -329,10 +329,39 @@ def _getIDXByNetworkIP(network: pd.DataFrame, ip: str) -> str:
     return idx_name
 
 
-def _getAssetInfoByNetworkIP(assets:pd.DataFrame,network:pd.DataFrame,ip:str,column_name:str) ->str:
+def _getAssetInfoByNetworkIP(assets: pd.DataFrame, network: pd.DataFrame, ip: str, column_name: str) -> str:
     match_idx_name = _getNetworkInfoColumnByIP(
         network=network, ip=ip, column_name="对应设备清单-配对列")
 
-    col = _getAssetInfo(assets=assets,match_value=match_idx_name,column_name=column_name)
+    col = _getAssetInfo(
+        assets=assets, match_value=match_idx_name, column_name=column_name)
 
     return col
+
+
+def _getDictByNetworkIP(network: pd.DataFrame, ip: str, match_column_name: str, fetched_dict: dict, dict_name: str) -> str:
+    """根据ip查询网络设备字段，根据匹配字段匹配字典的名称
+
+
+    IP  <=>      网络设备         <=>           字典
+
+    ip  ->       获取属性列内容              
+                                  ->          匹配字典(fetchd_dict)
+
+
+    Args: 
+        network (pd.DataFrame): 网络设备实例
+        ip (str): ip地址
+        match_column_name (str): 网络设备属性列
+        dict_name (str): 字典名称
+
+    Returns:
+        str: _description_
+    """
+    match_idx_name = _getNetworkInfoColumnByIP(
+        network=network, ip=ip, column_name=match_column_name)
+
+    dict_value = _fetchDictValue(
+        fetchedDict=fetched_dict, match_value=match_idx_name, dict_name=dict_name)
+
+    return dict_value

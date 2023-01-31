@@ -16,9 +16,7 @@ import pandas as pd
 from lib.dict import JWDict
 from lib.logger import logging
 from lib.zero import JWZero
-from lib.utils.base import _get4ASSHName, _getNetworkInfoColumnByIP, _getAssetInfoByNetworkIP
-
-# from lib.utils.base import
+from lib.utils.base import _get4ASSHName, _getNetworkInfoColumnByIP, _getAssetInfoByNetworkIP, _getDictByNetworkIP
 
 
 def GetNetwork4AWebAssetName(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
@@ -102,6 +100,7 @@ def GetAssetInfoByNetworkIP(zero: JWZero, jwDict: JWDict, target_data_frame, col
 
     return df, True
 
+
 def GetDictByNetworkIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
     # 根据ip地址获取网络设备的资产清单信息
 
@@ -111,11 +110,14 @@ def GetDictByNetworkIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name
         df[col_name] = '待确认：需首先配置"资产ip"列'
         return df, False
 
-    assets = zero.GetData("设备清单")
     network = zero.GetData("网络设备")
-    col_name = value
 
-    df[col_name] = df.apply(lambda row: _getAssetInfoByNetworkIP(
-        assets=assets, network=network, ip=row["资产ip"], column_name=col_name), axis=1)
+    # 匹配字典
+    dict_name = value
+    fetchedDict = jwDict.GetDict(dict_name)
+
+    network_property_name = source_column
+    df[col_name] = df.apply(lambda row: _getDictByNetworkIP(
+        network=network, ip=row["资产ip"], match_column_name=network_property_name, fetched_dict=fetchedDict, dict_name=dict_name), axis=1)
 
     return df, True
