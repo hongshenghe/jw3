@@ -60,8 +60,12 @@ def GetNetwork4ASSHAssetName(zero: JWZero, jwDict: JWDict, target_data_frame, co
         return df, False
 
     network = zero.GetData("网络设备")
+    _ip_groups = network["网管网（包括iLO、ipmi）"].value_counts(
+        ascending=True).reset_index()
+    _ip_groups.columns = ["ip", "cnt"]
+    
     df[col_name] = df.apply(
-        lambda row: _get4ASSHName(network, row["资产ip"]), axis=1)
+        lambda row: _get4ASSHName(network, row["资产ip"], _ip_groups), axis=1)
 
     return df, True
 

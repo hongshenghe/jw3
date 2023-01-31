@@ -295,14 +295,21 @@ def _getMaintenanceInfo(zero: JWZero, col_name: str) -> pd.Series:
     return pd.Series()
 
 
-def _get4ASSHName(network: pd.DataFrame, source_ip: str) -> str:
+def _get4ASSHName(network: pd.DataFrame, source_ip: str, group) -> str:
     df = network
 
     df = df[df['网管网（包括iLO、ipmi）'] == source_ip].reset_index()
     if len(df) == 0:
         return f"待确认：网络设备中的网管网（包括iLO、ipmi）不存在:{source_ip}"
 
-    name = str(df["设备标签"][0])
+    cnt = group[group["ip"] == source_ip]["cnt"].iloc[0]
+
+    print(f"source_ip:{source_ip} cnt:{cnt}")
+
+    name = str(df["设备标签"].iloc[0])
+    if cnt > 1:
+        name = str(df["堆叠后名称/M-LAG（逻辑名称）"].iloc[0])
+
     return name
 
 
