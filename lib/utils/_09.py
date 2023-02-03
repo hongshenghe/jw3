@@ -15,27 +15,49 @@ import pandas as pd
 
 from lib.dict import JWDict
 from lib.zero import JWZero
-from lib.utils.base import _fetchDictValue, _getAssetInfo, _getNetworkLogicCode
+from lib.utils.base import _fetchDictValue, _getAssetInfo, _getNetworkLogicCode, _fetch_dict_key
 
 
-def Copy(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def Copy(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     df = target_data_frame
     if not source_sheet or not source_column:
         df[col_name] = "待确认: 源sheet或源列未指定"
         return df, False
 
-    df[col_name] = zero.GetData(source_sheet)[source_column]
+    source_data = zero.GetData(source_sheet)
+    if filter:
+        if filter['type'] == "dict_key":
+            dict_name = filter['dict_name']
+            filer_column = filter['column']
+            _filter_key_list = _fetch_dict_key(
+                jwDict=jwDict, dict_name=dict_name)
+            df[col_name] = source_data[source_data[filer_column].isin(
+                _filter_key_list)][source_column]
+            return df, True
+
+    df[col_name] = source_data[source_column]
     return df, True
 
 
-def GetDict(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetDict(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     df = target_data_frame
     if not source_sheet or not source_column or not col_name or not value:
         df[col_name] = "待确认: GetDict需要指定source_sheet、source_column、value、col_name"
         return df, False
 
-    # 获取原始值
-    df[col_name] = zero.GetData(source_sheet)[[source_column]]
+    # 过滤原始值
+    source_data = zero.GetData(source_sheet)
+    if filter:
+        if filter['type'] == "dict_key":
+            dict_name = filter['dict_name']
+            filer_column = filter['column']
+            _filter_key_list = _fetch_dict_key(
+                jwDict=jwDict, dict_name=dict_name)
+            df[col_name] = source_data[source_data[filer_column].isin(
+                _filter_key_list)][source_column]
+            return df, True
+
+    df[col_name] = source_data[[source_column]]
 
     # 匹配字典
     fetchedDict = jwDict.GetDict(value)
@@ -45,7 +67,7 @@ def GetDict(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, valu
     return df, True
 
 
-def GetSubProductLine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetSubProductLine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     """获取细分产品线
 
     Args:
@@ -75,7 +97,7 @@ def GetSubProductLine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name:
     return df, True
 
 
-def GetNetworkLogicCode(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetNetworkLogicCode(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     """获取网络设备逻辑编码
     返回源数据“堆叠后名称/M-LAG（逻辑名称）”
     如果为空，则返回“设备标签“

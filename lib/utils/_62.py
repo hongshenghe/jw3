@@ -20,7 +20,7 @@ from lib.zero import JWZero
 from lib.utils.base import _getCloudDesktopRackAsset, _getCloudDesktopPos
 
 
-def GetCloudDesktopRack(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetCloudDesktopRack(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
     """获取云桌面机架位置
 
     Args:
@@ -45,7 +45,7 @@ def GetCloudDesktopRack(zero: JWZero, jwDict: JWDict, target_data_frame, col_nam
     return df, True
 
 
-def GetCloudDesktopPos(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetCloudDesktopPos(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 
@@ -58,7 +58,7 @@ def GetCloudDesktopPos(zero: JWZero, jwDict: JWDict, target_data_frame, col_name
     return df, True
 
 
-def GetCloudDesktopProjectSite(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetCloudDesktopProjectSite(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 

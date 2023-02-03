@@ -20,7 +20,7 @@ from lib.zero import JWZero
 from lib.utils.base import _generateProjectSiteInfo, _getProjectDictItem, _fetchSiteName, _getAssetInfo, _getRackProductLine, _fetchSiteCol, _getNetworkAssetPos, _getSNMPVersion
 
 
-def VlanAsset(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def VlanAsset(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 
@@ -34,7 +34,7 @@ def VlanAsset(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, va
     return df, True
 
 
-def ResourceType(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def ResourceType(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 
@@ -48,7 +48,7 @@ def ResourceType(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str,
     return df, True
 
 
-def DeviceCode(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def DeviceCode(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 
@@ -62,7 +62,7 @@ def DeviceCode(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, v
     return df, True
 
 
-def DeviceCode(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def DeviceCode(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 
@@ -76,7 +76,7 @@ def DeviceCode(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, v
     return df, True
 
 
-def DeviceIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def DeviceIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 
@@ -90,7 +90,7 @@ def DeviceIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, val
     return df, True
 
 
-def VlanAsset(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def VlanAsset(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 

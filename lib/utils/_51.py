@@ -20,7 +20,7 @@ from lib.zero import JWZero
 from lib.utils.base import _generateProjectSiteInfo, _getProjectDictItem, _fetchSiteName, _getAssetInfo, _getRackProductLine, _fetchSiteCol, _getNetworkAssetPos, _getSNMPVersion
 
 
-def SequenceNumber(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def SequenceNumber(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 
@@ -29,7 +29,7 @@ def SequenceNumber(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: st
     return df, True
 
 
-def SnmpTarget(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def SnmpTarget(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 

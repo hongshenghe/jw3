@@ -20,7 +20,7 @@ from lib.zero import JWZero
 from lib.utils.base import _fetchDictValue
 
 
-def GetVMHostInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetVMHostInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 
@@ -40,7 +40,7 @@ def GetVMHostInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str
     return df, True
 
 
-def GetVMInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetVMInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 
@@ -59,7 +59,7 @@ def GetVMInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, va
     return df, True
 
 # 暂时不使用
-# def GetVMInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+# def GetVMInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 #     """获取虚拟机信息
 
 #     Args:

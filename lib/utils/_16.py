@@ -20,7 +20,7 @@ from lib.zero import JWZero
 from lib.utils.base import _getMaintenanceInfo, _fetchShortSiteName, _getAssetInfo
 
 
-def GetMaintenanceInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetMaintenanceInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 
@@ -29,7 +29,7 @@ def GetMaintenanceInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name
     return df, True
 
 
-def GetShortSiteName(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetShortSiteName(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 
@@ -42,7 +42,7 @@ def GetShortSiteName(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: 
     return df, True
 
 
-def GetMaintenanceColumn(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetMaintenanceColumn(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 
@@ -65,7 +65,7 @@ def GetMaintenanceColumn(zero: JWZero, jwDict: JWDict, target_data_frame, col_na
     return df, True
 
 
-def GetDeviceMaintenanceColumn(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetDeviceMaintenanceColumn(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 

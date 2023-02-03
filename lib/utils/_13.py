@@ -19,7 +19,7 @@ from lib.zero import JWZero
 from lib.utils.base import _get4ASSHName, _getNetworkInfoColumnByIP, _getAssetInfoByNetworkIP, _getDictByNetworkIP
 
 
-def GetNetwork4AWebAssetName(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetNetwork4AWebAssetName(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     #
     df = target_data_frame
 
@@ -35,10 +35,12 @@ def GetNetwork4AWebAssetName(zero: JWZero, jwDict: JWDict, target_data_frame, co
     # 按照字典过滤
     df[col_name] = source_data[source_data[value].isin(_4Alist)][source_column]
 
+    print(f"df[col_name]:{df[col_name]}")
+
     return df, True
 
 
-def GetNetwork4ASSHAssetIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetNetwork4ASSHAssetIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     # 4A资产信息-ssh 资产ip
     df = target_data_frame
 
@@ -51,7 +53,7 @@ def GetNetwork4ASSHAssetIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_
     return df, True
 
 
-def GetNetwork4ASSHAssetName(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetNetwork4ASSHAssetName(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     # 4A资产信息-ssh 资产名称
     df = target_data_frame
 
@@ -63,14 +65,14 @@ def GetNetwork4ASSHAssetName(zero: JWZero, jwDict: JWDict, target_data_frame, co
     _ip_groups = network["网管网（包括iLO、ipmi）"].value_counts(
         ascending=True).reset_index()
     _ip_groups.columns = ["ip", "cnt"]
-    
+
     df[col_name] = df.apply(
         lambda row: _get4ASSHName(network, row["资产ip"], _ip_groups), axis=1)
 
     return df, True
 
 
-def GetNetworkColumnBy4ASSHAssetIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetNetworkColumnBy4ASSHAssetIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     # 根据ip地址获取网络设备表中对应列的信息
     df = target_data_frame
 
@@ -86,7 +88,7 @@ def GetNetworkColumnBy4ASSHAssetIP(zero: JWZero, jwDict: JWDict, target_data_fra
     return df, True
 
 
-def GetAssetInfoByNetworkIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetAssetInfoByNetworkIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     # 根据ip地址获取网络设备的资产清单信息
 
     df = target_data_frame
@@ -105,7 +107,7 @@ def GetAssetInfoByNetworkIP(zero: JWZero, jwDict: JWDict, target_data_frame, col
     return df, True
 
 
-def GetDictByNetworkIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetDictByNetworkIP(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     # 根据ip地址获取网络设备的资产清单信息
 
     df = target_data_frame

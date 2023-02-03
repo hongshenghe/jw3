@@ -304,7 +304,7 @@ def _get4ASSHName(network: pd.DataFrame, source_ip: str, group) -> str:
 
     cnt = group[group["ip"] == source_ip]["cnt"].iloc[0]
 
-    print(f"source_ip:{source_ip} cnt:{cnt}")
+    # print(f"source_ip:{source_ip} cnt:{cnt}")
 
     name = str(df["设备标签"].iloc[0])
     if cnt > 1:
@@ -372,3 +372,12 @@ def _getDictByNetworkIP(network: pd.DataFrame, ip: str, match_column_name: str, 
         fetchedDict=fetched_dict, match_value=match_idx_name, dict_name=dict_name)
 
     return dict_value
+
+
+def _fetch_dict_key(jwDict: JWDict, dict_name: str) -> list:
+    fetched_dict = jwDict.GetDict("4A-web资产")
+    _dict_key_list = []
+    for k, v in fetched_dict.items():
+        if k not in _dict_key_list:
+            _dict_key_list.append(k)
+    return _dict_key_list

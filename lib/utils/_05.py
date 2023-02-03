@@ -19,23 +19,24 @@ from lib.logger import logging
 from lib.zero import JWZero
 
 from lib.utils.base import _fetchDictValue, _generateProjectSiteInfo, _getProjectDictItem, _fetchSiteName, _getAssetInfo, _getRackProductLine, _fetchSiteCol, _getNetworkAssetPos, _getSNMPVersion
+from lib.utils.base import _fetch_dict_key
 
 
-def GenerateProjectSiteInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GenerateProjectSiteInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
 
     df = target_data_frame
     df[col_name] = _generateProjectSiteInfo(zero, value)
     return df, True
 
 
-def GetProjectDict(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetProjectDict(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     df = target_data_frame
     df[col_name] = df.apply(
         lambda row: _getProjectDictItem(zero, value), axis=1)
     return df, True
 
 
-def SetValue(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def SetValue(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     """设置列值为指定值"""
 
     df = target_data_frame
@@ -49,7 +50,7 @@ def SetValue(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, val
     return df, True
 
 
-def SetNone(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def SetNone(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     """设置列值为指定值"""
 
     df = target_data_frame
@@ -57,7 +58,7 @@ def SetNone(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, valu
     return df, True
 
 
-def GetProjectSite(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetProjectSite(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     """获取项目机房信息列
 
     Args:
@@ -82,7 +83,7 @@ def GetProjectSite(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: st
     return df, True
 
 
-def GetRackProductLine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetRackProductLine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     """获取机柜所属产品线
 
     Args:
@@ -116,7 +117,7 @@ def GetRackProductLine(zero: JWZero, jwDict: JWDict, target_data_frame, col_name
 
 
 #  self.zero, self.jwDict, df, col_name, value, source_sheet, source_column
-def GetPosition(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetPosition(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     """获取物理位置
 
     Args:
@@ -141,7 +142,7 @@ def GetPosition(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, 
     return df, True
 
 
-def GetAssetInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetAssetInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
     """获取设备信息
 
     Args:
@@ -162,23 +163,31 @@ def GetAssetInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str,
     asserts = zero.GetData("设备清单")
 
     # 网络设备或者服务器
-    assetSheet = zero.GetData(source_sheet)
+    source_data = zero.GetData(source_sheet)
+    if filter:
+        if filter['type'] == "dict_key":
+            dict_name = filter['dict_name']
+            filer_column = filter['column']
+            _filter_key_list = _fetch_dict_key(
+                jwDict=jwDict, dict_name=dict_name)
+            source_data = source_data[source_data[filer_column].isin(
+                _filter_key_list)][source_column]
 
     # 生成目标列
-    assetSheet[col_name] = assetSheet.apply(
+    source_data[col_name] = source_data.apply(
         lambda row: _getAssetInfo(asserts, row[source_column], value), axis=1)
 
-    df[col_name] = assetSheet[col_name]
+    df[col_name] = source_data[col_name]
     return df, True
 
 
-def GetSNMPVersion(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetSNMPVersion(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
 
     df = target_data_frame
 
     # 获取品牌
     df, flag = GetAssetInfo(zero, jwDict, df, col_name,
-                             value, source_sheet, source_column)
+                            value, source_sheet, source_column)
 
     # 获取SNMP版本字典
     snmp_dict = jwDict.GetDict("SNMP版本")
@@ -192,7 +201,7 @@ def GetSNMPVersion(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: st
     return df, True
 
 
-def GetRackHeight(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetRackHeight(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str, filter: dict):
 
     df = target_data_frame
 
@@ -206,7 +215,7 @@ def GetRackHeight(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str
         lambda row: _fetchDictValue(fetchedDict, source_data, value), axis=1)
     return df, True
 
-# def GetNetworkAssertLevel(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+# def GetNetworkAssertLevel(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
 #     df = target_data_frame
 

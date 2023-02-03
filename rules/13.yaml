@@ -91,12 +91,21 @@ rules:
         source_sheet: 网络设备
         source_column: 设备标签
         value: 角色
+        filter:
+          column: 角色 # 过滤的列名称
+          method: dict_key # dict 字典值过滤,dict_key 字典键过滤，column 列内容过滤
+          dict: 4A-web资产
+
         description: 需要的设备类型网络设备角色（防火墙、安全设备） ,其他类型设备不写入
 
       - name: 资产ip
         method: Copy
         source_sheet: 网络设备
         source_column: 网管网（包括iLO、ipmi）
+        filter:
+          type: dict_key        # dict 字典值过滤,dict_key 字典键过滤，column 列内容过滤
+          column: 角色           # 过滤的列名称
+          dict_name: 4A-web资产  # 过滤字典的名称
         description: 网络设备—I列-copy
 
       - name: 资产账号（读写账号）
@@ -124,6 +133,10 @@ rules:
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 设备名称
+        filter:
+          type: dict_key        # dict 字典值过滤,dict_key 字典键过滤，column 列内容过滤
+          column: 角色           # 过滤的列名称
+          dict_name: 4A-web资产  # 过滤字典的名称        
         description: 设备清单-设备名称
 
       - name: 资源类型
@@ -131,6 +144,10 @@ rules:
         source_sheet: 网络设备
         source_column: 角色
         value: 网络设备资源类型
+        filter:
+          type: dict_key        # dict 字典值过滤,dict_key 字典键过滤，column 列内容过滤
+          column: 角色           # 过滤的列名称
+          dict_name: 4A-web资产  # 过滤字典的名称         
         description: 网络设备->系统名称 与 网络设备类型键值进行匹配，返回字典内容
 
       - name: 服务协议（RDP、SSH等）
@@ -147,6 +164,10 @@ rules:
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 品牌
+        filter:
+          type: dict_key        # dict 字典值过滤,dict_key 字典键过滤，column 列内容过滤
+          column: 角色           # 过滤的列名称
+          dict_name: 4A-web资产  # 过滤字典的名称          
         description: 与资产信息匹配-配队列，获取厂商
 
       - name: 型号
@@ -154,4 +175,8 @@ rules:
         source_sheet: 网络设备
         source_column: 对应设备清单-配对列
         value: 云调库中对应型号
+        filter:
+          type: dict_key        # dict 字典值过滤,dict_key 字典键过滤，column 列内容过滤
+          column: 角色           # 过滤的列名称
+          dict_name: 4A-web资产  # 过滤字典的名称          
         description: 与资产信息匹配-配队列，获取型号

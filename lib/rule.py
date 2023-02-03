@@ -125,13 +125,16 @@ class JWRule(object):
                 value = None if "value" not in r else r['value']
                 source_sheet = None if "source_sheet" not in r else r['source_sheet']
                 source_column = None if "source_column" not in r else r['source_column']
+                filter = {} if "filter" not in r else r['filter']
 
                 logging.info("处理 %s-%s，第%s列,%s" %
                              (self.file_id, sheet_name, col_id, col_name))
                 df, flag = eval(r['method'])(
-                    self.zero, self.jwDict, df, col_name, value, source_sheet, source_column)
+                    self.zero, self.jwDict, df, col_name, value, source_sheet, source_column, filter)
 
+                print(f"sheet_name:{sheet_name} DF's length:{len(df)} ")
                 col_id += 1
+
             data[sheet_name] = df
             logging.info("处理 %s-%s 结束" % (self.file_id, sheet_name))
 

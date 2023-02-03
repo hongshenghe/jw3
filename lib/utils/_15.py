@@ -20,7 +20,7 @@ from lib.zero import JWZero
 from lib.utils.base import _getPrometheusAssetInfo
 
 
-def PrometheusSNMPServer(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def PrometheusSNMPServer(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 
@@ -30,7 +30,7 @@ def PrometheusSNMPServer(zero: JWZero, jwDict: JWDict, target_data_frame, col_na
     return df, True
 
 
-def PrometheusFilter(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def PrometheusFilter(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 
@@ -50,7 +50,7 @@ def PrometheusFilter(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: 
     return df, True
 
 
-def GetPrometheusAssetInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetPrometheusAssetInfo(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
 
     df = target_data_frame
 

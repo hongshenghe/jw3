@@ -20,7 +20,7 @@ from lib.zero import JWZero
 from lib.utils.base import _generateProjectSiteInfo, _getProjectDictItem, _fetchSiteName, _getAssetInfo, _getRackProductLine, _fetchSiteCol, _getNetworkAssetPos, _getSNMPVersion
 
 
-def GetDataCenterShort(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def GetDataCenterShort(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
     df = target_data_frame
 
     df[col_name] = df.apply(
@@ -29,7 +29,7 @@ def GetDataCenterShort(zero: JWZero, jwDict: JWDict, target_data_frame, col_name
     return df, True
 
 
-def BMC(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def BMC(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
     df = target_data_frame
 
     df[col_name] = df.apply(
@@ -38,7 +38,7 @@ def BMC(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: s
     return df, True
 
 
-def HTTPS(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str):
+def HTTPS(zero: JWZero, jwDict: JWDict, target_data_frame, col_name: str, value: str, source_sheet: str, source_column: str,filter:dict):
     df = target_data_frame
 
     df[col_name] = "https://" + zero.GetData("服务器")["网管网（包括iLO、ipmi）"]
